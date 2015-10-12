@@ -90,7 +90,6 @@ function otherDetails($){
       case 1 :
         if(arr[0].trim() == 'Publisher') {
           var publisher = arr[1];
-          var date = publisher.match(/\([\w\s]+\)/g)[0].replace(/\(/, '').replace(/\)/,'');
           details['publisher'] = publisher.split(';')[0];
           var date = null;
           try {
@@ -115,7 +114,12 @@ function otherDetails($){
           if(arr[0].trim() == 'Product Dimensions') {
             details['dimensions'] = arr[1].trim();
           }
-          details['rating'] = parseFloat($('#revFMSR .a-link-normal').attr('title').replace('out of 5 stars', '')) || 0
+          try{
+            details['rating'] = parseFloat($('#revFMSR .a-link-normal').attr('title').replace('out of 5 stars', '')) || 0
+          } catch(e) {
+            details['rating'] = 0;
+          }
+
         break;
       }
   })
