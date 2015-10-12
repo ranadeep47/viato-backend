@@ -1,0 +1,19 @@
+{
+  "production" : {
+
+  },
+
+  "testing" : {
+
+  },
+
+  "development" : {
+    "server" : {
+      "port" : 3000
+    },
+    "mongo" : {
+      "dburi" : "mongodb://localhost:27017/viato_dev"
+    },
+    "json-token-secret" : "omgsecret"
+  }
+}
