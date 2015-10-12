@@ -42,9 +42,10 @@ function isbn(isbn13){
 function parseItem(item){
   var id = item['id'];
   var cover = 'https://books.google.co.in/books/content?id='+id+'&printsec=frontcover&img=1&zoom=1&h=500';
+  item = item['volumeInfo'];
   return {
-    title       : item['volumeInfo']['title'] + (':' + item['volumeInfo']['subtitle'] || ''),
-    authors     : item['volumeInfo']['authors'] || [],
+    title       : item['title'] + (':' + item['volumeInfo']['subtitle'] || ''),
+    authors     : item['authors'] || [],
     publisher   : item['publisher'],
     publishDate : item['publishedDate'],
     releaseDate : item['publishedDate'],
