@@ -12,6 +12,11 @@ function query(text){
     if(data.totalItems > 0) {
       return data.items.map(parseItem);
     }
+    else return null;
+  })
+  .catch(function(e){
+    console.log(e);
+    return null;
   })
 }
 
