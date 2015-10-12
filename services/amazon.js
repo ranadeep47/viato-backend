@@ -11,7 +11,9 @@ function fetch(amazonId) {
   return axios.get(link)
   .then(function(res){
     var $ = cheerio.load(res.data);
-    return parsePage($);
+    var item = parsePage($);
+    item.sourceId = amazonId;
+    return item;
   })
   .catch(function(e){
     console.log(e);
@@ -57,8 +59,6 @@ function parsePage($) {
     book.copies = 0;
     book.available = false;
     book.source = 'AMAZON';
-    book.sourceId = amazonId;
-
     return book;
   })
 }
