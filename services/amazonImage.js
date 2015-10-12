@@ -6,8 +6,12 @@ var fs = require('fs');
 var request = require('request');
 var sharp = require('sharp');
 
-var COVER_DIR = '/home/viato/images/covers/';
-var THUMBS_DIR = '/home/viato/images/thumbs/';
+// var COVER_DIR = '/home/viato/images/covers/';
+// var THUMBS_DIR = '/home/viato/images/thumbs/';
+
+var COVER_DIR = '/home/viato/images/testImages/';
+var THUMBS_DIR = '/home/viato/images/testImages/';
+
 
 module.exports = storeImage;
 

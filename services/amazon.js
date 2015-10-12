@@ -3,6 +3,8 @@ var _ = require('lodash');
 var cheerio = require('cheerio');
 var store = require('./amazonImage');
 
+module.exports = fetch;
+
 //Returns null or a Catalogue Object from a given amazonId
 function fetch(amazonId) {
   var link = "http://www.amazon.in/dp/"+amazonId;
