@@ -115,9 +115,7 @@ function otherDetails($){
           if(arr[0].trim() == 'Product Dimensions') {
             details['dimensions'] = arr[1].trim();
           }
-          if($rating.length){
-            details['rating'] = parseFloat($('#revFMSR .a-link-normal').attr('title').replace('out of 5 stars', '')) || 0
-          }
+          details['rating'] = parseFloat($('#revFMSR .a-link-normal').attr('title').replace('out of 5 stars', '')) || 0
         break;
       }
   })
