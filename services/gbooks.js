@@ -43,8 +43,10 @@ function parseItem(item){
   var id = item['id'];
   var cover = 'https://books.google.co.in/books/content?id='+id+'&printsec=frontcover&img=1&zoom=1&h=500';
   item = item['volumeInfo'];
+  var subtitle = ''
+  if(item['subtitle']) subtitle += (':'+item['subtitle']);
   return {
-    title       : item['title'] + (':' + item['subtitle'] || ''),
+    title       : item['title'] + subtitle,
     authors     : item['authors'] || [],
     publisher   : item['publisher'],
     publishDate : new Date(item['publishedDate']),
@@ -58,7 +60,7 @@ function parseItem(item){
     images      : [cover],
     thumbs      : [cover],
     source      : "GOOGLE",
-    sourceId    : item['id'],
+    sourceId    : id,
     //Unknown fields
     pricing     : {owning : {mrp : 0}, rental : []},
     binding     : 'Unknown',
