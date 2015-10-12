@@ -43,7 +43,7 @@ function parsePage($) {
       },
       releaseDate : getBookReleaseDate($),
       categories  : getBreadCrumbs($),
-      cover       : images[0],
+      cover       : images[0].cover,
       images      : covers,
       thumbs      : thumbs,
       similar     : {
