@@ -9,8 +9,6 @@ var sharp = require('sharp');
 var COVER_DIR = '/home/viato/images/covers/';
 var THUMBS_DIR = '/home/viato/images/thumbs/';
 
-
-
 module.exports = storeImage;
 
 function storeImage(link) {
