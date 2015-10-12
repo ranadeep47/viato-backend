@@ -1,4 +1,6 @@
 var axios = require('axios');
+var _ = require('lodash');
+var isbnUtils = require('isbn-utils');
 
 exports.query = query;
 exports.isbn = isbn;
@@ -43,8 +45,17 @@ function parseItem(item){
   var id = item['id'];
   var cover = 'https://books.google.co.in/books/content?id='+id+'&printsec=frontcover&img=1&zoom=1&h=500';
   item = item['volumeInfo'];
+
   var subtitle = ''
   if(item['subtitle']) subtitle += (':'+item['subtitle']);
+
+  var isbn10 = _.find(item['industryIdentifiers'], {type: "ISBN_10"});
+  if('identifier' in isbn10) isbn10 = isbn10['identifier'];
+
+  var isbn13 = _.find(item['industryIdentifiers'], {type: "ISBN_13"});
+  if('identifier' in isbn13) isbn13 = isbn13['identifier'];
+  else isbn13 = isbnUtils.parse(isbn10).asIsbn13();
+
   return {
     title       : item['title'] + subtitle,
     authors     : item['authors'] || [],
@@ -52,8 +63,8 @@ function parseItem(item){
     publishDate : new Date(item['publishedDate']),
     releaseDate : new Date(item['publishedDate']),
     description : item['description'],
-    isbn10      : item['industryIdentifiers'][0]['identifier'],
-    isbn13      : item['industryIdentifiers'][0]['identifier'],
+    isbn10      : isbn10,
+    isbn13      : isbn13,
     pages       : parseInt(item['pageCount']),
     rating      : parseFloat(item['averageRating']) || 0,
     cover       : cover,
