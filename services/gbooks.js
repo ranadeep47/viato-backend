@@ -44,7 +44,7 @@ function parseItem(item){
   var cover = 'https://books.google.co.in/books/content?id='+id+'&printsec=frontcover&img=1&zoom=1&h=500';
   item = item['volumeInfo'];
   return {
-    title       : item['title'] + (':' + item['volumeInfo']['subtitle'] || ''),
+    title       : item['title'] + (':' + item['subtitle'] || ''),
     authors     : item['authors'] || [],
     publisher   : item['publisher'],
     publishDate : item['publishedDate'],
