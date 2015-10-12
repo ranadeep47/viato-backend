@@ -230,3 +230,7 @@ function getBreadCrumbs($){
 
   return breadcrumb;
 }
+
+function parseBookId(amazonLink){
+  return amazonLink.match(/dp\/[0-9a-zA-Z]+/)[0].replace('dp\/', '');
+}
