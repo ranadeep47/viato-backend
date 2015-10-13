@@ -90,7 +90,6 @@ CatalogueSchema.statics.getBasicItem = function(catalogueId) {
 }
 
 CatalogueSchema.statics.search = function(query){
-  query = "\\\""+query+"\\\"";
   var fields = BASIC_FIELDS.concat(['isbn13']);
   return this.find({$text : {$search : query}},{ score: { $meta: "textScore" }})
   .select(fields.join(' '))
