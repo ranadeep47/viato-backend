@@ -1,2 +1,0 @@
-# viato-backend
-Backend
