@@ -20,6 +20,10 @@ var BookingSchema = new Schema({
 
 module.exports = BookingSchema;
 
+//TODO Add for? status 
+BookingSchema.path('user_id').index(true);
+BookingSchema.path('order_id').index(true);
+
 BookingSchema.statics.getBookingDetail = function(userId, bookingId) {
   return this.findOne({_id : bookingId, user_id : userId}).select('-user_id').then(function(booking){
     booking = booking.toObject();

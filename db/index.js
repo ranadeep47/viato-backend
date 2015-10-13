@@ -12,7 +12,7 @@ var options = {
 }
 
 //NOTE : Uncomment this when in production
-if(env == 'production') options.server.socketOptions = options.replset.socketOptions = { keepAlive: 1 };
+if(env == 'production') options.server.socketOptions = { keepAlive: 1 };
 
 mongoose.connect(config.mongo.dburi, options);
 

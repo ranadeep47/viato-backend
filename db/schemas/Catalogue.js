@@ -57,7 +57,8 @@ module.exports = CatalogueSchema;
 var BASIC_FIELDS = ['title','cover','authors','pricing','thumbs']
 
 CatalogueSchema.index({ title: "text", authors : "text" }); //TODO : Consider adding description field too
-//TODO : Index title,isbn13,sourceId
+CatalogueSchema.path('isbn13').index(true);
+
 
 CatalogueSchema.statics.getItemForCart = function(catalogueId, rentalId) {
   var fields = BASIC_FIELDS;
