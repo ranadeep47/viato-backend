@@ -54,6 +54,7 @@ function googleTextSearch(query) {
   var BASIC_FIELDS = ['title','cover','authors','pricing','thumbs']
   return gbooks.query(query)
   .then(function(books){
+    if(!books) return null;
     return books.map(function(book){
       var item          = _.pick(book, BASIC_FIELDS);
       item.pricing      = book.pricing.rental[0];
