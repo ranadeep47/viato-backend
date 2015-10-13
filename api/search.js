@@ -16,11 +16,10 @@ search.get('/', function*(){
   query = query.trim();
 
   var maybeISBN = isbn.parse(query);
-  if(maybeISBN.isIsbn10() || maybeISBN.isIsbn13()) {
+  if(maybeISBN && (maybeISBN.isIsbn10() || maybeISBN.isIsbn13())) {
     return this.body = handleISBNSearch(maybeISBN.asIsbn13());
   }
   this.body = handleTextSearch(query);
-
 });
 
 function handleTextSearch(query){

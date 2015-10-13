@@ -13,7 +13,11 @@ function query(text){
     var data = result.data;
     if(typeof data === 'string') data = JSON.parse(data);
     if(data.totalItems > 0) {
-      return data.items.map(parseItem);
+      var items = [];
+      for(var i=0; i<items.length; ++i) {
+        var item = parseItem(data['items'][i]);
+        if(item) items.push(item);
+      }
     }
     else return null;
   })
@@ -63,14 +67,15 @@ function parseItem(item){
   var cover = imageLink+'&h=500';
   item = item['volumeInfo'];
 
+  if(!('industryIdentifiers' in item)) return null;
   var subtitle = ''
   if(item['subtitle']) subtitle += (':'+item['subtitle']);
 
   var isbn10 = _.find(item['industryIdentifiers'], {type: "ISBN_10"});
-  if('identifier' in isbn10) isbn10 = isbn10['identifier'];
+  if(isbn10 && 'identifier' in isbn10) isbn10 = isbn10['identifier'];
 
   var isbn13 = _.find(item['industryIdentifiers'], {type: "ISBN_13"});
-  if('identifier' in isbn13) isbn13 = isbn13['identifier'];
+  if(isbn13 && 'identifier' in isbn13) isbn13 = isbn13['identifier'];
   else isbn13 = isbnUtils.parse(isbn10).asIsbn13();
 
   return {

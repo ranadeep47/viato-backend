@@ -56,7 +56,6 @@ module.exports = CatalogueSchema;
 
 var BASIC_FIELDS = ['title','cover','authors','pricing','thumbs']
 
-CatalogueSchema.index({ title: "text", authors : "text" }); //TODO : Consider adding description field too
 CatalogueSchema.path('isbn13').index(true);
 
 
