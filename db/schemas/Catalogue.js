@@ -93,7 +93,7 @@ CatalogueSchema.statics.search = function(query){
   var fields = BASIC_FIELDS.concat(['isbn13']);
   return this.find({$text : {$search : query}},{ score: { $meta: "textScore" }})
   .select(fields.join(' '))
-  .sort({score : {$meta : "textScore"}})
+  .sort({score : {$meta : "textScore"}, rating : -1})
   .limit(10)
   .exec()
   .then(function(docs){
