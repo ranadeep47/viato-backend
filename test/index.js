@@ -8,7 +8,12 @@
 
 var gbooks = require('../services/gbooks');
 
-gbooks.isbn('9784873113364')
-.then(function(book){
-  console.log(book);
+// gbooks.isbn('9784873113364')
+// .then(function(book){
+//   console.log(book);
+// })
+
+gbooks.fetch('0bVgCgAAQBAJ')
+.then(function(res){
+  console.log(res);
 })
