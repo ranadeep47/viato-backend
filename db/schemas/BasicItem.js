@@ -12,7 +12,8 @@ var BasicItemSchema = {
     rent        : Number,
     period      : Number
   },
-  extraId   : {type : Schema.Types.ObjectId}
+  extraKey      : {type : String, default : ''},
+  extraId       : {type : Schema.Types.ObjectId}
 }
 
 module.exports = BasicItemSchema;
