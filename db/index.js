@@ -32,6 +32,6 @@ db['Catalogue']     = mongoose.model('Catalogue', CatalogueSchema);
 db['Copoun']        = mongoose.model('Copoun', CopounSchema);
 db['UserAnalytics'] = mongoose.model('UserAnalytics', UserAnalyitcsSchema);
 
-db['Catalogue'].collection.createIndex({ title: "text", authors : "text" },{language_override: "lang"},function(e){console.log(e);});
+db['Catalogue'].collection.createIndex({ title: "text", authors : "text" },{language_override: "lang"});
 
 module.exports = db;
