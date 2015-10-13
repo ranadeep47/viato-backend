@@ -6,7 +6,8 @@
     "mongo" : {
       "dburi" : "mongodb://localhost:27017/viato_dev"
     },
-    "json-token-secret" : "omgsecret"
+    "json-token-secret" : "omgsecret",
+    "image_dir" : "/home/viato/images"
   },
 
   "testing" : {
