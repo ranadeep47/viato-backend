@@ -3,14 +3,32 @@ var books = new Router();
 var db = require('../db');
 var utils = require('../utils');
 
+var gbooks = require('../services/gbooks');
 module.exports = books;
+
 
 books.get('/:bookId', function*(){
     var catalogueId = this.params['bookId'];
     if(!catalogueId) return this.throw(400);
 
-    this.body = yield db.Catalogue.getBookDetail(catalogueId);
+    var res = yield db.Catalogue.getBookDetail(catalogueId);
+    if(!res) this.throw(500);
+    return this.body = res;
 });
+
+books.get('/google/:googleId', function*(){
+  var bookId = this.params['bookId'];
+  if(!bookId) return this.throw(400);
+  bookId = bookId.trim();
+  var res = yield gbooks.fetch(bookId)
+  .then(function(book){
+    if(!book) return null;
+    return book;
+  })
+
+  if(!res) return this.throw(500);
+  return this.body = res;
+})
 
 books.post('/:bookId/review', function*() {
   var userId = this.state.user['userId'];
@@ -23,4 +41,5 @@ books.post('/:bookId/review', function*() {
   var review = this.request.body['review'];
 
   var confirm = yield db.Catalogue.addReview(userId, bookId, rating, review);
+  //TODO
 });

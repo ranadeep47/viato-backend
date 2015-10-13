@@ -1,6 +1,12 @@
 {
   "production" : {
-
+    "server" : {
+      "port" : 8080
+    },
+    "mongo" : {
+      "dburi" : "mongodb://localhost:27017/viato_dev"
+    },
+    "json-token-secret" : "omgsecret"
   },
 
   "testing" : {

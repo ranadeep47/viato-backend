@@ -4,6 +4,7 @@ var isbnUtils = require('isbn-utils');
 
 exports.query = query;
 exports.isbn = isbn;
+exports.fetch = fetch;
 
 function query(text){
   var url = 'https://www.googleapis.com/books/v1/volumes?q='+text;
@@ -41,9 +42,25 @@ function isbn(isbn13){
   })
 }
 
+function fetch(volumeId){
+  var url = 'https://www.googleapis.com/books/v1/volumes/'+volumeId;
+  return axios.get(url)
+  .then(function (result) {
+    var data = result.data;
+    if(typeof data === 'string') data = JSON.parse(data);
+    var item = parseItem(data);
+    return item;
+  })
+  .catch(function(e){
+    console.log(e);
+    return null;
+  })
+}
+
 function parseItem(item){
   var id = item['id'];
-  var cover = 'https://books.google.co.in/books/content?id='+id+'&printsec=frontcover&img=1&zoom=1&h=500';
+  var imageLink = 'https://books.google.co.in/books/content?id='+id+'&printsec=frontcover&img=1&zoom=1';
+  var cover = imageLink+'&h=500';
   item = item['volumeInfo'];
 
   var subtitle = ''
@@ -69,11 +86,11 @@ function parseItem(item){
     rating      : parseFloat(item['averageRating']) || 0,
     cover       : cover,
     images      : [cover],
-    thumbs      : [cover],
+    thumbs      : [imageLink+'&h=150'],
     source      : "GOOGLE",
     sourceId    : id,
     //Unknown fields
-    pricing     : {owning : {mrp : 0}, rental : []},
+    pricing     : {owning : {mrp : 0}, rental : [{rent : 0, period : 0}]},
     binding     : 'Unknown',
     copies      : 0,
     available   : false

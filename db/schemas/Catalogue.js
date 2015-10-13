@@ -37,7 +37,7 @@ var CatalogueSchema = new Schema({
   copies        : {type : Number, default : 0},
   available     : {type : Boolean, required : true},
   source        : {type : String, enum : ['AMAZON','GOOGLE'], required : true},
-  sourceId      : {type : String, required : true},
+  sourceId      : {type : String, required : true, unique : true},
   similar       : {
     _id : false,
     fsa : {type : [BasicItemSchema], default : []}, //From Same Author
@@ -54,8 +54,13 @@ var CatalogueSchema = new Schema({
 
 module.exports = CatalogueSchema;
 
+var BASIC_FIELDS = ['title','cover','authors','pricing','thumbs']
+
+CatalogueSchema.index({ title: "text", authors : "text" }); //TODO : Consider adding description field too
+//TODO : Index title,isbn13,sourceId
+
 CatalogueSchema.statics.getItemForCart = function(catalogueId, rentalId) {
-  var fields = ['title','cover','authors','pricing','thumbs']
+  var fields = BASIC_FIELDS;
   return this.findOne({_id : catalogueId}).select(fields.join(' ')).exec()
   .then(function(doc){
     if(!doc) throw new Error('Invalid catalogueId');
@@ -73,7 +78,7 @@ CatalogueSchema.statics.getItemForCart = function(catalogueId, rentalId) {
 }
 
 CatalogueSchema.statics.getBasicItem = function(catalogueId) {
-  var fields = ['title','cover','authors','pricing','thumbs'];
+  var fields = BASIC_FIELDS;
   return this.findOne({_id : catalogueId}).select(fields.join(' ')).exec()
   .then(function(doc){
     if(!doc) throw new Error('Invalid catalogueId');
@@ -81,6 +86,26 @@ CatalogueSchema.statics.getBasicItem = function(catalogueId) {
     item.pricing = doc.pricing.rental[0];
     item.catalogueId = doc['_id'];
     return item;
+  })
+}
+
+CatalogueSchema.statics.search = function(query){
+  query = "\\\""+query+"\\\"";
+  var fields = BASIC_FIELDS.concat(['isbn13']);
+  return this.find({$text : {$search : query}},{ score: { $meta: "textScore" }})
+  .select(fields.join(' '))
+  .sort({score : {$meta : "textScore"}})
+  .limit(10)
+  .exec()
+  .then(function(docs){
+    return docs.map(function(doc){
+      var item          = _.pick(doc, fields);
+      item.pricing      = doc.pricing.rental[0];
+      item.catalogueId  = doc['_id'];
+      item.extraKey     = "VIATO";
+      item.extraId      = doc['_id'];
+      return item;
+    });
   })
 }
 
