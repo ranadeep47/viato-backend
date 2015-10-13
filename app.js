@@ -5,6 +5,7 @@ var bodyParser = require('koa-bodyparser');
 var logger = require('koa-logger');
 var router = require('koa-router')();
 var serve = require('koa-static');
+var mount = require('koa-mount');
 
 var env = process.env['NODE_ENV'];
 var config = require('./config')[env];
@@ -13,7 +14,7 @@ global.config = config;
 var app = koa();
 
 app.use(ignoreAssets(logger()));
-app.use(serve(config['image_dir']));
+app.use(mount('/img',serve(config['image_dir'])));
 app.use(bodyParser());
 
 //Routing Middleware
