@@ -14,10 +14,11 @@ function query(text){
     if(typeof data === 'string') data = JSON.parse(data);
     if(data.totalItems > 0) {
       var items = [];
-      for(var i=0; i<items.length; ++i) {
+      for(var i=0; i < data.items.length; ++i) {
         var item = parseItem(data['items'][i]);
         if(item) items.push(item);
       }
+      return items;
     }
     else return null;
   })

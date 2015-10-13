@@ -17,14 +17,16 @@ search.get('/', function*(){
 
   var maybeISBN = isbn.parse(query);
   if(maybeISBN && (maybeISBN.isIsbn10() || maybeISBN.isIsbn13())) {
-    return this.body = handleISBNSearch(maybeISBN.asIsbn13());
+    return this.body = yield handleISBNSearch(maybeISBN.asIsbn13());
   }
-  this.body = handleTextSearch(query);
+  this.body = yield handleTextSearch(query);
 });
 
 function handleTextSearch(query){
   return Promise.all([catalogueTextSearch(query), googleTextSearch(query)])
-  .then(function(catalogue, google){
+  .then(function(results){
+    var catalogue = results[0] || [];
+    var google = results[1] || [];
     var catalogueISBN = _.pluck(catalogue, 'isbn13');
     //Return the google results which are not in catalogue
     var googleResults = _.filter(google, function(g) {return catalogueISBN.indexOf(g['isbn13']) === -1});
