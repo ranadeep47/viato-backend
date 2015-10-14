@@ -6,7 +6,7 @@
   {% parent %}
   <!-- <link rel="stylesheet" href="custom.css"> -->
   <style>
-    .mdl-card{
+    .mdl-card, .category-image{
       width : 250px;
       height : 250px;
     }
@@ -33,7 +33,7 @@
         <img src="{{category.images.square}}" class="category-image">
         <div class="mdl-card__title mdl-card--expand"></div>
         <div class="mdl-card__actions">
-          <a href="{{category._id.toString()}}">{{category.title}}</a>
+          <a href="category/{{category._id.toString()}}">{{category.title}}</a>
         </div>
       </div>
     </div>
