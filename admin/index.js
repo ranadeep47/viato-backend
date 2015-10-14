@@ -1,6 +1,6 @@
 var db = require('../db');
 var koa = require('koa');
-var serve = require('koa-serve');
+var serve = require('koa-static');
 var bodyParser = require('koa-bodyparser');
 var mount = require('koa-mount');
 var render = require('koa-swig');
