@@ -9,7 +9,7 @@ var appConfig = require('../config.json')[process.env['NODE_ENV']];
 var app = koa();
 
 app.context.render = render({
-  root: path.join(__dirname, 'views'),
+  root: __dirname + '/views',
   autoescape: true,
   cache: 'memory', // disable, set to false
   ext: 'html'
