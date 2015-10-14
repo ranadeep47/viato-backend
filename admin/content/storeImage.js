@@ -26,7 +26,12 @@ function storeImage(link) {
     .pipe(fs.createWriteStream(IMAGES_DIR + square));
 
     setTimeout(function(){
-      resolve({cover : cover, square : square});
+      resolve(
+        {
+          cover : "http://viato.in/img/categories/" + cover,
+          square : "http://viato.in/img/categories/" + square
+        }
+      );
     }, 0)
   });
 }

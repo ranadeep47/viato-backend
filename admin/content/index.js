@@ -32,7 +32,8 @@ content.post('/category/add', function*(){
     });
   });
 
-  this.redirect('/admin/content/category/'+category['_id']);
+  // this.redirect('/admin/content/category/'+category['_id']);
+  this.redirect('/admin/content');
 })
 
 
