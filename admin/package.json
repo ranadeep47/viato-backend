@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "koa-serve": "^0.1.6",
     "koa-swig": "^2.0.0"
   }
 }
