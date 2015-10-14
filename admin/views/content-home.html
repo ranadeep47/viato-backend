@@ -16,6 +16,9 @@
     .categories-container {
       margin-top: 1em;
     }
+    .category {
+      display: inline-block;
+    }
   </style>
 {% endblock %}
 
@@ -39,8 +42,8 @@
         </div>
       </div>
     </div>
+    {% endfor %}
   </div>
-  {% endfor %}
 {% endblock %}
 
 {% block scripts %}
