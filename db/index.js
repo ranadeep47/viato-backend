@@ -24,6 +24,8 @@ var BookingSchema       = require('./schemas/Booking');
 var CatalogueSchema     = require('./schemas/Catalogue');
 var CopounSchema        = require('./schemas/Copoun');
 var UserAnalyitcsSchema = require('./schemas/UserAnalytics');
+var AdminSchema         = require('./schemas/Admin');
+var FeedSchema          = require('./schemas/Feed');
 
 db['TempUser']      = mongoose.model('TempUser', TempUserSchema);
 db['User']          = mongoose.model('User', UserSchema);
@@ -32,9 +34,12 @@ db['Catalogue']     = mongoose.model('Catalogue', CatalogueSchema);
 db['Copoun']        = mongoose.model('Copoun', CopounSchema);
 db['UserAnalytics'] = mongoose.model('UserAnalytics', UserAnalyitcsSchema);
 
+db['Admin']         = mongoose.model('Admin', AdminSchema);
+db['Feed']          = mongoose.model('Feed', FeedSchema);
+
 db['Catalogue'].collection.createIndex(
   { title: "text", authors : "text" },
-  {language_override: "lang", weights: { title : 5, authors : 1 }}                              
+  {language_override: "lang", weights: { title : 5, authors : 1 }}
 );
 
 module.exports = db;
