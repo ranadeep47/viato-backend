@@ -26,7 +26,7 @@ function storeImage(link) {
     .pipe(fs.createWriteStream(IMAGES_DIR + square));
 
     setTimeout(function(){
-      resolve({cover : cover, square : thumb});
+      resolve({cover : cover, square : square});
     }, 0)
   });
 }
