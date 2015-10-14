@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block title %}Add a category{% endblock %}
+
+{% block head %}
+  {% parent %}
+  <!-- <link rel="stylesheet" href="custom.css"> -->
+{% endblock %}
+
+{% block content %}
+<h3>Add a new category</h3>
+<form action="" method="POST">
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <input class="mdl-textfield__input" name="title" type="text" id="cat_title" />
+    <label class="mdl-textfield__label" for="cat_title">Category Title</label>
+  </div>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <input class="mdl-textfield__input" name="image" type="text" id="cat_image" />
+    <label class="mdl-textfield__label" for="cat_image">Image URL</label>
+  </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+  <script src="/js/home.js"></script>
+{% endblock %}

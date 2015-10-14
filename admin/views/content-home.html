@@ -8,9 +8,35 @@
 {% endblock %}
 
 {% block content %}
-  <p>This is just an awesome page.</p>
+  <div class="page-header">
+    <h3>Content - Home</h3>
+    <p>Manage Feed, add/edit/remove categories</p>
+  </div>
+  <div class="toolbar">
+    <button id="btn-add" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+      Add Category
+    </button>
+  </div>
+  <div class="categories-container">
+    {% for category in categories %}
+    <div class="category">
+      <div class="mdl-card mdl-shadow--2dp">
+        <img src="{{category.image.square}}" class="category-image">
+        <div class="mdl-card__title mdl-card--expand"></div>
+        <div class="mdl-card__actions">
+          <a href="/content/category/{{category._id}}">{{category.title}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
 {% block scripts %}
+
+  <script type="text/javascript">
+    $('#btn-add').click(function(e){
+
+    })
+  </script>
   <script src="/js/content.js"></script>
 {% endblock %}
