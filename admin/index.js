@@ -5,6 +5,9 @@ var bodyParser = require('koa-bodyparser');
 var mount = require('koa-mount');
 var render = require('koa-swig');
 
+var Router = require('koa-router');
+var api = new Router();
+
 var appConfig = require('../config.json')[process.env['NODE_ENV']];
 var app = koa();
 
@@ -20,9 +23,10 @@ app.use(mount('/img', serve(appConfig['image_dir'])));
 app.use(serve(__dirname + '/public'));
 app.use(bodyParser());
 
-app.use('/admin/content', require('./content').routes());
-app.use('/admin/booking', require('./booking').routes());
+api.use('/admin/content', require('./content').routes());
+api.use('/admin/booking', require('./booking').routes());
 
+app.use(api.routes());
 
 var PORT = 3000;
 app.listen(PORT);
