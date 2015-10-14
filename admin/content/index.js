@@ -27,7 +27,7 @@ content.post('/category/add', function*(){
   .then(function(image){
     return db.Feed.create({
       title : title,
-      image : image,
+      images : image,
       list : []
     });
   });
