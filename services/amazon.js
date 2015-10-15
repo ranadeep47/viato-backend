@@ -40,7 +40,7 @@ function parsePage($) {
       title       : getBookTitle($),
       description : getDescription($),
       authors     : getAuthors($),
-      price       : {
+      pricing      : {
         owning : getPrice($),
         rental : rental
       },

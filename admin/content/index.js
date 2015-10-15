@@ -118,7 +118,13 @@ function addBooks(catId, list) {
             .catch(function(e){ console.log(e); return null;})
           })
         }
-        else return null;
+        else {
+          return db.Catalogue.getBasicItem(item._id).then(function(cItem){
+            console.log(cItem);
+            return cItem;
+          })
+          //Item exists, add to feed directly
+        }
       })
       .catch(function(e){ console.log(e); return null;})
     })
