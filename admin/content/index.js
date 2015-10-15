@@ -104,14 +104,14 @@ content.post('/category/:catId/item/:itemId', function*(){
   var catId = this.params['catId'];
   var itemId = this.params['itemId'];
 
-  if('rental' in this.request.body) {
-    var rental = this.request.body['rental'];
+  if('pricing' in this.request.body) {
+    var pricing = this.request.body['pricing'];
     //Update renal in catalogue, item and all the feed which have the catalogueId
     var category = yield db.Feed.findOne({_id : catId},{list : {$elemMatch : {_id : itemId}}}).exec();
     var item = category.list[0];
     var rentalId = item.pricing['_id'];
-    db.Catalogue.update({_id : item.catalogueId, 'pricing.rental._id' : rentalId}, {$set : {'pricing.rental.$' : rental}}).exec();
-    db.Feed.update({'list.pricing._id' : rentalId}, {$set : {'list.$.pricing' : rental}}).exec();
+    db.Catalogue.update({_id : item.catalogueId, 'pricing.rental._id' : rentalId}, {$set : {'pricing.rental.$' : pricing}}).exec();
+    db.Feed.update({'list.pricing._id' : rentalId}, {$set : {'list.$.pricing' : pricing}}).exec();
 
     this.body = 'Updated';
   }

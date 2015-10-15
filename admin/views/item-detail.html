@@ -81,7 +81,7 @@
       $.ajax({
         url : '',
         type : 'POST',
-        data : JSON.stringify({pricing : {_id : "{{pricing._id}}",rent : rent, period : period}}),
+        data : JSON.stringify({pricing : {_id : "{{pricing._id.toString()}}",rent : rent, period : period}}),
         contentType: 'application/json; charset=utf-8',
       })
       .done(function(){
