@@ -39,7 +39,7 @@ db['Feed']          = mongoose.model('Feed', FeedSchema);
 
 db['Catalogue'].collection.createIndex(
   { title: "text", authors : "text" },
-  {language_override: "lang", weights: { title : 5, authors : 1 }}
+  {language_override: "lang", weights: { title : 2, authors : 1 }}
 );
 
 module.exports = db;
