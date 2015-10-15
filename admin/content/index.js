@@ -106,8 +106,7 @@ function addBooks(catId, list) {
       .then(function(item){
         if(!item) {
           //Fetch
-          return amazonFetch(currentItem).then(function(book){
-            return console.log(book);
+          return amazonFetch(currentItem).then(function(book){            
             db.Catalogue.create(book).exec()
             .then(function(catalogueItem){
               return db.Catalogue.getBasicItem(catalogueItem._id).then(function(cItem){
