@@ -64,7 +64,7 @@
           type : 'DELETE',
         })
         .done(function(){
-          history.back();
+          window.location.href = document.referrer;
         })
     })
 
