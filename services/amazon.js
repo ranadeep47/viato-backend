@@ -12,9 +12,10 @@ function fetch(amazonId) {
   .then(function(res){
     var $ = cheerio.load(res.data);
     var item = parsePage($);
-    item['sourceId'] = amazonId;
-    console.log(item);
-    return item;
+    return item.then(function(book){
+        book['sourceId'] = amazonId;
+        return book;
+    });
   })
   .catch(function(e){
     console.log(e);
