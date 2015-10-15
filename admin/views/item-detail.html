@@ -63,7 +63,7 @@
           url : '',
           type : 'DELETE',
         })
-        .then(function(){
+        .done(function(){
           history.back();
         })
     })
@@ -84,7 +84,7 @@
         data : JSON.stringify({pricing : {_id : "{{pricing._id}}",rent : rent, period : period}}),
         contentType: 'application/json; charset=utf-8',
       })
-      .then(function(){
+      .done(function(){
         window.location.reload();
       })
     })
