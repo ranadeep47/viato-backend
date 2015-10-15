@@ -96,7 +96,7 @@ content.get('/category/:catId/item/:itemId', function*(){
   var itemId = this.params['itemId'];
   //Fetch the item, options to remove,change rent
   var category = yield db.Feed.findOne({_id : catId, "list._id" : itemId}).exec();
-  yield this.render('item-detail', {item : category.list[0]});
+  yield this.render('item-detail', category.list[0]);
 })
 
 //Update an item's detail - Modify catalogue and refresh the item in all categories
