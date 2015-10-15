@@ -39,7 +39,7 @@
       <div class="mdl-card mdl-shadow--2dp">
         <img src="{{category.images.square}}" class="category-image">
         <div class="mdl-card__actions">
-          <a href="content/category/{{category._id.toString()}}">{{category.title}}</a>
+          <a href="category/{{category._id.toString()}}">{{category.title}}</a>
         </div>
       </div>
     </div>
@@ -51,7 +51,7 @@
 
   <script type="text/javascript">
     $('#btn-add').click(function(e){
-        window.location = 'content/category/add'
+        window.location = 'category/add'
     })
   </script>
 {% endblock %}
