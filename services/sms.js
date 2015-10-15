@@ -18,5 +18,7 @@ function sendOTP(to, code) {
     response  : 'json'
   }
 
-  return axios.get(API_URL, {params : params});
+  return axios.get(API_URL, {params : params})
+  .then(function(r){ console.log(r)});
+  .catch(function(e) { console.log(e); })
 }
