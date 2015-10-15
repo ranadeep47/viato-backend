@@ -7,7 +7,8 @@
       "dburi" : "mongodb://localhost:27017/viato_dev"
     },
     "json-token-secret" : "omgsecret",
-    "image_dir" : "/home/viato/images"
+    "image_dir" : "/home/viato/images",
+    "sms-key" : "95261AknFlgdMdT561f6db9"
   },
 
   "testing" : {

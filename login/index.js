@@ -7,6 +7,7 @@ var jwt = require('koa-jwt');
 
 var utils = require('../utils');
 var handleError = require('../errorHandler');
+var sendOTP = require('../services/sms').sendOTP;
 
 module.exports = login;
 
@@ -176,12 +177,8 @@ login.post('/otp/resend', function*(){
   .catch(handleError)
 
   ok ? this.body = 'OTP sent to '+mobile : this.throw(400);
-  
-})
 
-function sendOTP(mobile, code){
-   console.log('Sending OTP %s to %s', code, mobile);
-}
+})
 
 function sendEmail(email, code) {
   console.log('Sending token %s to %s', code, email);
