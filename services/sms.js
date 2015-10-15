@@ -19,6 +19,6 @@ function sendOTP(to, code) {
   }
 
   return axios.get(API_URL, {params : params})
-  .then(function(r){ console.log(r)});
-  .catch(function(e) { console.log(e); })
+  .then(function(r){ console.log(r)})
+  .catch(function(e) { console.log(e) })
 }
