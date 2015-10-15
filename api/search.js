@@ -38,11 +38,11 @@ function handleTextSearch(query){
 function handleISBNSearch(isbn){
   //Search from google books and catalogue in paralell
   return Promise.all([catalogueISBNSearch(isbn), googleISBNSearch(isbn)])
-  .then(function(catalogue, google){
-    if(catalogue) return catalogue;
-    else if (google) return google;
+  .then(function(catalogue){
+    if(catalogue[0]) return [catalogue[0]];
+    else if (catalogue[1]) return [catalogue[1]];
     //Damn where did you get that ISBN !
-    return null;
+    return []
   })
 }
 
@@ -71,10 +71,15 @@ function googleTextSearch(query) {
 
 function catalogueISBNSearch(isbn13){
   return db.Catalogue.findOne({isbn13 : isbn13}).exec().then(function(catItem){
+    if(!catItem) return null;
     return db.Catalogue.getBasicItem(catItem._id, ['isbn13']);
   });
 }
 
 function googleISBNSearch(isbn) {
-  return gbooks.isbn(isbn);
+  var item = gbooks.isbn(isbn);
+  if(!item) return item;
+  var fields = ['title','cover','authors','pricing','thumbs','isbn13'];
+  item = _.pick(item, fields);
+  return item;
 }

@@ -75,7 +75,7 @@ login.post('/otp/verify', function*(){
   var otp = this.request.body['otp'].trim();
 
   if(otp.length !== 4 || mobile.length !== 10) {
-    this.throw(400, 'Invalid OTP');
+    this.throw(400, 'Invalid OTP Code');
   }
 
   var token = yield db.TempUser.findOne({mobile : mobile}).exec()
@@ -90,7 +90,7 @@ login.post('/otp/verify', function*(){
   })
   .catch(handleError)
 
-  token ? (this.body = {token : token}) : this.throw(400, 'Invalid OTP Code');
+  token ? (this.body = token) : this.throw(400, 'Invalid OTP Code');
 })
 
 login.post('/complete', function*(){
@@ -176,7 +176,7 @@ login.post('/otp/resend', function*(){
   })
   .catch(handleError)
 
-  ok ? this.body = 'OTP sent to '+mobile : this.throw(400);
+  ok ? this.body = 'OTP sent to '+mobile : this.throw(500, 'Problem sending OTP');
 
 })
 
