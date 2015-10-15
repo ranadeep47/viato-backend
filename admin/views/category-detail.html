@@ -73,12 +73,12 @@
     });
 
     $('#btn-cover').click(function(e){
-      var title = window.prompt("Enter new cover : ");
-      if(!title.length) return;
+      var image = window.prompt("Enter new cover : ");
+      if(!image.length) return;
       $.ajax({
         url  : '',
         type : 'POST',
-        data : JSON.stringify({title : title}),
+        data : JSON.stringify({image : image}),
         contentType: 'application/json; charset=utf-8',
       })
       .then(function(){
@@ -87,12 +87,12 @@
     })
 
     $('#btn-title').click(function(e){
-      var image = window.prompt("Enter new title : ");
-      if(!image.length) return;
+      var title = window.prompt("Enter new title : ");
+      if(!title.length) return;
       $.ajax({
         url  : '',
         type : 'POST',
-        data : JSON.stringify({image : image}),
+        data : JSON.stringify({title : title}),
         contentType: 'application/json; charset=utf-8',
       })
       .then(function(){
