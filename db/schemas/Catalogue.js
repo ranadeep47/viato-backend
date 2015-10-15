@@ -85,6 +85,8 @@ CatalogueSchema.statics.getBasicItem = function(catalogueId) {
     var item = _.pick(doc, fields);
     item.pricing = doc.pricing.rental[0];
     item.catalogueId = doc['_id'];
+    item.extraKey = '';
+    item.extraId = null;
     return item;
   })
 }

@@ -1,0 +1,85 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block head %}
+  {% parent %}
+  <!-- <link rel="stylesheet" href="custom.css"> -->
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h3>{{ category.title }}</h3>
+    <p>Add/edit/remove books from this category</p>
+  </div>
+  <div class="toolbar">
+    <button id="btn-add" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+      Add Books
+    </button>
+    <button id="btn-cover" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+      Change cover
+    </button>
+    <button id="btn-title" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+      Change title
+    </button>
+  </div>
+  <div class="items-container">
+    {% for item in category.items %}
+    <div class="category">
+      <div class="mdl-card mdl-shadow--2dp">
+        <img src="{{item.thumbs[0]}}" class="category-image">
+        <div class="mdl-card__actions">
+          <a href="category/{{category._id.toString()}}/item/{{item._id.toString()}}">{{item.title}}</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    $('#btn-add').click(function(e){
+        var ids = window.prompt("Enter amazon ids : ");
+        var arr = ids.split(',');
+        $.ajax({
+          url  : '',
+          type : 'POST',
+          data : {list : JSON.stringify(arr)},
+          contentType: 'application/json; charset=utf-8',
+        })
+        .then(function(){
+          window.reload();
+        });
+    });
+
+    $('#btn-cover').click(function(e){
+      var title = window.prompt("Enter new title : ");
+      $.ajax({
+        url  : '',
+        type : 'POST',
+        data : {title : title},
+        contentType: 'application/json; charset=utf-8',
+      })
+      .then(function(){
+        window.reload();
+      });
+    })
+
+    #('#btn-title').click(function(e){
+      var image = window.prompt("Enter new image : ");
+      $.ajax({
+        url  : '',
+        type : 'POST',
+        data : {image : image},
+        contentType: 'application/json; charset=utf-8',
+      })
+      .then(function(){
+        window.reload();
+      });
+      
+    })
+  </script>
+
+{% endblock %}

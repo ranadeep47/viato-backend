@@ -6,8 +6,8 @@ var fs = require('fs');
 var request = require('request');
 var sharp = require('sharp');
 
-var COVER_DIR = config['image_dir'] + '/covers/';
-var THUMBS_DIR = config['image_dir'] + '/thumbs/';
+var COVER_DIR = config['image_dir'] + '/temp/covers/';
+var THUMBS_DIR = config['image_dir'] + '/temp/thumbs/';
 
 module.exports = storeImage;
 

@@ -1,8 +1,10 @@
 var db = require('../../db');
 var Router = require('koa-router');
 var content = new Router();
+var fs = require('fs');
 
 var storeImage = require('./storeImage');
+var amazonFetch = require('../../services/amazon');
 
 module.exports = content;
 
@@ -39,12 +41,45 @@ content.post('/category/add', function*(){
 
 //Get a category detail page
 content.get('/category/:catId', function*(){
-  this.body = this.params['catId'];
+  var catId = this.params['catId'];
+  var category = yield db.Feed.findOne({_id : catId}).exec();
+  yield this.render('category-detail', {category : category});
 })
 
 //Update contents details
 content.post('/category/:catId', function*() {
+  var catId = this.params['catId'];
+  if('list' in this.request.body) {
+    var list = this.request.body['list'];
+    var done = yield addBooks(list);
+    if(done) this.body = 'Updated';
+    else this.throw(500);
+  }
+  else if ('title' in this.request.body) {
+    var message = yield db.Feed.update({_id : catId}, {$set : {title : title}}).exec();
+    if(message.ok) this.body = 'Updated'
+    else this.throw(500)
+  }
+  else {
+    var image = this.request.body;
+    //Remove the existing image and fetch & update new image
+    var message = yield db.Feed.findOne({_id : catId}).exec()
+    .then(function(category){
+      var cover = category['images']['cover'].split('/').pop();
+      var square = category['images']['square'].split('/').pop();
+      var path = appConfig['image_dir'] + '/categories/';
+      //Delete existing images
+      fs.unlink(path + cover);
+      fs.unlink(path + square);
 
+      return storeImage(image).then(function(img){
+        return db.Feed.update({_id : catId}, {$set : {images : img}}).exec();
+      });
+    })
+
+    if(message.ok) this.body = 'Updated';
+    else this.throw(500);
+  }
 })
 
 //Add items to categories from amazonIds
@@ -61,3 +96,40 @@ content.get('/category/:catId/item/:itemId', function*(){
 content.post('/category/:catId/item/:itemId', function*(){
 
 })
+
+function addBooks(catId, list) {
+  //Fetch books from amazon one by one
+  return list.reduce(function(cur, next){
+    return cur.then(function(){
+      var currentItem = next;
+      return db.Catalogue.findOne({sourceId : currentItem}).exec()
+      .then(function(item){
+        if(!item) {
+          //Fetch
+          return amazonFetch(currentItem).then(function(book){
+            return console.log(book);
+            db.Catalogue.create(book).exec()
+            .then(function(catalogueItem){
+              return db.Catalogue.getBasicItem(catalogueItem._id).then(function(cItem){
+                console.log(cItem);
+                return cItem;
+                //TODO insert in feed
+              })
+            })
+            .catch(function(e){ console.log(e); return null;})
+          })
+        }
+        else return null;
+      })
+      .catch(function(e){ console.log(e); return null;})
+    })
+  }, Promise.resolve())
+  .then(function(){
+    console.log('All done');
+    return true;
+  })
+  .catch(function(e){
+    console.log(e);
+    return false;
+  })
+}
