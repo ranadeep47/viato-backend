@@ -59,8 +59,8 @@
   <script>
     $('#btn-add').click(function(e){
         var ids = window.prompt("Enter amazon ids : ");
+        if(!ids.length) return;
         var arr = ids.split(',');
-        if(!arr.length) return;
         $.ajax({
           url  : '',
           type : 'POST',
