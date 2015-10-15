@@ -24,6 +24,11 @@
   .mdl-card {
     display: inline-block;
   }
+  .book span{
+    font-size: 12px;
+    font-weight: 500;
+    padding: 10px;
+  }
   </style>
   <!-- <link rel="stylesheet" href="custom.css"> -->
 {% endblock %}
@@ -33,6 +38,7 @@
   <div class="book">
     <div class="mdl-card mdl-shadow--2dp book-cover">
       <img src="{{thumbs[0]}}" class="category-image">
+      <span>{{pricing.rent}} Rs / {{pricing.period}} days</span>
     </div>
     <div class="mdl-card mdl-shadow--2dp book-detail">
         <p>{{title}}</p>
