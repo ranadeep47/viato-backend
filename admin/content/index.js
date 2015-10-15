@@ -92,13 +92,38 @@ content.post('/category/:catId', function*() {
 
 //Get an items details from the category
 content.get('/category/:catId/item/:itemId', function*(){
+  var catId  = this.params['catId'];
   var itemId = this.params['itemId'];
-  this.body = 'Item id is '+itemId;
+  //Fetch the item, options to remove,change rent
+  var category = yield db.Feed.findOne({_id : catId, "list._id" : itemId}).exec();
+  this.render('item-detail', {item : category.list[0]});
 })
 
 //Update an item's detail - Modify catalogue and refresh the item in all categories
 content.post('/category/:catId/item/:itemId', function*(){
+  var catId = this.params['catId'];
+  var itemId = this.params['itemId'];
 
+  if('rental' in this.request.body) {
+    var rental = this.request.body['rental'];
+    //Update renal in catalogue, item and all the feed which have the catalogueId
+    var category = yield db.Feed.findOne({_id : catId, 'list._id' : itemId}).exec();
+    var item = category.list[0];
+    var rentalId = item.pricing['_id'];
+    db.Catalogue.update({_id : item.catalogueId, 'pricing.rental._id' : rentalId}, {$set : {'pricing.rental.$' : rental}}).exec();
+    db.Feed.update({'list.pricing._id' : rentalId}, {$set : {'list.$.pricing' : rental}}).exec();
+
+    this.body = 'Updated';
+  }
+})
+
+content.delete('/category/:catId/item/:itemId', function*(){
+  var catId = this.params['catId'];
+  var itemId = this.params['itemId'];
+
+  var message = yield db.Feed.update({_id : catId}, {$pull : {list : {_id : itemId}}}).exec();
+  if(message.ok) this.body = 'Deleted';
+  else this.throw(400);
 })
 
 function addBooks(catId, list) {

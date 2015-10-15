@@ -1,0 +1,86 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block head %}
+  {% parent %}
+  <style>
+  .book {
+    margin-top: 1em;
+    padding-right: 0.5em;
+  }
+  .book a {
+    font-size: 13px;
+    font-weight: 400;
+  }
+  .mdl-card.book-cover{
+    height : 150px;
+    width: 98px;
+  }
+  .book-detail {
+    padding: 1em;
+    margin-left: 1em;
+  }
+  .mdl-card {
+    display: inline-block;
+  }
+  </style>
+  <!-- <link rel="stylesheet" href="custom.css"> -->
+{% endblock %}
+
+{% block content %}
+  <h3>{{ title }}</h3>
+  <div class="book">
+    <div class="mdl-card mdl-shadow--2dp book-cover">
+      <img src="{{thumbs[0]}}" class="category-image">
+    </div>
+    <div class="mdl-card mdl-shadow--2dp book-detail">
+        <p>{{title}}</p>
+        <p>{{ authors.join(',') }}</p>
+        <p>
+          <a href="#" id="btn-remove">Remove from list</a>
+        </p>
+        <p>
+          <a href="#" id="btn-updaterental">Update rental </a>
+        </p>
+    </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+  <script>
+    $('#btn-remove').click(function(e){
+        e.preventDefault();
+        var sure = window.confirm('Are you sure you want to remove it from the list');
+        if(!sure) return;
+
+        $.ajax({
+          url : '',
+          type : 'DELETE',
+        })
+        .then(function(){
+          history.back();
+        })
+    })
+
+    $('#btn-updaterental').click(function(e){
+      e.preventDefault();
+      var rent = window.prompt('Enter the new rent', "{{pricing.rent}}");
+      if(!rent) return ;
+      rent = parseInt(rent);
+
+      var period = window.prompt('Enter rental period', "{{pricing.period}}");
+      if(!period) return ;
+      period = parseInt(period);
+
+      $.ajax({
+        url : '',
+        type : 'POST',
+        data : JSON.stringify({pricing : {_id : "{{pricing._id}}",rent : rent, period : period}}),
+        contentType: 'application/json; charset=utf-8',
+      })
+      .then(function(){
+        window.location.reload();
+      })
+    })
+  </script>
+{% endblock %}
