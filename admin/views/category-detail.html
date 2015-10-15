@@ -78,7 +78,7 @@
       $.ajax({
         url  : '',
         type : 'POST',
-        data : {title : title},
+        data : JSON.stringify({title : title}),
         contentType: 'application/json; charset=utf-8',
       })
       .then(function(){
@@ -92,7 +92,7 @@
       $.ajax({
         url  : '',
         type : 'POST',
-        data : {image : image},
+        data : JSON.stringify({image : image}),
         contentType: 'application/json; charset=utf-8',
       })
       .then(function(){
