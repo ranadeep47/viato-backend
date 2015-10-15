@@ -40,10 +40,10 @@ var CatalogueSchema = new Schema({
   sourceId      : {type : String, required : true, unique : true},
   similar       : {
     _id : false,
-    fsa : {type : [BasicItemSchema], default : []}, //From Same Author
-    bab : {type : [BasicItemSchema], default : []}, //Bought also bhought
-    bav : {type : [BasicItemSchema], default : []}, //Bought also viewed
-    fbt : {type : [BasicItemSchema], default : []} //Frequently bought together
+    fsa : {type : [String], default : []}, //From Same Author
+    bab : {type : [String], default : []}, //Bought also bhought
+    bav : {type : [String], default : []}, //Bought also viewed
+    fbt : {type : [String], default : []} //Frequently bought together
   },
   // reviews       : {
   //   _id     : false,
