@@ -52,6 +52,8 @@ content.post('/category/:catId', function*() {
   var catId = this.params['catId'];
   if('list' in this.request.body) {
     var list = this.request.body['list'];
+    list = list.map(function(l){ return l.trim()});
+    if(!list.length) return this.throw(400);
     var done = yield addBooks(catId,list);
     if(done) this.body = 'Updated';
     else this.throw(500);
