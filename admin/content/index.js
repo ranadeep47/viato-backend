@@ -73,8 +73,12 @@ content.post('/category/:catId', function*() {
       var square = category['images']['square'].split('/').pop();
       var path = config['image_dir'] + '/categories/';
       //Delete existing images
-      fs.unlink(path + cover);
-      fs.unlink(path + square);
+      try {
+        fs.unlink(path + cover);
+        fs.unlink(path + square);
+      } catch(e){
+        console.log(e);
+      }
 
       return storeImage(image).then(function(img){
         return db.Feed.update({_id : catId}, {$set : {images : img}}).exec();
