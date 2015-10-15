@@ -84,14 +84,10 @@ content.post('/category/:catId', function*() {
   }
 })
 
-//Add items to categories from amazonIds
-content.post('/category/items', function*() {
-
-})
-
 //Get an items details from the category
 content.get('/category/:catId/item/:itemId', function*(){
-
+  var itemId = this.params['itemId'];
+  this.body = 'Item id is '+itemId;
 })
 
 //Update an item's detail - Modify catalogue and refresh the item in all categories

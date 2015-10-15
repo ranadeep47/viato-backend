@@ -24,12 +24,12 @@
     </button>
   </div>
   <div class="items-container">
-    {% for item in category.items %}
+    {% for item in category.list %}
     <div class="category">
       <div class="mdl-card mdl-shadow--2dp">
         <img src="{{item.thumbs[0]}}" class="category-image">
         <div class="mdl-card__actions">
-          <a href="category/{{category._id.toString()}}/item/{{item._id.toString()}}">{{item.title}}</a>
+          <a href="{{category._id.toString()}}/item/{{item._id.toString()}}">{{item.title}}</a>
         </div>
       </div>
     </div>
@@ -67,7 +67,7 @@
       });
     })
 
-    #('#btn-title').click(function(e){
+    $('#btn-title').click(function(e){
       var image = window.prompt("Enter new image : ");
       $.ajax({
         url  : '',
