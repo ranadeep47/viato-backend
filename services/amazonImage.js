@@ -24,7 +24,12 @@ function storeImage(link) {
     .pipe(fs.createWriteStream(THUMBS_DIR + thumb));
 
     setTimeout(function(){
-      resolve({cover : cover, thumb : thumb});
+      resolve(
+        {
+          cover : "http://viato.in/img/covers/" + cover,
+          thumb : "http://viato.in/img/thumbs/" + thumb
+        }
+      );
     }, 0)
   });
 }
