@@ -46,7 +46,7 @@
         $.ajax({
           url  : '',
           type : 'POST',
-          data : {list : JSON.stringify(arr)},
+          data : JSON.stringify({list : arr}),
           contentType: 'application/json; charset=utf-8',
         })
         .then(function(){
@@ -78,7 +78,7 @@
       .then(function(){
         window.reload();
       });
-      
+
     })
   </script>
 
