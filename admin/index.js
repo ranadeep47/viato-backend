@@ -19,7 +19,7 @@ app.context.render = render({
 });
 
 
-app.use(mount('/img', serve(appConfig['image_dir'])));
+app.use(mount('/img', serve(config['image_dir'])));
 app.use(serve(__dirname + '/public'));
 app.use(bodyParser());
 
