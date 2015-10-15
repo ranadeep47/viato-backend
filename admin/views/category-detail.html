@@ -60,6 +60,7 @@
     $('#btn-add').click(function(e){
         var ids = window.prompt("Enter amazon ids : ");
         var arr = ids.split(',');
+        if(!arr.length) return;
         $.ajax({
           url  : '',
           type : 'POST',
@@ -72,7 +73,8 @@
     });
 
     $('#btn-cover').click(function(e){
-      var title = window.prompt("Enter new title : ");
+      var title = window.prompt("Enter new cover : ");
+      if(!title.length) return;
       $.ajax({
         url  : '',
         type : 'POST',
@@ -85,7 +87,8 @@
     })
 
     $('#btn-title').click(function(e){
-      var image = window.prompt("Enter new image : ");
+      var image = window.prompt("Enter new title : ");
+      if(!image.length) return;
       $.ajax({
         url  : '',
         type : 'POST',
