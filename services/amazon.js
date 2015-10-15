@@ -27,7 +27,7 @@ function parsePage($) {
   var price = getPrice($);
   var rent = parseFloat(price.mrp);
   if(isNaN(rent)) rent = 0;
-  else rent = 0.25 * rent;
+  else rent = Math.round(0.25 * rent);
   var rental = [{rent : rent, period : 15}];
 
   var images = getImages($);

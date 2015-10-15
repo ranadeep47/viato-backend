@@ -2,6 +2,7 @@ var db = require('../../db');
 var Router = require('koa-router');
 var content = new Router();
 var fs = require('fs');
+var _ = require('lodash');
 
 var storeImage = require('./storeImage');
 var amazonFetch = require('../../services/amazon');
@@ -107,12 +108,16 @@ function addBooks(catId, list) {
         if(!item) {
           //Fetch
           return amazonFetch(currentItem).then(function(book){
-            db.Catalogue.create(book)
-            .then(function(catalogueItem){
+            return db.Catalogue.create(book).then(function(catalogueItem){
               return db.Catalogue.getBasicItem(catalogueItem._id).then(function(cItem){
-                console.log(cItem);
-                return cItem;
-                //TODO insert in feed
+                return db.Feed.findOne({_id : catId}).exec().then(function(category){
+                  var found = _.find(category.list, function(i){ return i.catalogueId.toString() === cItem.catalogueId.toString()});
+                  if(!found) {
+                    category.list.unshift(cItem);
+                    category.save();
+                  }
+                  return true;
+                })
               })
             })
             .catch(function(e){ console.log(e); return null;})
@@ -120,10 +125,15 @@ function addBooks(catId, list) {
         }
         else {
           return db.Catalogue.getBasicItem(item._id).then(function(cItem){
-            console.log(cItem);
-            return cItem;
+            return db.Feed.findOne({_id : catId}).exec().then(function(category){
+              var found = _.find(category.list, function(i){ return i.catalogueId.toString() === cItem.catalogueId.toString()});
+              if(!found) {
+                category.list.unshift(cItem);
+                category.save();
+              }
+              return true;
+            });
           })
-          //Item exists, add to feed directly
         }
       })
       .catch(function(e){ console.log(e); return null;})
