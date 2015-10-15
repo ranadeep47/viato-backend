@@ -4,6 +4,15 @@
 
 {% block head %}
   {% parent %}
+  <style>
+    .book {
+      display: inline-block;
+    }
+    .mdl-card {
+      height : 98px;
+      width: 150px;
+    }
+  </style>
   <!-- <link rel="stylesheet" href="custom.css"> -->
 {% endblock %}
 
@@ -25,7 +34,7 @@
   </div>
   <div class="items-container">
     {% for item in category.list %}
-    <div class="category">
+    <div class="book">
       <div class="mdl-card mdl-shadow--2dp">
         <img src="{{item.thumbs[0]}}" class="category-image">
         <div class="mdl-card__actions">
