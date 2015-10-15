@@ -48,7 +48,7 @@ function handleISBNSearch(isbn){
 
 function catalogueTextSearch(query) {
     //Check if its a phrase
-    var query = query.split(' ').length > 1 ? '\\\"'+query+'\\\"' : query;
+    query = query.split(' ').length > 1 ? '\"'+query+'\"' : query;
     return db.Catalogue.search(query);
 }
 
