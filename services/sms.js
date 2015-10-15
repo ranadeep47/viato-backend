@@ -12,13 +12,11 @@ function sendOTP(to, code) {
     authkey   : API_KEY,
     mobiles   : number,
     message   : encodeURIComponent(message),
-    sender    : 'VIATO',
+    sender    : 'VIATOU',
     route     : 4,
     country   : 91,
     response  : 'json'
   }
 
   return axios.get(API_URL, {params : params})
-  .then(function(r){ console.log(r)})
-  .catch(function(e) { console.log(e) })
 }
