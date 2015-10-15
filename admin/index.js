@@ -8,7 +8,7 @@ var render = require('koa-swig');
 var Router = require('koa-router');
 var api = new Router();
 
-global.appConfig = require('../config.json')[process.env['NODE_ENV']];
+global.config = require('../config.json')[process.env['NODE_ENV'] || 'production'];
 var app = koa();
 
 app.context.render = render({

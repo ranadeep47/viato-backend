@@ -67,7 +67,7 @@ content.post('/category/:catId', function*() {
     .then(function(category){
       var cover = category['images']['cover'].split('/').pop();
       var square = category['images']['square'].split('/').pop();
-      var path = appConfig['image_dir'] + '/categories/';
+      var path = config['image_dir'] + '/categories/';
       //Delete existing images
       fs.unlink(path + cover);
       fs.unlink(path + square);
