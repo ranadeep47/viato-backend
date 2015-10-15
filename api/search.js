@@ -70,7 +70,9 @@ function googleTextSearch(query) {
 }
 
 function catalogueISBNSearch(isbn13){
-  return db.Catalogue.findOne({isbn13 : isbn13}).exec();
+  return db.Catalogue.findOne({isbn13 : isbn13}).exec().then(function(catItem){
+    return db.Catalogue.getBasicItem(catItem._id, ['isbn13']).exec();
+  });
 }
 
 function googleISBNSearch(isbn) {

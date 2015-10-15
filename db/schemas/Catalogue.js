@@ -77,8 +77,9 @@ CatalogueSchema.statics.getItemForCart = function(catalogueId, rentalId) {
   });
 }
 
-CatalogueSchema.statics.getBasicItem = function(catalogueId) {
+CatalogueSchema.statics.getBasicItem = function(catalogueId, extras) {
   var fields = BASIC_FIELDS;
+  if(extras) fields = BASIC_FIELDS.concat(extras);
   return this.findOne({_id : catalogueId}).select(fields.join(' ')).exec()
   .then(function(doc){
     if(!doc) throw new Error('Invalid catalogueId');
