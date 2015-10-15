@@ -57,12 +57,13 @@ content.post('/category/:catId', function*() {
     else this.throw(500);
   }
   else if ('title' in this.request.body) {
+    var title = this.request.body['title'];
     var message = yield db.Feed.update({_id : catId}, {$set : {title : title}}).exec();
     if(message.ok) this.body = 'Updated'
     else this.throw(500)
   }
   else {
-    var image = this.request.body;
+    var image = this.request.body['image'];
     //Remove the existing image and fetch & update new image
     var message = yield db.Feed.findOne({_id : catId}).exec()
     .then(function(category){
