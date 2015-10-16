@@ -101,7 +101,7 @@ login.post('/otp/verify', function*(){
   })
   .catch(handleError)
 
-  token ? (this.body = token) : this.throw(400, 'Invalid OTP Code');
+  token ? (this.body = token.toString()) : this.throw(400, 'Invalid OTP Code');
 })
 
 login.post('/complete', function*(){
