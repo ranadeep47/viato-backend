@@ -164,7 +164,7 @@ login.post('/complete', function*(){
   })
   .catch(handleError)
 
-  token ? this.body = {access_token : token} : this.throw(400, 'Somethings wrong')
+  token ? this.body = token : this.throw(400, 'Unable to generate access token')
 })
 
 login.post('/otp/resend', function*(){
