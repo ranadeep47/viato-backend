@@ -95,11 +95,19 @@ CatalogueSchema.statics.getBasicItem = function(catalogueId, extras) {
 CatalogueSchema.statics.search = function(query){
   var fields = BASIC_FIELDS.concat(['isbn13']);
   return this.find({$text : {$search : query}},{ score: { $meta: "textScore" }})
-  .select(fields.join(' '))
+  .select((fields.concat(['language'])).join(' '))
   .sort({score : {$meta : "textScore"}, rating : -1})
-  .limit(10)
+  .limit(25)
   .exec()
   .then(function(docs){
+    //Show english first
+    var others = [];
+    var english = _.filter(docs, function(doc){
+      if(doc.language !== 'English') others.push(doc);
+      else return true;
+    });
+    docs = english.concat(others);
+    
     return docs.map(function(doc){
       var item          = _.pick(doc, fields);
       item.pricing      = doc.pricing.rental[0];
