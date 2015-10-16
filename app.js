@@ -6,6 +6,7 @@ var logger = require('koa-logger');
 var router = require('koa-router')();
 var serve = require('koa-static');
 var mount = require('koa-mount');
+var compress = require('koa-compress')
 
 var env = process.env['NODE_ENV'];
 var config = require('./config')[env];
@@ -16,7 +17,10 @@ var app = koa();
 app.use(ignoreAssets(logger()));
 app.use(mount('/img',serve(config['image_dir'])));
 app.use(bodyParser());
-
+app.use(compress({
+  threshold: 2048,
+  flush: require('zlib').Z_SYNC_FLUSH
+}))
 //Routing Middleware
 router.use('/api', jwt({secret : config['json-token-secret']}));
 router.use('/api', require('./api').routes());
