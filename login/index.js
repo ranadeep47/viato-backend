@@ -86,7 +86,7 @@ login.post('/otp/verify', function*(){
     tuser.set('is_otp_verified', true);
     tuser.set('otp_verified_at', new Date());
     tuser.save();
-    return tuser.get('_id')
+    return tuser['_id'];
   })
   .catch(handleError)
 
@@ -128,7 +128,7 @@ login.post('/complete', function*(){
 
               return db.User.create(user).then(function(user){
                  var session = {
-                   userId : user.get('_id') //TODO : Add more here
+                   userId : user['_id'] //TODO : Add more here
                  }
 
                  var accessToken = jwt.sign(session, config['json-token-secret']);
