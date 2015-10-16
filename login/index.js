@@ -80,7 +80,6 @@ login.post('/otp/verify', function*(){
 
   var token = yield db.TempUser.findOne({mobile : mobile}).exec()
   .then(function(tuser){
-    if(tuser.get('is_otp_verified')) return tuser.get('_id')
     if(tuser.get('otp') !== otp) return false; //Not OK
     //Verified OK
     tuser.set('is_otp_verified', true);
