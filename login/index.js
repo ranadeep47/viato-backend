@@ -39,6 +39,7 @@ login.post('/', function*(){
       var tuser = {
         mobile : mobile,
         otp : otp,
+        otp_generated_at : new Date(),
         device_id : deviceId,
         accounts : accounts || []
       }
@@ -52,6 +53,7 @@ login.post('/', function*(){
     //Temp user exists, refresh OTP
     else {
       tempUser.set('otp', otp);
+      tempUser.set('otp_generated_at', new Date());
       tempUser.set('is_otp_verified', false);
       tempUser.set('otp_verified_at', null);
       //TODO : Update the new social accounts too ! .
@@ -81,7 +83,17 @@ login.post('/otp/verify', function*(){
   var token = yield db.TempUser.findOne({mobile : mobile}).exec()
   .then(function(tuser){
     if(tuser.get('otp') !== otp) return false; //Not OK
+    //Expire OTP if > 1 hr old
+    var generatedAt = moment(tuser.get('otp_generated_at'));
+    var now  = moment();
+    var duration = moment.duration(now.diff(generatedAt));
+    var diff = duration.asHours();
+    console.log('Difference ', diff);
+    if(diff > 1) {
+      return false;
+    }
     //Verified OK
+    if(tuser.get('otp_generated_at'))
     tuser.set('is_otp_verified', true);
     tuser.set('otp_verified_at', new Date());
     tuser.save();
