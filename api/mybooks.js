@@ -11,7 +11,21 @@ mybooks.get('/', function*(){
 });
 
 mybooks.get('/home', function*() {
-  
+  var quotes = [
+    {
+      cover   : "https://unsplash.it/1080/600?random",
+      quote   : "Keep love in your heart. A life without it is like a sunless garden when the flowers are dead.",
+      quoter  : "Oscar Wilde",
+    },
+
+    {
+      cover   : "https://unsplash.it/1080/600?random",
+      quote   : "We love life, not because we are used to living but because we are used to loving.",
+      quoter  : "Friedrich Nietzsche"
+    }
+  ]
+
+  this.body = quotes;
 })
 
 mybooks.get('/read', function*(){
