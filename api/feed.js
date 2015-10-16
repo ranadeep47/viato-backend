@@ -7,7 +7,7 @@ var _ = require('lodash');
 module.exports = feed;
 
 feed.get('/home', function*() {
-  this.body = yield db.Feed.find().select('-list').exec();
+  this.body = yield db.Feed.find().select('-list __v').exec();
 })
 
 feed.get('/trending', function*() {
@@ -16,7 +16,7 @@ feed.get('/trending', function*() {
   this.body = yield db.Feed.findOne({_id : Id }).exec();
 });
 
-feed.get('/category/:id', function() {
+feed.get('/category/:id', function*() {
   var categoryId = this.params['id'];
   this.body = yield db.Feed.findOne({_id : categoryId}).exec();
 })
