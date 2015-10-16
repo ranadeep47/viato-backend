@@ -107,7 +107,7 @@ CatalogueSchema.statics.search = function(query){
       else return true;
     });
     docs = english.concat(others);
-    
+
     return docs.map(function(doc){
       var item          = _.pick(doc, fields);
       item.pricing      = doc.pricing.rental[0];
@@ -120,7 +120,7 @@ CatalogueSchema.statics.search = function(query){
 }
 
 CatalogueSchema.statics.getBookDetail = function(catalogueId) {
-
+  return this.findOne({_id : catalogueId}).exec();
 }
 
 CatalogueSchema.statics.addReview = function(userId, bookId, rating, review) {

@@ -10,6 +10,10 @@ mybooks.get('/', function*(){
   this.body = yield db.User.getMyBooks(userId);
 });
 
+mybooks.get('/home', function*() {
+  
+})
+
 mybooks.get('/read', function*(){
   var userId = this.state.user['userId'];
   this.body = (yield db.User.getMyBooks(userId))['reads']
