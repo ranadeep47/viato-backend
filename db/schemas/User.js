@@ -145,7 +145,7 @@ UserSchema.statics.addToRead = function(userId, basicItem) {
     //If doesnt exists
     return User.findOneAndUpdate({_id : userId}, {$push : {'reads.read' : basicItem}},{new : true}).exec()
     .then(function(user){
-      return _.find(user['reads.read'], function(r) { return r['catalogueId'].equals(catalogueId)});
+      return _.find(user.reads['read'], function(r) { return r['catalogueId'].equals(catalogueId)});
     });
   })
 }
