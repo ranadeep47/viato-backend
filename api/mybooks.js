@@ -3,6 +3,8 @@ var mybooks = new Router();
 var db = require('../db');
 var utils = require('../utils');
 
+var GBooks = require('../services/gbooks');
+
 module.exports = mybooks;
 
 mybooks.get('/', function*(){
@@ -37,10 +39,18 @@ mybooks.post('/read', function*(){
   var userId = this.state.user['userId'];
   if(!utils.checkBody(['catalogueId'], this.request.body)) return this.throw(400);
   var catalogueId = this.request.body['catalogueId'];
-  this.body = yield db.Catalogue.getBasicItem(catalogueId)
-  .then(function(basicItem){
-    return db.User.addToRead(userId, basicItem);
-  })
+
+  if(catalogueId.length === 24) {
+    this.body = yield db.Catalogue.getBasicItem(catalogueId).then(function(basicItem){
+      return db.User.addToRead(userId, basicItem);
+    });
+  }
+  else {
+    this.body = yield GBooks.getBasicItem(catalogueId).then(function(basicItem){
+      if(!basicItem) return this.throw(500,'Error adding book to your read list');
+      return db.User.addToRead(userId, basicItem);
+    })
+  }
 
 });
 
@@ -62,10 +72,18 @@ mybooks.post('/wishlist', function*(){
   var userId = this.state.user['userId'];
   if(!utils.checkBody(['catalogueId'], this.request.body)) return this.throw(400);
   var catalogueId = this.request.body['catalogueId'];
-  this.body = yield db.Catalogue.getBasicItem(catalogueId)
-  .then(function(basicItem){
-    return db.User.addToWishlist(userId, basicItem);
-  });
+
+  if(catalogueId.length === 24) {
+    this.body = yield db.Catalogue.getBasicItem(catalogueId).then(function(basicItem){
+      return db.User.addToWishlist(userId, basicItem);
+    });
+  }
+  else {
+    this.body = yield GBooks.getBasicItem(catalogueId).then(function(basicItem){
+      if(!basicItem) return this.throw(500,'Error adding book to your read list');
+      return db.User.addToWishlist(userId, basicItem);
+    })
+  }
 })
 
 mybooks.delete('/wishlist/:wishlistId', function*(){

@@ -10,25 +10,13 @@ module.exports = books;
 books.get('/:bookId', function*(){
     var catalogueId = this.params['bookId'];
     if(!catalogueId) return this.throw(400);
+    var res;
+    if(catalogueId.length === 24) res = yield db.Catalogue.getBookDetail(catalogueId);
+    else res = yield gbooks.fetch(bookId)
 
-    var res = yield db.Catalogue.getBookDetail(catalogueId);
-    if(!res) this.throw(500);
+    if(!res) return this.throw(500);
     return this.body = res;
 });
-
-books.get('/google/:googleId', function*(){
-  var bookId = this.params['bookId'];
-  if(!bookId) return this.throw(400);
-  bookId = bookId.trim();
-  var res = yield gbooks.fetch(bookId)
-  .then(function(book){
-    if(!book) return null;
-    return book;
-  })
-
-  if(!res) return this.throw(500);
-  return this.body = res;
-})
 
 books.post('/:bookId/review', function*() {
   var userId = this.state.user['userId'];

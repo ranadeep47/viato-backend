@@ -5,6 +5,7 @@ var isbnUtils = require('isbn-utils');
 exports.query = query;
 exports.isbn = isbn;
 exports.fetch = fetch;
+exports.getBasicItem = getBasicItem;
 
 function query(text){
   var url = 'https://www.googleapis.com/books/v1/volumes?q='+text;
@@ -44,6 +45,14 @@ function isbn(isbn13){
   .catch(function(e){
     console.log(e);
     return null;
+  })
+}
+
+function getBasicItem(volumeId) {
+  var BASIC_FIELDS = ['title','cover','authors','pricing','thumbs']
+  return fetch(volumeId).then(function(item){
+    if(!item) return null;
+    else return _.pick(item, BASIC_FIELDS);
   })
 }
 

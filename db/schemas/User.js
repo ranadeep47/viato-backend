@@ -142,7 +142,6 @@ UserSchema.statics.addToRead = function(userId, basicItem) {
     if(contains.length > 0) {
       throw new Error('Book already exists');
     }
-
     //If doesnt exists
     return User.findOneAndUpdate({_id : userId}, {$push : {'reads.read' : basicItem}},{new : true}).exec()
     .then(function(user){
