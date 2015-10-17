@@ -77,9 +77,10 @@ function catalogueISBNSearch(isbn13){
 }
 
 function googleISBNSearch(isbn) {
-  var item = gbooks.isbn(isbn);
-  if(!item) return item;
-  var fields = ['title','cover','authors','pricing','thumbs','isbn13'];
-  item = _.pick(item, fields);
-  return item;
+  return gbooks.isbn(isbn).then(function(item){
+    if(!item) return item;
+    var fields = ['title','cover','authors','pricing','thumbs','isbn13'];
+    item = _.pick(item, fields);
+    return item;
+  })
 }
