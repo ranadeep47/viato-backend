@@ -18,26 +18,30 @@ function storeImage(link) {
   var image = request(link).on('error', function(){resolve(null)})
 
   //image.pipe(fs.createWriteStream(COVER_DIR + cover));
-  gm(image)
-  .resize('98', '150', '^')
-  .gravity('Center')
-  .crop('98', '150')
-  .stream()
-  .pipe(fs.createWriteStream(THUMBS_DIR + thumb1));
 
   gm(image)
-  .resize('147', '225', '^')
+  .resize('196', '300', '^')
   .gravity('Center')
-  .crop('147', '225')
-  .stream().
+  .crop('196', '300')
+  .quality(60)
+  .stream()
   .pipe(fs.createWriteStream(THUMBS_DIR + thumb2));
 
   gm(image)
   .resize('196', '300', '^')
   .gravity('Center')
   .crop('196', '300')
+  .quality(50)
   .stream()
   .pipe(fs.createWriteStream(THUMBS_DIR + thumb3));
+
+  gm(image)
+  .resize('196', '300', '^')
+  .gravity('Center')
+  .crop('196', '300')
+  .quality(40)
+  .stream()
+  .pipe(fs.createWriteStream(THUMBS_DIR + thumb1));
 
 
 
