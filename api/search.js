@@ -52,23 +52,6 @@ function catalogueTextSearch(query) {
     return db.Catalogue.search(query);
 }
 
-function googleTextSearch(query) {
-  var BASIC_FIELDS = ['title','cover','authors','pricing','thumbs']
-  return gbooks.query(query)
-  .then(function(books){
-    if(!books) return null;
-    return books.map(function(book){
-      var item          = _.pick(book, BASIC_FIELDS);
-      item.pricing      = book.pricing.rental[0];
-      item.catalogueId  = book['sourceId'];
-      item.extraKey     = "GOOGLE";
-      item.extraId      = book['sourceId'];
-      item.isbn13       = book['isbn13'];
-      return item;
-    });
-  });
-}
-
 function catalogueISBNSearch(isbn13){
   return db.Catalogue.findOne({isbn13 : isbn13}).exec().then(function(catItem){
     if(!catItem) return null;
@@ -76,11 +59,29 @@ function catalogueISBNSearch(isbn13){
   });
 }
 
+function googleTextSearch(query) {
+  return gbooks.query(query).then(function(books){
+    if(!books) return null;
+    return books.map(function(book){
+      return processGoogleItem(book);
+    });
+  });
+}
+
 function googleISBNSearch(isbn) {
-  return gbooks.isbn(isbn).then(function(item){
+  return gbooks.isbn(isbn).then(function(book){
     if(!item) return item;
-    var fields = ['title','cover','authors','pricing','thumbs','isbn13'];
-    item = _.pick(item, fields);
+    return processGoogleItem(book);
+  });
+}
+
+function processGoogleItem(book) {
+    var BASIC_FIELDS = ['title','cover','authors','pricing','thumbs','isbn13'] // Search needs isbn13 too
+    var item          = _.pick(book, BASIC_FIELDS);
+    item.pricing      = book.pricing.rental[0];
+    item.catalogueId  = book['sourceId'];
+    item.extraKey     = "GOOGLE";
+    item.extraId      = book['sourceId'];
+    item.isbn13       = book['isbn13'];
     return item;
-  })
 }
