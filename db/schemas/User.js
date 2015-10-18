@@ -126,7 +126,7 @@ UserSchema.statics.addToReading = function(userId, bookingId, basicItem) {
       throw new Error('Book already exists.');
     }
     //If doesnt already exists
-    return User.findOneAndUpdate({_id : userId}, {$push : {'reads.reading' : basicItem}},{new : true}).exec()
+    return User.findOneAndUpdate({_id : userId}, {$push : {'reads.reading' : {$each : [basicItem], $position : 0}}},{new : true}).exec()
     .then(function(user){
       return user.reads['reading']
     })
@@ -143,7 +143,7 @@ UserSchema.statics.addToRead = function(userId, basicItem) {
       throw new Error('Book already exists');
     }
     //If doesnt exists
-    return User.findOneAndUpdate({_id : userId}, {$push : {'reads.read' : basicItem}},{new : true}).exec()
+    return User.findOneAndUpdate({_id : userId}, {$push : {'reads.read' : {$each : [basicItem], $position : 0}}},{new : true}).exec()
     .then(function(user){
       return _.find(user.reads['read'], function(r) { return r['catalogueId'].toString() === catalogueId});
     });
@@ -169,7 +169,7 @@ UserSchema.statics.addToWishlist = function(userId, basicItem) {
     }
 
     //If doesnt exists
-    return User.findOneAndUpdate({_id : userId}, {$push : {'wishlist' : basicItem}},{new : true}).exec()
+    return User.findOneAndUpdate({_id : userId}, {$push : {'wishlist' : {$each : [basicItem], $position : 0}}},{new : true}).exec()
     .then(function(user){
       return _.find(user['wishlist'], function(r) { return r['catalogueId'].toString() === catalogueId });
     })
