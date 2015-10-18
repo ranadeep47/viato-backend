@@ -22,19 +22,25 @@ function storeImage(link) {
   .resize('98', '150', '^')
   .gravity('Center')
   .crop('98', '150')
-  .write(fs.createWriteStream(THUMBS_DIR + thumb1));
+  .write(fs.createWriteStream(THUMBS_DIR + thumb1), function (err) {
+    if (!err) console.log(' hooray! ');
+  }));
 
   gm(image)
   .resize('147', '225', '^')
   .gravity('Center')
   .crop('147', '225')
-  .write(fs.createWriteStream(THUMBS_DIR + thumb2));
+  .write(fs.createWriteStream(THUMBS_DIR + thumb2), function (err) {
+    if (!err) console.log(' hooray! ');
+  }));
 
   gm(image)
   .resize('196', '300', '^')
   .gravity('Center')
   .crop('196', '300')
-  .write(fs.createWriteStream(THUMBS_DIR + thumb3));
+  .write(fs.createWriteStream(THUMBS_DIR + thumb3), function (err) {
+    if (!err) console.log(' hooray! ');
+  }));
 
 
 
