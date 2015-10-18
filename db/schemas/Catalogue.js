@@ -70,9 +70,10 @@ CatalogueSchema.statics.getItemForCart = function(catalogueId, rentalId) {
     item.pricing = _.filter(doc.pricing.rental, function(r){
       return r['_id'].toString() === rentalId
     })[0];
+    
     if(!item.pricing) throw new Error('Invalid rentalId');
 
-    item.catalogueId = doc['_id'];
+    item.catalogueId = doc['_id'].toString();
     return item;
   });
 }
@@ -85,7 +86,7 @@ CatalogueSchema.statics.getBasicItem = function(catalogueId, extras) {
     if(!doc) throw new Error('Invalid catalogueId');
     var item = _.pick(doc, fields);
     item.pricing = doc.pricing.rental[0];
-    item.catalogueId = doc['_id'];
+    item.catalogueId = doc['_id'].toString();
     item.extraKey = '';
     item.extraId = null;
     return item;
@@ -111,9 +112,9 @@ CatalogueSchema.statics.search = function(query){
     return docs.map(function(doc){
       var item          = _.pick(doc, fields);
       item.pricing      = doc.pricing.rental[0];
-      item.catalogueId  = doc['_id'];
+      item.catalogueId  = doc['_id'].toString();
       item.extraKey     = "VIATO";
-      item.extraId      = doc['_id'];
+      item.extraId      = doc['_id'].toString();
       return item;
     });
   })
