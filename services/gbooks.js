@@ -48,14 +48,6 @@ function isbn(isbn13){
   })
 }
 
-function getBasicItem(volumeId) {
-  var BASIC_FIELDS = ['title','cover','authors','pricing','thumbs']
-  return fetch(volumeId).then(function(item){
-    if(!item) return null;
-    else return _.pick(item, BASIC_FIELDS);
-  })
-}
-
 function fetch(volumeId){
   var url = 'https://www.googleapis.com/books/v1/volumes/'+volumeId;
   return axios.get(url)
@@ -69,6 +61,17 @@ function fetch(volumeId){
     console.log(e);
     return null;
   })
+}
+
+function getBasicItem(book) {
+    var BASIC_FIELDS = ['title','cover','authors','pricing','thumbs','isbn13'] // Search needs isbn13 too
+    var item          = _.pick(book, BASIC_FIELDS);
+    item.pricing      = book.pricing.rental[0];
+    item.catalogueId  = book['sourceId'];
+    item.extraKey     = "GOOGLE";
+    item.extraId      = book['sourceId'];
+    item.isbn13       = book['isbn13'];
+    return item;
 }
 
 function parseItem(item){

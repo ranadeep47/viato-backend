@@ -63,7 +63,7 @@ function googleTextSearch(query) {
   return gbooks.query(query).then(function(books){
     if(!books) return null;
     return books.map(function(book){
-      return processGoogleItem(book);
+      return gbooks.getBasicItem(book);
     });
   });
 }
@@ -71,17 +71,6 @@ function googleTextSearch(query) {
 function googleISBNSearch(isbn) {
   return gbooks.isbn(isbn).then(function(book){
     if(!book) return book;
-    return processGoogleItem(book);
+    return gbooks.getBasicItem(book);
   });
-}
-
-function processGoogleItem(book) {
-    var BASIC_FIELDS = ['title','cover','authors','pricing','thumbs','isbn13'] // Search needs isbn13 too
-    var item          = _.pick(book, BASIC_FIELDS);
-    item.pricing      = book.pricing.rental[0];
-    item.catalogueId  = book['sourceId'];
-    item.extraKey     = "GOOGLE";
-    item.extraId      = book['sourceId'];
-    item.isbn13       = book['isbn13'];
-    return item;
 }
