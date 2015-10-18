@@ -70,7 +70,7 @@ function googleTextSearch(query) {
 
 function googleISBNSearch(isbn) {
   return gbooks.isbn(isbn).then(function(book){
-    if(!item) return item;
+    if(!book) return book;
     return processGoogleItem(book);
   });
 }
