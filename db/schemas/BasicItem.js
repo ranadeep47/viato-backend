@@ -13,7 +13,7 @@ var BasicItemSchema = {
     period      : Number
   },
   extraKey      : {type : String, default : ''},
-  extraId       : {type : Schema.Types.ObjectId}
+  extraId       : {type : String}
 }
 
 module.exports = BasicItemSchema;
