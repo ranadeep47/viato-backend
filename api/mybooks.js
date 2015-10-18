@@ -80,7 +80,7 @@ mybooks.post('/wishlist', function*(){
     });
   }
   else {
-    this.body = yield GBooks.getBasicItem(catalogueId).then(function(book){
+    this.body = yield GBooks.fetch(catalogueId).then(function(book){
       if(!book) return this.throw(500,'Error adding book to your read list');
       var basicItem = GBooks.getBasicItem(book);
       return db.User.addToWishlist(userId, basicItem);
