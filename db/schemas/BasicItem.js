@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var BasicItemSchema = {
-  catalogueId   : {type : Schema.Types.ObjectId, ref : 'Catalogue'},
+  catalogueId   : String,
   title         : String,
   authors       : [String],
   thumbs        : [String],

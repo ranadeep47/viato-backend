@@ -2,6 +2,8 @@ var axios = require('axios');
 var _ = require('lodash');
 var isbnUtils = require('isbn-utils');
 
+var ObjectId = require('mongoose').Types.ObjectId;
+
 exports.query = query;
 exports.isbn = isbn;
 exports.fetch = fetch;
@@ -108,7 +110,7 @@ function parseItem(item){
     source      : "GOOGLE",
     sourceId    : id,
     //Unknown fields
-    pricing     : {owning : {mrp : 0}, rental : [{rent : 0, period : 0}]},
+    pricing     : {owning : {mrp : 0}, rental : [{rent : 0, period : 0, _id : new ObjectId}]},
     binding     : 'Unknown',
     copies      : 0,
     available   : false
