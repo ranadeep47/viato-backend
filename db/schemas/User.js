@@ -121,7 +121,7 @@ UserSchema.statics.addToReading = function(userId, bookingId, basicItem) {
   return this.findOne({_id : userId},'reads').exec()
   .then(function(user){
     var catalogueId = basicItem.catalogueId;
-    var contains = _.filter(user.reads['reading'], function(r){ return r['catalogueId'].toString() === catalogueId});
+    var contains = _.filter(user.reads['reading'], function(r){ return r['catalogueId'] === catalogueId});
     if(contains.length > 0) {
       throw new Error('Book already exists.');
     }
@@ -138,14 +138,14 @@ UserSchema.statics.addToRead = function(userId, basicItem) {
   return this.findOne({_id : userId},'reads').exec()
   .then(function(user){
     var catalogueId = basicItem.catalogueId;
-    var contains = _.filter(user.reads['read'], function(r){ return r['catalogueId'].toString() === catalogueId});
+    var contains = _.filter(user.reads['read'], function(r){ return r['catalogueId'] === catalogueId});
     if(contains.length > 0) {
       throw new Error('Book already exists');
     }
     //If doesnt exists
     return User.findOneAndUpdate({_id : userId}, {$push : {'reads.read' : {$each : [basicItem], $position : 0}}},{new : true}).exec()
     .then(function(user){
-      return _.find(user.reads['read'], function(r) { return r['catalogueId'].toString() === catalogueId});
+      return _.find(user.reads['read'], function(r) { return r['catalogueId'] === catalogueId});
     });
   })
 }
@@ -163,7 +163,7 @@ UserSchema.statics.addToWishlist = function(userId, basicItem) {
   return this.findOne({_id : userId},'wishlist').exec()
   .then(function(user){
     var catalogueId = basicItem.catalogueId;
-    var contains = _.filter(user.wishlist, function(r){ return r['catalogueId'].toString() === catalogueId });
+    var contains = _.filter(user.wishlist, function(r){ return r['catalogueId'] === catalogueId });
     if(contains.length > 0) {
       throw new Error('Book already exists');
     }
@@ -171,7 +171,7 @@ UserSchema.statics.addToWishlist = function(userId, basicItem) {
     //If doesnt exists
     return User.findOneAndUpdate({_id : userId}, {$push : {'wishlist' : {$each : [basicItem], $position : 0}}},{new : true}).exec()
     .then(function(user){
-      return _.find(user['wishlist'], function(r) { return r['catalogueId'].toString() === catalogueId });
+      return _.find(user['wishlist'], function(r) { return r['catalogueId'] === catalogueId });
     })
   })
 }

@@ -139,7 +139,7 @@ function addBooks(catId, list) {
             return db.Catalogue.create(book).then(function(catalogueItem){
               return db.Catalogue.getBasicItem(catalogueItem._id).then(function(cItem){
                 return db.Feed.findOne({_id : catId}).exec().then(function(category){
-                  var found = _.find(category.list, function(i){ return i.catalogueId.toString() === cItem.catalogueId.toString()});
+                  var found = _.find(category.list, function(i){ return i.catalogueId === cItem.catalogueId});
                   if(!found) {
                     category.list.unshift(cItem);
                     category.save();
@@ -154,7 +154,7 @@ function addBooks(catId, list) {
         else {
           return db.Catalogue.getBasicItem(item._id).then(function(cItem){
             return db.Feed.findOne({_id : catId}).exec().then(function(category){
-              var found = _.find(category.list, function(i){ return i.catalogueId.toString() === cItem.catalogueId.toString()});
+              var found = _.find(category.list, function(i){ return i.catalogueId === cItem.catalogueId});
               if(!found) {
                 category.list.unshift(cItem);
                 category.save();
