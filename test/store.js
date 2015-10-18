@@ -4,25 +4,28 @@ var fs = require('fs');
 var request = require('request');
 var sharp = require('sharp');
 
-var COVER_DIR = '/home/viato/images/covers/';
-var THUMBS_DIR = '/home/viato/images/thumbs/';
+var COVER_DIR = '/home/viato/images/test/';
+var THUMBS_DIR = '/home/viato/images/test/';
 
 module.exports = storeImage;
 
 function storeImage(link) {
   var cover = uuid.v4() + '.jpg';
-  var thumb = uuid.v4() + '.jpg';
+  var thumb1 = uuid.v4() + '.jpg';
+  var thumb2 = uuid.v4() + '.jpg';
+  var thumb3 = uuid.v4() + '.jpg';
 
-  return new Promise(function(resolve, reject) {
-    var image = request(link).on('error', function(){resolve(null)})
+  var image = request(link).on('error', function(){resolve(null)})
 
-    image.pipe(fs.createWriteStream(COVER_DIR + cover));
+  image.pipe(fs.createWriteStream(COVER_DIR + cover));
 
-    image.pipe(sharp().resize(98,150).on('error', function(err){ console.log(err) }))
-    .pipe(fs.createWriteStream(THUMBS_DIR + thumb));
+  image.pipe(sharp().resize(98,150).on('error', function(err){ console.log(err) }))
+  .pipe(fs.createWriteStream(THUMBS_DIR + thumb1));
 
-    setTimeout(function(){
-      resolve({cover : cover, thumb : thumb});
-    }, 0)
-  });
+  image.pipe(sharp().resize(196,300).on('error', function(err){ console.log(err) }))
+  .pipe(fs.createWriteStream(THUMBS_DIR + thumb2));
+
+  image.pipe(sharp().resize(294,450).on('error', function(err){ console.log(err) }))
+  .pipe(fs.createWriteStream(THUMBS_DIR + thumb3));
+  
 }
