@@ -17,15 +17,15 @@ function storeImage(link) {
 
   var image = request(link).on('error', function(){resolve(null)})
 
-  image.pipe(fs.createWriteStream(COVER_DIR + cover));
+  //image.pipe(fs.createWriteStream(COVER_DIR + cover));
 
   image.pipe(sharp().resize(98,150).on('error', function(err){ console.log(err) }))
   .pipe(fs.createWriteStream(THUMBS_DIR + thumb1));
 
-  image.pipe(sharp().resize(196,300).on('error', function(err){ console.log(err) }))
+  image.pipe(sharp().resize(147,225).on('error', function(err){ console.log(err) }))
   .pipe(fs.createWriteStream(THUMBS_DIR + thumb2));
 
-  image.pipe(sharp().resize(294,450).on('error', function(err){ console.log(err) }))
+  image.pipe(sharp().resize(196,300).on('error', function(err){ console.log(err) }))
   .pipe(fs.createWriteStream(THUMBS_DIR + thumb3));
-  
+
 }
