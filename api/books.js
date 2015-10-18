@@ -11,8 +11,9 @@ books.get('/:bookId', function*(){
     var catalogueId = this.params['bookId'];
     if(!catalogueId) return this.throw(400);
     var res;
-    if(catalogueId.length === 24) res = yield db.Catalogue.getBookDetail(catalogueId);
-    else res = yield gbooks.fetch(bookId)
+    if(catalogueId.length === 24)
+      res = yield db.Catalogue.getBookDetail(catalogueId);
+    else res = yield gbooks.fetch(catalogueId)
 
     if(!res) return this.throw(500);
     return this.body = res;
