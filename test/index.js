@@ -1,28 +1,35 @@
 var fetch = require('./goodreads');
+var db = require('../db');
+var storage = require('node-persist');
+storage.initSync();
 
+var offset = storage.getItemSync('offset');
 
+function get(){
+  return db.Catalogue.find({}).select('isbn13').sort({_id : 1}).skip(offset).limit(10).exec().then(function(docs){
+    var links = docs.map(function(i){ return "http://www.goodreads.com/search?utf8=%E2%9C%93&query="+i.isbn13});
+    var promises = links.map(function(l){ return fetch(l)});
+    return Promise.all(promises).then(function(results){
+      console.log(results);
+      offset += 10;
+      return get();
 
-var isbn = [
-  '9780765328342', '9780330391566',
-  '9780099416159', '9781567922813',
-  '9780330525602', '9780755354061',
-  '9780425212783', '9788192877440',
-  '9780099282648', '9780330419024'
-];
+      var pros = [];
+      var result, doc;
+      for(var i =0; i < results.length; ++i ) {
+        result = results[i];
+        doc = docs[i];
+        pros.push(update(result, doc._id));
+      }
+      return Promise.all(pros).then(function(){
+        offset += 10;
+        storage.setItemSync('offset', offset);
+        get();
+      })
+    })
+  })
+}
 
-
-
-var links = isbn.map(function(i){ return "http://www.goodreads.com/search?utf8=%E2%9C%93&query="+i});
-
-var pros = links.map(function(l){ return fetch(l)});
-
-console.time('start')
-Promise.all(pros).then(function(r){
-  console.timeEnd('start');
-  console.log(r);
-})
-.catch(log)
-
-function log(e){
-  console.log(e);
+function update(result, id){
+  return db.Catalogue.update({_id : id}, {$set : {popularity : result.popularity, description : result.description}}).exec();
 }

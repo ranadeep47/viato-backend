@@ -45,6 +45,11 @@ var CatalogueSchema = new Schema({
     bav : {type : [String], default : []}, //Bought also viewed
     fbt : {type : [String], default : []} //Frequently bought together
   },
+  popularity  : {
+    rating        : {type : Number, default : 0},
+    ratingsCount  : {type : Number, default : 0},
+    reviewsCount  : {type : Number, default : 0}
+  }
   // reviews       : {
   //   _id     : false,
   //   users   : {type : [ReviewSchema], default : []},
@@ -70,7 +75,7 @@ CatalogueSchema.statics.getItemForCart = function(catalogueId, rentalId) {
     item.pricing = _.filter(doc.pricing.rental, function(r){
       return r['_id'].toString() === rentalId
     })[0];
-    
+
     if(!item.pricing) throw new Error('Invalid rentalId');
 
     item.catalogueId = doc['_id'].toString();

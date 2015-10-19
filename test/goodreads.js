@@ -17,13 +17,15 @@ function fetch(url) {
        if(isNaN(ratingsCount)) ratingsCount = 0;
        if(isNaN(reviewCount)) reviewCount = 0;
 
-       var vals = {
-         rating : rating,
-         ratingsCount : ratingsCount,
-         reviewCount : reviewCount,
+       var doc = {
+         popularity : {
+           rating : rating,
+           ratingsCount : ratingsCount,
+           reviewsCount : reviewCount,
+         },
          description : description
        }
-      resolve(vals);
+      resolve(doc);
     })
   });
 }
