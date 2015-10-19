@@ -23,6 +23,9 @@ Promise.all(pros).then(function(res){
   var titles = _.pluck(res, 'title');
   console.log(titles);
 })
+.catch(function(e){
+  console.log(e);
+})
 
 // process.on('exit', function(){
 //   storage.setItemSync('more', arr);
