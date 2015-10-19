@@ -1,6 +1,8 @@
 var storage = require('node-persist');
 var _ = require('lodash');
 
+storage.initSync();
+
 var arr = storage.getItemSync('more');
 
 var top10 = arr.slice(0, 10);
