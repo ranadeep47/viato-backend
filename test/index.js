@@ -1,7 +1,9 @@
 var storage = require('node-persist');
 var _ = require('lodash');
 
-storage.initSync();
+storage.initSync({
+  dir : __dirname + '/persist'
+});
 
 var arr = storage.getItemSync('more');
 
