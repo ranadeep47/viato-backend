@@ -13,7 +13,7 @@ var arr = storage.getItemSync('more');
 
 console.log(arr.length);
 
-var top10 = arr.slice(0, 10);
+var top10 = arr.slice(0, 3);
 
 var fetch = require('../services/amazon');
 

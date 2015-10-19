@@ -26,14 +26,11 @@ function storeImage(link) {
     // .quality(55)
     // .stream()
     // .pipe(fs.createWriteStream(THUMBS_DIR + thumb));
-
-    setTimeout(function(){
-      resolve(
-        {
-          cover : "http://viato.in/img/covers/" + cover,
-          thumb : "http://viato.in/img/thumbs/" + thumb
-        }
-      );
-    }, 0)
+    resolve(
+      {
+        cover : "http://viato.in/img/covers/" + cover,
+        thumb : "http://viato.in/img/thumbs/" + thumb
+      }
+    );
   });
 }
