@@ -1,16 +1,19 @@
-var axios = require('axios');
+var request = require('request');
 var cheerio = require('cheerio');
 
 module.exports = fetch;
 
 function fetch(url) {
-  return axios.get(url).then(function(res){
-     var $ = cheerio.load(res.data);
-     var vals = {
-       rating : parseFloat($('.average').text()),
-       ratingsCount : parseInt($('.votes').text()),
-       reviewCount : parseInt($('.count').text())
-     }
-    return vals;
-  })
+  return new Promise(function(resolve, reject) {
+    request.get(url,function(e,r,d){
+      if(e) return reject(e);
+       var $ = cheerio.load(d);
+       var vals = {
+         rating : parseFloat($('.average').text()),
+         ratingsCount : parseInt($('.votes').text()),
+         reviewCount : parseInt($('.count').text())
+       }
+      resolve(vals);
+    })
+  });
 }
