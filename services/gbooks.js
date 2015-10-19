@@ -106,7 +106,7 @@ function parseItem(item){
     rating      : parseFloat(item['averageRating']) || 0,
     cover       : cover,
     images      : [cover],
-    thumbs      : [imageLink+'&h=150'],
+    thumbs      : [imageLink+'&h=300'],
     source      : "GOOGLE",
     sourceId    : id,
     //Unknown fields
