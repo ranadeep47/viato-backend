@@ -5,6 +5,10 @@ storage.initSync({
   dir : __dirname + '/persist'
 });
 
+global.config = {
+  "image_dir" : "/home/viato/images"
+}
+
 var arr = storage.getItemSync('more');
 
 console.log(arr.length);
