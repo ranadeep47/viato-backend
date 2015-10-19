@@ -15,17 +15,17 @@ function storeImage(link) {
   var cover = thumb = uuid.v4() + '.jpg';
 
   return new Promise(function(resolve, reject) {
-    // var image = request(link).on('error', function(){resolve(null)})
-    //
-    // image.pipe(fs.createWriteStream(COVER_DIR + cover));
-    //
-    // gm(image)
-    // .resize('196', '300', '^')
-    // .gravity('Center')
-    // .crop('196', '300')
-    // .quality(55)
-    // .stream()
-    // .pipe(fs.createWriteStream(THUMBS_DIR + thumb));
+    var image = request(link).on('error', function(){resolve(null)})
+
+    image.pipe(fs.createWriteStream(COVER_DIR + cover));
+
+    gm(image)
+    .resize('196', '300', '^')
+    .gravity('Center')
+    .crop('196', '300')
+    .quality(55)
+    .stream()
+    .pipe(fs.createWriteStream(THUMBS_DIR + thumb));
     resolve(
       {
         cover : "http://viato.in/img/covers/" + cover,
