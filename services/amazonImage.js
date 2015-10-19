@@ -4,7 +4,7 @@ var path = require('path');
 var uuid = require('node-uuid');
 var fs = require('fs');
 var request = require('request');
-var sharp = require('gm');
+var gm = require('gm');
 
 var COVER_DIR = config['image_dir'] + '/covers/';
 var THUMBS_DIR = config['image_dir'] + '/thumbs/';
