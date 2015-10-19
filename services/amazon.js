@@ -60,7 +60,7 @@ function parsePage($) {
 
     //Accessory fields
     book.copies = 0;
-    book.available = (rent > 500 ? false : true );
+    book.available = (rent > 500 || rent == 0 ? false : true );
     book.source = 'AMAZON';
 
     return book;
