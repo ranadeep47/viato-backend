@@ -10,10 +10,7 @@ var THUMBS_DIR = '/home/viato/images/test/';
 module.exports = storeImage;
 
 function storeImage(link) {
-  var cover = uuid.v4() + '.jpg';
-  var thumb1 = uuid.v4() + '.jpg';
-  var thumb2 = uuid.v4() + '.jpg';
-  var thumb3 = uuid.v4() + '.jpg';
+  var cover = thumb = uuid.v4() + '.jpg';
 
   var image = request(link).on('error', function(){resolve(null)})
 
@@ -23,25 +20,11 @@ function storeImage(link) {
   .resize('196', '300', '^')
   .gravity('Center')
   .crop('196', '300')
-  .quality(60)
+  .quality(55)
   .stream()
-  .pipe(fs.createWriteStream(THUMBS_DIR + thumb2));
+  .pipe(fs.createWriteStream(THUMBS_DIR + thumb));
 
-  gm(image)
-  .resize('196', '300', '^')
-  .gravity('Center')
-  .crop('196', '300')
-  .quality(50)
-  .stream()
-  .pipe(fs.createWriteStream(THUMBS_DIR + thumb3));
 
-  gm(image)
-  .resize('196', '300', '^')
-  .gravity('Center')
-  .crop('196', '300')
-  .quality(40)
-  .stream()
-  .pipe(fs.createWriteStream(THUMBS_DIR + thumb1));
 
 
 
