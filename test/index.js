@@ -5,6 +5,8 @@ storage.initSync();
 
 var arr = storage.getItemSync('more');
 
+console.log(arr.length);
+
 var top10 = arr.slice(0, 10);
 
 var fetch = require('../services/amazon');
