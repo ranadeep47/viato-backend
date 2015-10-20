@@ -35,7 +35,8 @@ cart.post('/', function*(){
     return db.User.addToCart(userId, basicItem).then(function(cart){
       return cart;
     }).catch(function(e){
-      ctx.throw(500, e.message);
+      console.log(e);
+      ctx.throw(500, e.getMessage());
     })
   });
 
