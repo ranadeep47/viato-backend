@@ -91,9 +91,7 @@ UserSchema.statics.addAddress = function(userId, address) {
   return this.findOne({_id : userId}).select('addresses').exec().then(function(user){
     user.addresses.forEach(function(a){ a['is_default'] = false;});
     user.addresses.push(address);
-    return user.save().then(function(user){
-      return user.addresses;
-    })
+    return user.save();
   })
 }
 
