@@ -18,6 +18,7 @@ cart.get('/', function*(){
 })
 
 cart.post('/', function*(){
+  var ctx = this;
   var userId = this.state.user['userId'];
 
   if(!utils.checkBody(['rentalId', 'catalogueId'], this.request.body)) {
@@ -30,11 +31,11 @@ cart.post('/', function*(){
     this.throw(400);
   }
 
-  var cart = yield db.Catalogue.getItemForCart(catalogueId, rentalId)
-  .then(function(basicItem){
-    return db.User.addToCart(userId, basicItem)
-    .then(function(cart){
+  var cart = yield db.Catalogue.getItemForCart(catalogueId, rentalId).then(function(basicItem){
+    return db.User.addToCart(userId, basicItem).then(function(cart){
       return cart;
+    }).catch(function(e){
+      ctx.throw(500, e.message);
     })
   });
 
