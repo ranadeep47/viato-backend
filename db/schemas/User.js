@@ -53,13 +53,13 @@ UserSchema
 
 
 UserSchema.statics.addToCart = function(userId, basicItem) {
-  return this.findOne({_id : userId}).exec()
+  return this.findOne({_id : userId}).select('cart addresses').exec()
   .then(function(user){
     if(!user) throw new Error('Invalid userId');
     if(user.cart.length > 1) throw new Error('Cannot have more than 2 items in cart');
     user.cart.push(basicItem);
     user.save();
-    return user.cart;
+    return {cart : user.cart, addresses : user.addresses}
   })
 }
 
@@ -69,14 +69,6 @@ UserSchema.statics.removeFromCart = function(userId, cartInstanceId) {
 
 UserSchema.statics.emptyCart = function(userId) {
   return this.update({_id : userId}, {$set : {cart : []}}).exec();
-}
-
-UserSchema.statics.getCart = function(userId) {
-  return this.findOne({_id : userId},'cart').exec()
-  .then(function(user){
-    if(!user) throw new Error('Invalid userId');
-    return user.cart;
-  })
 }
 
 UserSchema.statics.getAddresses = function(userId) {
