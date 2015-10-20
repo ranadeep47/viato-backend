@@ -88,7 +88,9 @@ UserSchema.statics.getAddresses = function(userId) {
 }
 
 UserSchema.statics.addAddress = function(userId, address) {
-  return this.findOneAndUpdate({_id : userId}, {$push : {addresses : address}}, {new : true}).exec();
+  return this.update({_id : userId}, {$set : {'addresses.is_default' : false}}, {multi : true}).exec().then(function(){
+    return this.findOneAndUpdate({_id : userId}, {$push: {addresses : address}}, {new : true}).exec();
+  })
 }
 
 UserSchema.statics.removeAddress = function(userId, addressId) {

@@ -5,6 +5,8 @@ storage.initSync();
 
 var offset = storage.getItemSync('offset');
 
+
+
 function get(){
   return db.Catalogue.find({}).select('isbn13').sort({_id : 1}).skip(offset).limit(10).exec().then(function(docs){
     var links = docs.map(function(i){ return "http://www.goodreads.com/search?utf8=%E2%9C%93&query="+i.isbn13});

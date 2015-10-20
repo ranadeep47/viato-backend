@@ -10,7 +10,7 @@ var AddressSchema = {
     name : {type : String, default : ''},
     _id : false
   },
-  is_default  : {type : Boolean, default : false}
+  is_default  : {type : Boolean, default : true}
 }
 
 module.exports = AddressSchema;
