@@ -11,7 +11,7 @@ function fetch(url) {
        var rating       = parseFloat($('.average').text())
        var ratingsCount = parseInt($('.votes').text());
        var reviewCount  = parseInt($('.count').text());
-       var description  = $('#description span~span').text() || '';
+       var description  = $('#description span~span').html() || '';
 
        if(isNaN(rating)) rating = 0;
        if(isNaN(ratingsCount)) ratingsCount = 0;
