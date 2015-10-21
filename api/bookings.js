@@ -39,37 +39,59 @@ bookings.post('/', function*(){
     if(!address) throw new Error('Invalid addressId');
     //Got a valid address, create booking from the cart
     var cart = user.cart;
-    var rentals = cart.map(function(rentalItem){
-      return {
-        item : rentalItem,
-        expires_at : moment().add(rentalItem.pricing.period, 'days').toDate(),
-        status : 'YET-TO-DELIVER'
+    if(!cart.length) return ctx.throw(400, 'Cart is empty!');
+
+    //Check if there are no pending bookings with more than 1 book in READING / READING - EXTENDED
+    return db.Booking.find({user_id : userId, status : {$nin : ['COMPLETED', 'CANCELLED']}}).exec().then(function(bookings){
+      if(bookings.length > 1) {
+        return ctx.throw(400, 'Please return the rented books to continue booking.');
       }
-    });
+      else if (bookings.length === 1) {
+        var ExistingBooking = bookings[0];
+        var RentalsPending = 0;
+        ExistingBooking.rentals.forEach(function(r){
+          if(r['status'] === 'READING' || r['status'] === 'READING-EXTENDED') {
+            ++RentalsPending;
+          }
+        });
 
-    if(!rentals.length) return ctx.throw(400, 'Cart is empty!');
+        if(RentalsPending > 1) {
+          return ctx.throw(400, 'Please return the rented books to continue booking.');
+        }
+      }
+      //Ok . Proceed with booking
+      var rentals = cart.map(function(rentalItem){
+        return {
+          item : rentalItem,
+          expires_at : moment().add(rentalItem.pricing.period, 'days').toDate(),
+          status : 'YET TO DELIVER'
+        }
+      });
 
-    var total_payable = cart.reduce(function(total,item){
-      return total += item.pricing.rent;
-    }, 0);
+      var total_payable = cart.reduce(function(total,item){
+        return total += item.pricing.rent;
+      }, 0);
 
-    var payment = {
-      payment_mode : 'COD',
-      total_payable : total_payable
-    }
+      var payment = {
+        payment_mode : 'COD',
+        total_payable : total_payable
+      }
 
-    var booking = {
-      user_id : userId,
-      order_id : Math.random().toString(32).slice(4),
-      status  : 'PLACED',
-      delivery_address : address,
-      pickup_address : address,
-      rentals : rentals,
-      payment : payment
-    };
+      var booking = {
+        user_id : userId,
+        order_id : Math.random().toString(32).slice(4),
+        status  : 'PLACED',
+        delivery_address : address,
+        pickup_address : address,
+        rentals : rentals,
+        payment : payment
+      };
 
-    db.Booking.create(booking);
-    return booking['order_id'];
+      db.Booking.create(booking);
+      //Empty cart
+      db.User.emptyCart(userId);
+      return booking['order_id'];
+    })
   })
 })
 
