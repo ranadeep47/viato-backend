@@ -1,13 +1,13 @@
 {
   "production" : {
     "server" : {
-      "port" : 80
+      "port" : 8080
     },
     "mongo" : {
       "dburi" : "mongodb://localhost:27017/viato_dev"
     },
     "json-token-secret" : "omgsecret",
-    "image_dir" : "/home/viato/images",
+    "image_dir" : "/var/www/images/img",
     "sms-key" : "95261AknFlgdMdT561f6db9"
   },
 
