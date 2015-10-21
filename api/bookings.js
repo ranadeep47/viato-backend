@@ -47,7 +47,7 @@ bookings.post('/', function*(){
       }
     });
 
-    if(!rentals.length) ctx.throw(400, 'Cart is empty!');
+    if(!rentals.length) return ctx.throw(400, 'Cart is empty!');
 
     var total_payable = cart.reduce(function(total,item){
       return total += item.pricing.rent;
