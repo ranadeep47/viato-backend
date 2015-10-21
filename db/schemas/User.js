@@ -92,7 +92,7 @@ UserSchema.statics.removeAddress = function(userId, addressId) {
   return this.findOne({_id : userId, "addresses._id" : addressId}, {"addresses.$" : 1}).exec().then(function(user){
     var Address = user.addresses[0];
     if(Address['is_default']){
-      Model.find({_id : userId}, 'addresses').exec().then(function(user){
+      Model.findOne({_id : userId}).select('addresses').exec().then(function(user){
         if(!user.addresses.length) return;
         user.addresses[0]['is_default'] = true;
         user.save();
