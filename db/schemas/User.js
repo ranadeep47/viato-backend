@@ -101,6 +101,9 @@ UserSchema.statics.removeAddress = function(userId, addressId) {
 
     return Model.update({_id : userId}, {$pull : {addresses : {_id : addressId}}}).exec();
   })
+  .catch(function(err){
+    console.log(err);
+  })
 }
 
 UserSchema.statics.updateAddress = function(userId, addressId, address) {
