@@ -47,7 +47,7 @@ bookings.post('/', function*(){
       }
     });
 
-    if(!rentals.length) throw new Error('Cart is empty !.');
+    if(!rentals.length) ctx.throw(400, 'Cart is empty!');
 
     var total_payable = cart.reduce(function(total,item){
       return total += item.pricing.rent;
@@ -68,7 +68,8 @@ bookings.post('/', function*(){
       payment : payment
     };
 
-    return db.Booking.create(booking)
+    db.Booking.create(booking);
+    return booking['order_id'];
   })
 })
 
