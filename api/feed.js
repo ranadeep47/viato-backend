@@ -12,6 +12,6 @@ feed.get('/home', function*() {
 
 feed.get('/category/:id', function*() {
   var categoryId = this.params['id'];
-  if(categoryId === 'trending') categoryId = '561e5ca78669ae5535cff4f3';
+  if(categoryId === 'trending') categoryId = '561e5c978669ae5535cff4f2';
   this.body = yield db.Feed.findOne({_id : categoryId}).exec();
 })
