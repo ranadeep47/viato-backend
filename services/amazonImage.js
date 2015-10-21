@@ -28,8 +28,8 @@ function storeImage(link) {
     .pipe(fs.createWriteStream(THUMBS_DIR + thumb));
     resolve(
       {
-        cover : "http://viato.in/img/covers/" + cover,
-        thumb : "http://viato.in/img/thumbs/" + thumb
+        cover : "http://img.viato.in/img/covers/" + cover,
+        thumb : "http://img.viato.in/img/thumbs/" + thumb
       }
     );
   });
