@@ -89,7 +89,7 @@ UserSchema.statics.addAddress = function(userId, address) {
 
 UserSchema.statics.removeAddress = function(userId, addressId) {
   var Model = this;
-  return this.findOne({_id : userId, addresses : {_id : addressId}}, {"addresses.$" : 1}).exec().then(function(user){
+  return this.findOne({_id : userId, "addresses._id" : addressId}, {"addresses.$" : 1}).exec().then(function(user){
     var Address = user.addresses[0];
     if(Address['is_default']){
       Model.find({_id : userId}, 'addresses').exec().then(function(user){
@@ -100,9 +100,6 @@ UserSchema.statics.removeAddress = function(userId, addressId) {
     }
 
     return Model.update({_id : userId}, {$pull : {addresses : {_id : addressId}}}).exec();
-  })
-  .catch(function(err){
-    console.log(err);
   })
 }
 
