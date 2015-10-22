@@ -5,6 +5,7 @@ var Constants = require('../../constants');
 
 var PaymentSchema = {
   payment_mode      : {type : String, enum : Constants.enums.PaymentModes, required : true},
+  paid_at           : {type : Date, default : null},
   is_paid           : {type : Boolean, default : false},
   total_payable     : {type : Number, required : true, min : 0},
   total             : {type : Number, default : 0, min : 0},

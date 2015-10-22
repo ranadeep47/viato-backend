@@ -4,6 +4,8 @@ var db = require('../db');
 var utils = require('../utils');
 var _ = require('lodash');
 
+var reverseGeocoding = require('../services/reverseGeocoding');
+
 module.exports = address;
 
 address.get('/', function*(){
@@ -12,6 +14,13 @@ address.get('/', function*(){
   .then(function(user){
     return user['addresses'];
   });
+})
+
+address.get('/locality', function*(){
+  var userId = this.state.user['userId'];
+  var ctx = this;
+  var location = this.request.query;
+  this.body = yield reverseGeocoding(location).catch(function(e){ ctx.throw(400, 'Error getting location') });
 })
 
 address.post('/', function*(){
@@ -42,7 +51,7 @@ address.put('/:addressId', function*(){
   address['street']   = this.request.body['street'];
   address['label']    = this.request.body['label'] || '';
   address['locality'] = this.request.body['locality'];
-  
+
   //TODO Validate above fields
   this.body = yield db.User.updateAddress(userId, addressId, address)
   .then(function(updatedAdress){

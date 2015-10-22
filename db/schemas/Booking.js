@@ -34,5 +34,5 @@ BookingSchema.statics.getBookingDetail = function(userId, bookingId) {
 }
 
 BookingSchema.statics.updateBookingStatus = function(userId, bookingId, status) {
-  return this.findOneAndUpdate({_id : bookingId, _id : userId}, {$set : {status : status}}).exec();
+  return this.findOneAndUpdate({_id : bookingId, user_id : userId}, {$set : {status : status}}).exec();
 }
