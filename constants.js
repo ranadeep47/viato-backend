@@ -1,5 +1,5 @@
 var enums = {
-  RentStatus : ['SCHEDULED FOR PICKUP', 'READING', 'READING-EXTENDED','YET TO DELIVER','UNAVAILABLE','CANCELLED', 'RETURNED'],
+  RentStatus : ['SCHEDULED FOR PICKUP', 'READING', 'READING-EXTENDED','YET TO DELIVER','CANCELLED', 'RETURNED'],
   BookingStatuses : ['PLACED', 'CONFIRMED', 'DISPATCHED', 'DELIVERED' ,'PARTIALLY COMPLETED','COMPLETED', 'CANCELLED'],
   PaymentModes : ['COD'],
   DevicePlatforms : ['Android', 'Web', 'iOS', 'Windows Phone']
