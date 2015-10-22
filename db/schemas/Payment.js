@@ -1,10 +1,11 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var ObjectId = require('mongoose').Types.ObjectId;
 
 var Constants = require('../../constants');
 
 var PaymentSchema = {
-  _id               : {type : Schema.Types.ObjectId, default : new Schema.Types.ObjectId },
+  _id               : {type : Schema.Types.ObjectId, default : new ObjectId},
   payment_mode      : {type : String, enum : Constants.enums.PaymentModes, required : true},
   paid_at           : {type : Date, default : null},
   is_paid           : {type : Boolean, default : false},
