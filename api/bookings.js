@@ -50,7 +50,8 @@ bookings.post('/', function*(){
         var ExistingBooking = bookings[0];
         var RentalsPending = 0;
         ExistingBooking.rentals.forEach(function(r){
-          if(r['status'] === 'READING' || r['status'] === 'READING-EXTENDED') {
+          var exists =
+          if(r['status'] !== 'RETURNED' && r['status'] !== 'CANCELLED') {
             ++RentalsPending;
           }
         });
