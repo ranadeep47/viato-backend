@@ -8,7 +8,7 @@ function get(location) {
   var lon = location.lon.trim();
 
   var params = {
-    latlng          : lat + ',' + long,
+    latlng          : lat + ',' + lon,
     key             : apiKey,
     'result_type'   : 'street_address',
     'location_type' : 'ROOFTOP'
