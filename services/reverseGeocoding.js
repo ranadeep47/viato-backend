@@ -3,7 +3,7 @@ var apiKey  = config['google-geocoding-key'];
 
 moduel.exports = get;
 
-function(location) {
+function get(location) {
   var lat = location.lat.trim();
   var lon = location.lon.trim();
 
