@@ -1,7 +1,7 @@
 var axios   = require('axios');
 var apiKey  = config['google-geocoding-key'];
 
-moduel.exports = get;
+module.exports = get;
 
 function get(location) {
   var lat = location.lat.trim();
