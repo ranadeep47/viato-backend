@@ -50,7 +50,8 @@ bookings.post('/', function*(){
         var ExistingBooking = bookings[0];
         var RentalsPending = 0;
         ExistingBooking.rentals.forEach(function(r){
-          if(r['status'] !== 'RETURNED' && r['status'] !== 'CANCELLED') {
+          var RentalDoneStatuses = ['RETURNED', 'CANCELLED', 'SCHEDULED FOR PICKUP'];
+          if(RentalDoneStatuses.indexOf(r['status']) < 0) {
             ++RentalsPending;
           }
         });
