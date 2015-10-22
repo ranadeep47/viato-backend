@@ -50,7 +50,6 @@ bookings.post('/', function*(){
         var ExistingBooking = bookings[0];
         var RentalsPending = 0;
         ExistingBooking.rentals.forEach(function(r){
-          var exists =
           if(r['status'] !== 'RETURNED' && r['status'] !== 'CANCELLED') {
             ++RentalsPending;
           }
