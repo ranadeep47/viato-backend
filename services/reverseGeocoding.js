@@ -18,7 +18,7 @@ function get(location) {
   return axios.get(url, {params : params}).then(function(res){
     var data = res.data;
     if(data.status !== 'OK') throw new Error('Error getting address');
-    if(data.results.length) throw new Error('Error getting locality');
+    if(!data.results.length) throw new Error('Error getting locality');
     var Address = data.results[0];
     return {place_id : Address['place_id'], name : Address['formatted_address']};
   })
