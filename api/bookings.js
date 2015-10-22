@@ -9,7 +9,7 @@ module.exports = bookings;
 
 bookings.get('/', function*(){
   var userId = this.state.user['userId'];
-  this.body = yield db.Booking.find({_id : userId}).select('-user_id').exec()
+  this.body = yield db.Booking.find({user_id : userId}).select('-user_id').sort({booked_at : -1}).exec()
   .then(function(bookings){
     return bookings;
   });
