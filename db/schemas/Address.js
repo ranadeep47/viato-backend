@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 var ObjectId = require('mongoose').Types.ObjectId;
 
 var AddressSchema = {
-  _id         : {type : Schema.Types.ObjectId, default : new ObjectId},
+  _id         : {type : Schema.Types.ObjectId},
   label       : {type : String, default : ''},
   flat        : {type : String, required : true},
   street      : {type : String, required : true},
