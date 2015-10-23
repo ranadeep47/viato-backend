@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block title %}Bookings - Home{% endblock %}
+
+{% block head %}
+  {% parent %}
+  <!-- <link rel="stylesheet" href="custom.css"> -->
+  <style>
+
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h3>Active bookings - Home</h3>
+    <p>Current bookings to deal with</p>
+  </div>
+  <div class="categories-container">
+    {% for category in categories %}
+    <div class="category">
+      <div class="mdl-card mdl-shadow--2dp">
+        <img src="{{category.images.square}}" class="category-image">
+        <div class="mdl-card__actions">
+          <a href="content/category/{{category._id.toString()}}">{{category.title}}</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}
+
+{% block scripts %}
+
+  <script type="text/javascript">
+    $('#btn-add').click(function(e){
+        window.location = 'content/category/add'
+    })
+  </script>
+{% endblock %}
