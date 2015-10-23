@@ -13,6 +13,10 @@ function fetch(url) {
        var reviewCount  = parseInt($('.count').text());
        var description  = $('#description span~span').html() || '';
 
+       if(description === '') {
+         description = $('#description span').html() || '';
+       }
+
        if(isNaN(rating)) rating = 0;
        if(isNaN(ratingsCount)) ratingsCount = 0;
        if(isNaN(reviewCount)) reviewCount = 0;
