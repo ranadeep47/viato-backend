@@ -81,7 +81,7 @@
               <td class="mdl-data-table__cell--non-numeric">
                 <div>
                   {% for rental in booking.rentals %}
-                    {% if(rental.status !== 'CANCELLED') %}
+                    {% if rental.status !== 'CANCELLED' %}
                       <span>{{rental.item.title}} - {{rental.item.pricing.rent}} </span>
                       <a href="#" data-rentalId="{{rental._id}}"> Dispatch ? </a>
                       <br/>
@@ -117,7 +117,7 @@
               <td class="mdl-data-table__cell--non-numeric">
                 <div>
                   {% for rental in booking.rentals %}
-                    {% if(rental.status !== 'CANCELLED') %}
+                    {% if rental.status !== 'CANCELLED' %}
                       <span>{{rental.title}} - {{rental.pricing.rent}}</span>
                       <a href="#" data-rentalId="{{rental._id}}">Delivered ? </a>
                       <br/>
@@ -194,7 +194,7 @@
       e.preventDefault();
       var orderId = $(e.target).data('orderId');
 
-      //Cancel booking with orderId 
+      //Cancel booking with orderId
     })
   </script>
 {% endblock %}
