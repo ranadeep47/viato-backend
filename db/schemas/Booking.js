@@ -15,7 +15,7 @@ var BookingSchema = new Schema({
   delivery_address  : AddressSchema,
   pickup_address    : AddressSchema,
   rentals           : {type : [RentalSchema], required : true},
-  payment           : PaymentSchema,
+  booking_payment   : PaymentSchema,
   booked_at         : {type : Date, default : new Date}
 }, SchemaUtils.defaultOptions);
 
@@ -28,8 +28,6 @@ BookingSchema.path('status').index(true);
 
 BookingSchema.statics.getBookingDetail = function(userId, bookingId) {
   return this.findOne({_id : bookingId, user_id : userId}).select('-user_id').then(function(booking){
-    booking = booking.toObject();
-    delete booking['user_id'];
     return booking;
   });
 }

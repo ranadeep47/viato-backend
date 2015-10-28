@@ -85,7 +85,7 @@ bookings.post('/', function*(){
         delivery_address : address,
         pickup_address : address,
         rentals : rentals,
-        payment : payment
+        booking_payment : payment
       };
 
       db.Booking.create(booking);

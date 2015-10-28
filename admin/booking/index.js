@@ -2,15 +2,29 @@ var db = require('../../db');
 var Router = require('koa-router');
 var booking = new Router();
 
-booking.get('/', function*(){
-  var CompleteStatus = ['COMPLETED', 'CANCELLED'];
-  db.Booking
-    .find({status : {$nin : CompleteStatus}})
-    .populate('user_id', 'name')
-    .sort({booked_at : -1})
-    .exec().then(function(bookings){
+/*
+ * Get all the active bookings, ie : PLACED, CONFIRMED, DISPATCHED - > DELIVERED
+ * PICKUPS which are SCHEDULED FOR PICKUP
+*/
 
-  });
-})
+booking.get('/', function*(){
+
+});
+
+Booking.get('/placed', function*(){
+
+});
+
+Booking.get('/confirmed', function*(){
+
+});
+
+Booking.get('/dispatched', function*(){
+
+});
+
+Booking.get('/pickups', function*(){
+
+});
 
 module.exports = booking;

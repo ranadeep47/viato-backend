@@ -11,29 +11,32 @@
 {% endblock %}
 
 {% block content %}
-  <div class="page-header">
-    <h3>Active bookings - Home</h3>
-    <p>Current bookings to deal with</p>
+<div>
+  <div class="mdl-layout__tab-bar mdl-js-ripple-effect tabs">
+    <a href="#fixed-tab-1" class="mdl-layout__tab is-active">PLACED</a>
+    <a href="#fixed-tab-2" class="mdl-layout__tab">CONFIRMED</a>
+    <a href="#fixed-tab-3" class="mdl-layout__tab">DISPATCHED</a>
+    <a href="#fixed-tab-4" class="mdl-layout__tab">PICKUPS</a>
   </div>
-  <div class="categories-container">
-    {% for category in categories %}
-    <div class="category">
-      <div class="mdl-card mdl-shadow--2dp">
-        <img src="{{category.images.square}}" class="category-image">
-        <div class="mdl-card__actions">
-          <a href="content/category/{{category._id.toString()}}">{{category.title}}</a>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
+  <div class="tabs-content">
+    <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
+      <div class="page-content"><!-- Your content goes here --></div>
+    </section>
+    <section class="mdl-layout__tab-panel" id="fixed-tab-2">
+      <div class="page-content"><!-- Your content goes here --></div>
+    </section>
+    <section class="mdl-layout__tab-panel" id="fixed-tab-3">
+      <div class="page-content"><!-- Your content goes here --></div>
+    </section>
+    <section class="mdl-layout__tab-panel" id="fixed-tab-4">
+      <div class="page-content"><!-- Your content goes here --></div>
+    </section>
   </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
-
   <script type="text/javascript">
-    $('#btn-add').click(function(e){
-        window.location = 'content/category/add'
-    })
+
   </script>
 {% endblock %}
