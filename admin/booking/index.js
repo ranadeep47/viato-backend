@@ -63,7 +63,8 @@ function getPickups(offset, limit){
   .exec()
   .then(function(docs){
     var docs = docs.map(function(doc){
-      var rentals = _.pluck(doc.rentals, 'item expired_at');
+
+      var rentals = doc.rentals.map(function(r){ _.pick(r, 'item expires_at'.split(' '))});
       var address = doc['delivery_address'];
       address = [address['flat'], address['street'], address['locality']['name']].join(',');
       return {
