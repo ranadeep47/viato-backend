@@ -48,6 +48,7 @@
                   {% for rental in booking.rentals %}
                   <span>{{rental.title}} - {{rental.pricing.rent}}</span>
                   <a href="">Confirm ? </a>
+                  <br/>
                   {% endfor %}
                 </div>
               </td>
@@ -72,7 +73,7 @@
           <tbody>
             {% for booking in CONFIRMED %}
             <tr>
-              <td class="mdl-data-table__cell--non-numeric">{{booking.orderId}}</td>
+              <td class="mdl-data-table__cell--non-numeric"><a href="{{booking.orderId}}">{{booking.orderId}}</a></td>
               <td class="mdl-data-table__cell--non-numeric">{{booking.userEmail}}</td>
               <td>{{booking.userMobile}}</td>
               <td class="mdl-data-table__cell--non-numeric">{{booking.userAddress}}</td>
@@ -81,6 +82,7 @@
                   {% for rental in booking.rentals %}
                   <span>{{rental.title}} - {{rental.pricing.rent}} </span>
                   <a href="">Dispatch ? </a>
+                  <br/>
                   {% endfor %}
                 </div>
               </td>
@@ -105,7 +107,7 @@
           <tbody>
             {% for booking in DISPATCHED %}
             <tr>
-              <td class="mdl-data-table__cell--non-numeric">{{booking.orderId}}</td>
+              <td class="mdl-data-table__cell--non-numeric"><a href="{{booking.orderId}}">{{booking.orderId}}</a></td>
               <td class="mdl-data-table__cell--non-numeric">{{booking.userEmail}}</td>
               <td>{{booking.userMobile}}</td>
               <td class="mdl-data-table__cell--non-numeric">{{booking.userAddress}}</td>
@@ -114,6 +116,7 @@
                   {% for rental in booking.rentals %}
                   <span>{{rental.title}} - {{rental.pricing.rent}}</span>
                   <a href="">Delivered ? </a>
+                  <br/>
                   {% endfor %}
                 </div>
               </td>
@@ -138,7 +141,7 @@
           <tbody>
             {% for booking in PICKUPS %}
             <tr>
-              <td class="mdl-data-table__cell--non-numeric">{{booking.orderId}}</td>
+              <td class="mdl-data-table__cell--non-numeric"><a href="{{booking.orderId}}">{{booking.orderId}}</a></td>
               <td class="mdl-data-table__cell--non-numeric">{{booking.userEmail}}</td>
               <td>{{booking.userMobile}}</td>
               <td class="mdl-data-table__cell--non-numeric">{{booking.userAddress}}</td>
@@ -147,6 +150,7 @@
                   {% for rental in booking.rentals %}
                   <span>{{rental.item.title}} - {{rental.item.pricing.rent}}</span>
                   <a href="">Collected ? </a>
+                  <br/>
                   {% endfor %}
                 </div>
               </td>
