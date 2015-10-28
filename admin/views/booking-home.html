@@ -10,16 +10,12 @@
         width: 100%;
     }
 
-    .tabs-content table {
-      margin-bottom: 10px;
-    }
-
   </style>
 {% endblock %}
 
 {% block content %}
 <div>
-  <div class="mdl-layout__tab-bar-container">
+  <div class="mdl-layout__tab-bar-container mdl-tabs mdl-js-tabs">
     <div class="mdl-layout__tab-bar mdl-js-ripple-effect tabs">
       <a href="#placed" class="mdl-layout__tab is-active">Just Placed</a>
       <a href="#confirmed" class="mdl-layout__tab">Confirmed</a>
@@ -27,7 +23,7 @@
       <a href="#pickups" class="mdl-layout__tab">Pickups</a>
     </div>
   </div>
-  <main class="mdl-layout__content tabs-content">
+  <main class="tabs-content">
     <section class="mdl-layout__tab-panel is-active" id="placed">
       <div class="page-content">
         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
