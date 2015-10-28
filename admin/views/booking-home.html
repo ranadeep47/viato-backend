@@ -181,7 +181,7 @@
       //For each rental, confirm
       var $items = $('.placed-item');
       var items = {};
-      $.each($items, function($item){ items[$item.data('rentalId')] = $item.text()});
+      $.each($items, function(){ items[$(this).data('rentalId')] = $(this).text()});
 
       for(item in items){
         items[item] = window.confirm('Confirm ' + items[item] + ' ?');
