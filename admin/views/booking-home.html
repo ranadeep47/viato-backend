@@ -49,7 +49,7 @@
                   <span data-rentalid={{rental._id.toString()}} class="placed-item">{{rental.item.title}} - {{rental.item.pricing.rent}}</span>
                   <br/>
                   {% endfor %}
-                  <a href="#" id="placed-confirm" data-orderid="{{booking.orderId.toString()}}"> Confirm ? </a>
+                  <a href="#" id="placed-confirm" data-orderid="{{booking.orderId.toString()}}"> Confirm</a>
                   <a href="#" id="placed-cancel"> Cancel </a>
                 </div>
               </td>
@@ -177,8 +177,8 @@
 
     $placedConfirm.click(function(e){
       e.preventDefault();
-      var orderId = $(e.target).data('orderid');
       //For each rental, confirm
+      var orderId = $(e.target).data('orderid');
       var $items = $('.placed-item');
       var items = {};
       $.each($items, function(){ items[$(this).data('rentalid')] = $(this).text()});
@@ -186,15 +186,14 @@
       for(item in items){
         items[item] = window.confirm('Confirm ' + items[item] + ' ?');
       }
-
-      console.log(items, orderId);
+      sendJSON('/admin/booking/confirm', {orderId : orderId, rentals : items});
     });
 
     $placedCancel.click(function(e){
       e.preventDefault();
       var orderId = $(e.target).data('orderid');
-
+      sendJSON('/admin/booking/cancel', {orderId : orderId});
       //Cancel booking with orderId
-    })
+    });
   </script>
 {% endblock %}
