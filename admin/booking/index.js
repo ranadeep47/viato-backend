@@ -21,6 +21,11 @@ booking.get('/', function*(){
   yield this.render('booking-home', obj);
 });
 
+booking.get('/:orderId', function*() {
+  // var orderId = this.params['orderId'];
+  // db.Booking.findOne({order_id : orderId})
+})
+
 function getBookings(status, offset, limit) {
   var offset = offset || 0;
   var limit = limit || 0;
@@ -32,7 +37,8 @@ function getBookings(status, offset, limit) {
   .exec()
   .then(function(docs){
     var docs = docs.map(function(doc){
-      var rentals = _.pluck(doc.rentals, 'item');
+      var rentalFields = '_id item'.split(' ');
+      var rentals = doc.rentals.map(function(r) { return _.pick(r, rentalFields)});
       var address = doc['delivery_address'];
       address = [address['flat'], address['street'], address['locality']['name']].join(',');
       return {
@@ -64,8 +70,8 @@ function getPickups(offset, limit){
   .exec()
   .then(function(docs){
     var docs = docs.map(function(doc){
-
-      var rentals = doc.rentals.map(function(r){ return _.pick(r, 'item expires_at'.split(' '))});
+      var rentalFields = '_id item expires_at'.split(' ');
+      var rentals = doc.rentals.map(function(r){ return _.pick(r, rentalFields)});
       var address = doc['delivery_address'];
       address = [address['flat'], address['street'], address['locality']['name']].join(',');
       return {
