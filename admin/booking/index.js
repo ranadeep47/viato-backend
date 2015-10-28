@@ -9,7 +9,6 @@ var _ = require('lodash');
 */
 
 booking.get('/', function*(){
-  var deliveries = db.Booking.find({status : {$nin : completedStatus}}).exec();
   var placed = getBookings('PLACED');
   placed.then(function(docs){
     console.log(docs);
@@ -19,7 +18,7 @@ booking.get('/', function*(){
 function getBookings(status, offset, limit) {
   var offset = offset || 0;
   var limit = limit || 0;
-  return db.Bookings({status : status})
+  return db.Bookings.find({status : status})
   .select('order_id delivery_address rentals')
   .populate('user_id', 'mobile email')
   .skip(offset)
@@ -27,11 +26,11 @@ function getBookings(status, offset, limit) {
   .exec()
   .then(function(docs){
     var docs = docs.map(function(doc){
-      var rentals = _.plick(doc.rentals, 'item');
+      var rentals = _.pluck(doc.rentals, 'item');
       var address = doc['delivery_address'];
       address = [address['flat'], address['street'], address['locality']['name']].join(',');
       return {
-        userEmail   : doc['user_id']['email'],
+        userEmail   : doc['user_id']['email']['email'],
         userMobile  : doc['user_id']['mobile'],
         userAddress : address,
         rentals     : rentals
