@@ -9,16 +9,14 @@ var _ = require('lodash');
 */
 
 booking.get('/', function*(){
-  var notCompletedStatus = ['PLACED', 'CONFIRMED', 'DISPATCHED', '']
-  // var placed = getBookings('PLACED');
-  // placed.then(function(docs){
-  //   console.log(docs);
-  // })
+  var notCompletedStatus = ['PLACED', 'CONFIRMED', 'DISPATCHED'];
+  var promises = notCompletedStatus.map(function(status){ return getBookings(status)});
+  promises.push(getPickups());
 
-  var pickups = getPickups();
-  pickups.then(function(docs){
-    console.log(docs);
-  })
+  this.body = return Promise.all(promises).then(function(results){
+      results = _.zipObject(notCompletedStatus.concat('PICKUPS'), results);
+      return results;
+  });
 });
 
 function getBookings(status, offset, limit) {
