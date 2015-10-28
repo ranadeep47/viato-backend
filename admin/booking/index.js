@@ -18,8 +18,8 @@ booking.get('/', function*(){
 function getBookings(status, offset, limit) {
   var offset = offset || 0;
   var limit = limit || 0;
-  return db.Bookings.find({status : status})
-  .select('order_id delivery_address rentals')
+  return db.Booking.find({status : status})
+  .select('user_id order_id delivery_address rentals')
   .populate('user_id', 'mobile email')
   .skip(offset)
   .limit(limit)
