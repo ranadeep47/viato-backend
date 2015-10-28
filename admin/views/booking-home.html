@@ -46,10 +46,10 @@
               <td class="mdl-data-table__cell--non-numeric">
                 <div>
                   {% for rental in booking.rentals %}
-                  <span data-rentalId={{rental._id}} class="placed-item">{{rental.item.title}} - {{rental.item.pricing.rent}}</span>
+                  <span data-rentalId={{rental._id.toString()}} class="placed-item">{{rental.item.title}} - {{rental.item.pricing.rent}}</span>
                   <br/>
                   {% endfor %}
-                  <a href="#" id="placed-confirm" data-orderId="{{booking.orderId}}"> Confirm ? </a>
+                  <a href="#" id="placed-confirm" data-orderId="{{booking.orderId.toString()}}"> Confirm ? </a>
                   <a href="#" id="placed-cancel"> Cancel </a>
                 </div>
               </td>
