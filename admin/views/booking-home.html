@@ -13,29 +13,158 @@
 {% block content %}
 <div>
   <div class="mdl-layout__tab-bar mdl-js-ripple-effect tabs">
-    <a href="#fixed-tab-1" class="mdl-layout__tab is-active">PLACED</a>
-    <a href="#fixed-tab-2" class="mdl-layout__tab">CONFIRMED</a>
-    <a href="#fixed-tab-3" class="mdl-layout__tab">DISPATCHED</a>
-    <a href="#fixed-tab-4" class="mdl-layout__tab">PICKUPS</a>
+    <a href="#placed" class="mdl-layout__tab is-active">Just Placed</a>
+    <a href="#confirmed" class="mdl-layout__tab">Confirmed</a>
+    <a href="#dispatched" class="mdl-layout__tab">Dispatched</a>
+    <a href="#pickups" class="mdl-layout__tab">Pickups</a>
   </div>
   <div class="tabs-content">
-    <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
-      <div class="page-content"><!-- Your content goes here --></div>
+    <section class="mdl-layout__tab-panel is-active" id="placed">
+      <div class="page-content">
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+          <thead>
+            <tr>
+              <th class="mdl-data-table__cell--non-numeric">Order Id</th>
+              <th class="mdl-data-table__cell--non-numeric">Email</th>
+              <th>Mobile</th>
+              <th class="mdl-data-table__cell--non-numeric">Address</th>
+              <th class="mdl-data-table__cell--non-numeric">Books</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for booking in PLACED %}
+            <tr>
+              <td class="mdl-data-table__cell--non-numeric">{{booking.orderId}}</td>
+              <td class="mdl-data-table__cell--non-numeric">{{booking.userEmail}}</td>
+              <td>{{booking.userMobile}}</td>
+              <td class="mdl-data-table__cell--non-numeric">{{booking.userAddress}}</td>
+              <td class="mdl-data-table__cell--non-numeric">
+                <div>
+                  {% for rental in booking.rentals %}
+                  <p>
+                    {{rental.title}} - {{rental.pricing.rent}}
+                    <a href="">Confirm ? </a>
+                  </p>
+                  {% endfor %}
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </section>
-    <section class="mdl-layout__tab-panel" id="fixed-tab-2">
-      <div class="page-content"><!-- Your content goes here --></div>
+    <section class="mdl-layout__tab-panel" id="confirmed">
+      <div class="page-content">
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+          <thead>
+            <tr>
+              <th class="mdl-data-table__cell--non-numeric">Order Id</th>
+              <th class="mdl-data-table__cell--non-numeric">Email</th>
+              <th>Mobile</th>
+              <th class="mdl-data-table__cell--non-numeric">Address</th>
+              <th class="mdl-data-table__cell--non-numeric">Books</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for booking in CONFIRMED %}
+            <tr>
+              <td class="mdl-data-table__cell--non-numeric">{{booking.orderId}}</td>
+              <td class="mdl-data-table__cell--non-numeric">{{booking.userEmail}}</td>
+              <td>{{booking.userMobile}}</td>
+              <td class="mdl-data-table__cell--non-numeric">{{booking.userAddress}}</td>
+              <td class="mdl-data-table__cell--non-numeric">
+                <div>
+                  {% for rental in booking.rentals %}
+                  <p>
+                    {{rental.title}} - {{rental.pricing.rent}}
+                    <a href="">Dispatch ? </a>
+                  </p>
+                  {% endfor %}
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </section>
-    <section class="mdl-layout__tab-panel" id="fixed-tab-3">
-      <div class="page-content"><!-- Your content goes here --></div>
+    <section class="mdl-layout__tab-panel" id="dispatched">
+      <div class="page-content">
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+          <thead>
+            <tr>
+              <th class="mdl-data-table__cell--non-numeric">Order Id</th>
+              <th class="mdl-data-table__cell--non-numeric">Email</th>
+              <th>Mobile</th>
+              <th class="mdl-data-table__cell--non-numeric">Address</th>
+              <th class="mdl-data-table__cell--non-numeric">Books</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for booking in DISPATCHED %}
+            <tr>
+              <td class="mdl-data-table__cell--non-numeric">{{booking.orderId}}</td>
+              <td class="mdl-data-table__cell--non-numeric">{{booking.userEmail}}</td>
+              <td>{{booking.userMobile}}</td>
+              <td class="mdl-data-table__cell--non-numeric">{{booking.userAddress}}</td>
+              <td class="mdl-data-table__cell--non-numeric">
+                <div>
+                  {% for rental in booking.rentals %}
+                  <p>
+                    {{rental.title}} - {{rental.pricing.rent}}
+                    <a href="">Delivered ? </a>
+                  </p>
+                  {% endfor %}
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </section>
-    <section class="mdl-layout__tab-panel" id="fixed-tab-4">
-      <div class="page-content"><!-- Your content goes here --></div>
+    <section class="mdl-layout__tab-panel" id="pickups">
+      <div class="page-content">
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+          <thead>
+            <tr>
+              <th class="mdl-data-table__cell--non-numeric">Order Id</th>
+              <th class="mdl-data-table__cell--non-numeric">Email</th>
+              <th>Mobile</th>
+              <th class="mdl-data-table__cell--non-numeric">Address</th>
+              <th class="mdl-data-table__cell--non-numeric">Books</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for booking in PICKUPS %}
+            <tr>
+              <td class="mdl-data-table__cell--non-numeric">{{booking.orderId}}</td>
+              <td class="mdl-data-table__cell--non-numeric">{{booking.userEmail}}</td>
+              <td>{{booking.userMobile}}</td>
+              <td class="mdl-data-table__cell--non-numeric">{{booking.userAddress}}</td>
+              <td class="mdl-data-table__cell--non-numeric">
+                <div>
+                  {% for rental in booking.rentals %}
+                  <p>
+                    {{rental.item.title}} - {{rental.item.pricing.rent}}
+                    <a href="">Collected ? </a>
+                  </p>
+                  {% endfor %}
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </section>
   </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/locale/en-gb.js"></script>
   <script type="text/javascript">
 
   </script>

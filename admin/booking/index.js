@@ -13,10 +13,12 @@ booking.get('/', function*(){
   var promises = notCompletedStatus.map(function(status){ return getBookings(status)});
   promises.push(getPickups());
 
-  this.body = return Promise.all(promises).then(function(results){
+  var obj = yield Promise.all(promises).then(function(results){
       results = _.zipObject(notCompletedStatus.concat('PICKUPS'), results);
       return results;
   });
+
+  yield this.render('booking-home', obj);
 });
 
 function getBookings(status, offset, limit) {
@@ -37,7 +39,8 @@ function getBookings(status, offset, limit) {
         userEmail   : doc['user_id']['email']['email'],
         userMobile  : doc['user_id']['mobile'],
         userAddress : address,
-        rentals     : rentals
+        rentals     : rentals,
+        orderId     : doc['order_id']
       }
     });
 
@@ -69,7 +72,8 @@ function getPickups(offset, limit){
         userEmail   : doc['user_id']['email']['email'],
         userMobile  : doc['user_id']['mobile'],
         userAddress : address,
-        rentals     : rentals
+        rentals     : rentals,
+        orderId     : doc['order_id']
       }
     });
 
