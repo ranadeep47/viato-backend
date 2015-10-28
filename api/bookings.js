@@ -125,14 +125,10 @@ bookings.post('/rents/extend', function*(){
 
       return db.Booking.findOneAndUpdate({user_id : userId, 'rentals._id' : rentId}, {$set : updateParams},{new : true}).exec()
       .then(function(booking){
-        return {
-          status : updateParams["rentals.$.status"],
-          expires_at : updateParams["rentals.$.expires_at"],
-          message : 'Rental extended for '+period+' more days.'
-        }
+        return 'Rental extended for '+period+' more days.';
       })
     }
-    else return {message : 'Sorry you have already extended the rental tenure'}
+    else return this.throw(400,'Sorry you have already extended the rental tenure');
   })
 
   this.body = message;
@@ -157,13 +153,10 @@ bookings.post('/rents/return', function*(){
 
       return db.Booking.findOneAndUpdate({user_id : userId, 'rentals._id' : rentId}, {$set : updateParams},{new : true}).exec()
       .then(function(booking){
-        return {
-          status : updateParams["rentals.$.status"],
-          message : 'We will pickup the book as soon as possible'
-        }
+        return 'We will pickup the book as soon as possible';
       });
     }
-    else return {message : 'This book has already been collected'}
+    else this.throw(400, 'This book has already been collected');
   })
 
   this.body = message;
