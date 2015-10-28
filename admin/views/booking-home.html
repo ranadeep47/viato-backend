@@ -9,7 +9,9 @@
     .tabs-content table, .tabs-content, .tabs{
         width: 100%;
     }
-
+    .tabs {
+      background-color: #ccc;
+    }
   </style>
 {% endblock %}
 
@@ -37,17 +39,15 @@
           <tbody>
             {% for booking in PLACED %}
             <tr>
-              <td class="mdl-data-table__cell--non-numeric">{{booking.orderId}}</td>
+              <td class="mdl-data-table__cell--non-numeric"><a href="{{booking.orderId}}">{{booking.orderId}}</a></td>
               <td class="mdl-data-table__cell--non-numeric">{{booking.userEmail}}</td>
               <td>{{booking.userMobile}}</td>
               <td class="mdl-data-table__cell--non-numeric">{{booking.userAddress}}</td>
               <td class="mdl-data-table__cell--non-numeric">
                 <div>
                   {% for rental in booking.rentals %}
-                  <p>
-                    {{rental.title}} - {{rental.pricing.rent}}
-                    <a href="">Confirm ? </a>
-                  </p>
+                  <span>{{rental.title}} - {{rental.pricing.rent}}</span>
+                  <a href="">Confirm ? </a>
                   {% endfor %}
                 </div>
               </td>
@@ -79,10 +79,8 @@
               <td class="mdl-data-table__cell--non-numeric">
                 <div>
                   {% for rental in booking.rentals %}
-                  <p>
-                    {{rental.title}} - {{rental.pricing.rent}}
-                    <a href="">Dispatch ? </a>
-                  </p>
+                  <span>{{rental.title}} - {{rental.pricing.rent}} </span>
+                  <a href="">Dispatch ? </a>
                   {% endfor %}
                 </div>
               </td>
@@ -114,10 +112,8 @@
               <td class="mdl-data-table__cell--non-numeric">
                 <div>
                   {% for rental in booking.rentals %}
-                  <p>
-                    {{rental.title}} - {{rental.pricing.rent}}
-                    <a href="">Delivered ? </a>
-                  </p>
+                  <span>{{rental.title}} - {{rental.pricing.rent}}</span>
+                  <a href="">Delivered ? </a>
                   {% endfor %}
                 </div>
               </td>
@@ -149,10 +145,8 @@
               <td class="mdl-data-table__cell--non-numeric">
                 <div>
                   {% for rental in booking.rentals %}
-                  <p>
-                    {{rental.item.title}} - {{rental.item.pricing.rent}}
-                    <a href="">Collected ? </a>
-                  </p>
+                  <span>{{rental.item.title}} - {{rental.item.pricing.rent}}</span>
+                  <a href="">Collected ? </a>
                   {% endfor %}
                 </div>
               </td>
