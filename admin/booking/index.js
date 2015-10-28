@@ -39,8 +39,6 @@ booking.post('/confirm', function*(){
     }
   });
 
-  console.log(Booking.status, Booking.rentals);
-  return;
   Booking.save();
   this.body = 'Booking confirmed';
 });
