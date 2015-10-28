@@ -12,16 +12,18 @@
 
 {% block content %}
 <div>
-  <div class="mdl-layout__tab-bar mdl-js-ripple-effect tabs">
-    <a href="#placed" class="mdl-layout__tab is-active">Just Placed</a>
-    <a href="#confirmed" class="mdl-layout__tab">Confirmed</a>
-    <a href="#dispatched" class="mdl-layout__tab">Dispatched</a>
-    <a href="#pickups" class="mdl-layout__tab">Pickups</a>
+  <div class="mdl-layout__tab-bar-container">
+    <div class="mdl-layout__tab-bar mdl-js-ripple-effect tabs">
+      <a href="#placed" class="mdl-layout__tab is-active">Just Placed</a>
+      <a href="#confirmed" class="mdl-layout__tab">Confirmed</a>
+      <a href="#dispatched" class="mdl-layout__tab">Dispatched</a>
+      <a href="#pickups" class="mdl-layout__tab">Pickups</a>
+    </div>
   </div>
-  <div class="tabs-content">
+  <main class="mdl-layout__content tabs-content">
     <section class="mdl-layout__tab-panel is-active" id="placed">
       <div class="page-content">
-        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
           <thead>
             <tr>
               <th class="mdl-data-table__cell--non-numeric">Order Id</th>
@@ -56,7 +58,7 @@
     </section>
     <section class="mdl-layout__tab-panel" id="confirmed">
       <div class="page-content">
-        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
           <thead>
             <tr>
               <th class="mdl-data-table__cell--non-numeric">Order Id</th>
@@ -91,7 +93,7 @@
     </section>
     <section class="mdl-layout__tab-panel" id="dispatched">
       <div class="page-content">
-        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
           <thead>
             <tr>
               <th class="mdl-data-table__cell--non-numeric">Order Id</th>
@@ -126,7 +128,7 @@
     </section>
     <section class="mdl-layout__tab-panel" id="pickups">
       <div class="page-content">
-        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
           <thead>
             <tr>
               <th class="mdl-data-table__cell--non-numeric">Order Id</th>
@@ -159,7 +161,7 @@
         </table>
       </div>
     </section>
-  </div>
+  </main>
 </div>
 {% endblock %}
 
