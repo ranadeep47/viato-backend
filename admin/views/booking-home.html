@@ -14,15 +14,15 @@
 {% endblock %}
 
 {% block content %}
-<div class="mdl-layout__tab-bar-container mdl-tabs mdl-js-tabs">
-  <div class="mdl-layout__tab-bar mdl-js-ripple-effect tabs">
-    <a href="#placed" class="mdl-layout__tab is-active">Just Placed</a>
-    <a href="#confirmed" class="mdl-layout__tab">Confirmed</a>
-    <a href="#dispatched" class="mdl-layout__tab">Dispatched</a>
-    <a href="#pickups" class="mdl-layout__tab">Pickups</a>
+<div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+  <div class="mdl-tabs__tab-bar tabs">
+    <a href="#placed" class="mdl-tabs__tab is-active">Just Placed</a>
+    <a href="#confirmed" class="mdl-tabs__tab">Confirmed</a>
+    <a href="#dispatched" class="mdl-tabs__tab">Dispatched</a>
+    <a href="#pickups" class="mdl-tabs__tab">Pickups</a>
   </div>
   <main class="tabs-content">
-    <section class="mdl-layout__tab-panel is-active" id="placed">
+    <section class="mdl-tabs__panel is-active" id="placed">
       <div class="page-content">
         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
           <thead>
@@ -57,7 +57,7 @@
         </table>
       </div>
     </section>
-    <section class="mdl-layout__tab-panel" id="confirmed">
+    <section class="mdl-tabs__panel" id="confirmed">
       <div class="page-content">
         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
           <thead>
@@ -92,7 +92,7 @@
         </table>
       </div>
     </section>
-    <section class="mdl-layout__tab-panel" id="dispatched">
+    <section class="mdl-tabs__panel" id="dispatched">
       <div class="page-content">
         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
           <thead>
@@ -127,7 +127,7 @@
         </table>
       </div>
     </section>
-    <section class="mdl-layout__tab-panel" id="pickups">
+    <section class="mdl-tabs__panel" id="pickups">
       <div class="page-content">
         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
           <thead>
