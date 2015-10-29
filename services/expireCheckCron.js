@@ -4,7 +4,7 @@ var moment = require('moment');
 
 var job = new CronJob(
   // '1 0 * * *', // Run it every 00:01:00 minute of everyday
-  '13 17 * * *', // Run it every 00:01:00 minute of everyday
+  '20 17 * * *', // Run it every 00:01:00 minute of everyday
   checkExpires,
   true, /* Start the job right now */
   'Asia/Kolkata' /* Time zone of this job. */
@@ -17,23 +17,24 @@ function checkExpires(){
   today = today.toDate();
   tomorrow = tomorrow.toDate();
 
-  var Bookings = yield db.Booking.find(
+  db.Booking.find(
     {'rentals.status'     : {$in : ['READING', 'READING-EXTENDED']},
     {'rentals.expires_at' : {$gte : today , $lt : tomorrow}}
   })
   .select('rentals').
-  exec();
-
-  Bookings.forEach(function(booking){
-    var rentals = booking.rentals;
-    rental.forEach(function(rental){
-      if(rental.status !== 'CANCELLED') {
-        if(rental.expires_at.getTime() === today.getTime()){
-          //Mark expires
-          rental.status = 'SCHEDULED FOR PICKUP';
+  exec()
+  .then(function(Bookings){
+    Bookings.forEach(function(booking){
+      var rentals = booking.rentals;
+      rental.forEach(function(rental){
+        if(rental.status !== 'CANCELLED') {
+          if(rental.expires_at.getTime() === today.getTime()){
+            //Mark expires
+            rental.status = 'SCHEDULED FOR PICKUP';
+          }
         }
-      }
-    })
-    booking.save();
+      })
+      booking.save();
+    });
   });
 }
