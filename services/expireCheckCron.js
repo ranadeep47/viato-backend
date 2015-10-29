@@ -4,7 +4,7 @@ var moment = require('moment');
 
 var job = new CronJob(
   // '1 0 * * *', // Run it every 00:01:00 minute of everyday
-  '11 17 * * *', // Run it every 00:01:00 minute of everyday
+  '13 17 * * *', // Run it every 00:01:00 minute of everyday
   checkExpires,
   true, /* Start the job right now */
   'Asia/Kolkata' /* Time zone of this job. */

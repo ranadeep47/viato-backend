@@ -8,8 +8,6 @@ var serve = require('koa-static');
 var mount = require('koa-mount');
 var compress = require('koa-compress');
 
-require('./services/expireCheckCron');
-
 var env = process.env['NODE_ENV'];
 var config = require('./config')[env];
 global.config = config;
@@ -31,6 +29,8 @@ app.use(router.routes());
 
 app.listen(config.server.port);
 console.log('Server listening on port : ', config.server.port);
+
+require('./services/expireCheckCron');
 
 function ignoreAssets(mw) {
   return function *(next){
