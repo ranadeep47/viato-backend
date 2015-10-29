@@ -4,7 +4,7 @@ var moment = require('moment');
 
 var job = new CronJob(
   // '1 0 * * *', // Run it every 00:01:00 minute of everyday
-  '22 17 * * *', // Run it every 00:01:00 minute of everyday
+  '26 17 * * *', // Run it every 00:01:00 minute of everyday
   checkExpires,
   true, /* Start the job right now */
   'Asia/Kolkata' /* Time zone of this job. */
@@ -24,6 +24,7 @@ function checkExpires(){
   .select('rentals')
   .exec()
   .then(function(Bookings){
+    console.log('Active bookings : ',Bookings.length);
     Bookings.forEach(function(booking){
       var rentals = booking.rentals;
       rental.forEach(function(rental){
