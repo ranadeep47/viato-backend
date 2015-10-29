@@ -3,7 +3,7 @@ var storage = require('node-persist');
 var request = require('request');
 
 storage.initSync({
-  dir : __dirname + '/persist';
+  dir : __dirname + '/persist'
 });
 var offset = storage.getItemSync('offset');
 
@@ -16,20 +16,21 @@ function fetch(){
       return;
     }
 
-  var promises = docs.map(function(doc){
-    return get(doc.isbn13);
-  })
+    var promises = docs.map(function(doc){
+      return get(doc.isbn13);
+    })
 
-  Promise.all(promises).then(function(results){
-    return console.log(results);
-    var pros = results.map(function(el, i){
-      return update(docs[i], el);
-    });
+    Promise.all(promises).then(function(results){
+      return console.log(results);
+      var pros = results.map(function(el, i){
+        return update(docs[i], el);
+      });
 
-    Promise.all(pros).then(function(){
-      offset += 10;
-      storage.setItemSync('offset', offset);
-      fetch();
+      Promise.all(pros).then(function(){
+        offset += 10;
+        storage.setItemSync('offset', offset);
+        fetch();
+      })
     })
   })
 }
