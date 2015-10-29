@@ -84,8 +84,8 @@ function getGoodReadsPopularity(isbn13){
     request.get(url,function(e,r,d){
       var $ = cheerio.load(d);
       var rating       = parseFloat($('.average').text())
-      var ratingsCount = parseInt($('.votes').text());
-      var reviewCount  = parseInt($('.count').text());
+      var ratingsCount = parseInt($('.votes').text().replace(',',''));
+      var reviewCount  = parseInt($('.count').text().replace(',',''));
       var description  = $('#description span~span').html() || '';
 
       if(description === '') {
