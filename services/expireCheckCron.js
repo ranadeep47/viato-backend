@@ -3,23 +3,38 @@ var db = require('../db');
 var moment = require('moment');
 
 var job = new CronJob(
-  '4 15 * * *', // Run it every 00:01:00 minute of everyday
+  // '1 0 * * *', // Run it every 00:01:00 minute of everyday
+  '8 17 * * *', // Run it every 00:01:00 minute of everyday
   checkExpires,
-  postCheckComplete,
   true, /* Start the job right now */
   'Asia/Kolkata' /* Time zone of this job. */
 );
 
 function checkExpires(){
-  //Check all active bookings
-  var completedBookings = ['COMPLETED', 'CANCELLED'];
-  //Get all bookings which are incomplete whose rentals have expires_at as today,
-  //update its rental status as SCHEDULED FOR PICKUP
-  var today = moment().hours(0).minutes(0).seconds(0).milliseconds(0);
-  console.log(today);
-  // db.Booking.update({status : {$nin : completedBookings}, 'rentals.expires_at' : }, {})
-}
+  var today    = moment().hours(0).minutes(0).seconds(0).milliseconds(0);
+  var tomorrow = moment(today).add(1, 'days');
 
-function postCheckComplete() {
-  console.log('COMPLETED');
+  today = today.toDate();
+  tomorrow = tomorrow.toDate();
+
+  var Bookings = yield db.Booking
+  .find(
+    {'rentals.status'     : {$in : ['READING', 'READING-EXTENDED']},
+    {'rentals.expires_at' : {$gte : today , $lt : tomorrow}}
+  })
+  .select('rentals').
+  exec();
+
+  Bookings.forEach(function(booking){
+    var rentals = booking.rentals;
+    rental.forEach(function(rental){
+      if(rental.status !== 'CANCELLED') {
+        if(rental.expires_at.getTime() === today.getTime()){
+          //Mark expires
+          rental.status = 'SCHEDULED FOR PICKUP';
+        }
+      }
+    })
+    booking.save();
+  });
 }

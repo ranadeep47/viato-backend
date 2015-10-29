@@ -10,7 +10,7 @@ var SchemaUtils = require('../utils');
 
 var BookingSchema = new Schema({
   user_id           : {type : Schema.Types.ObjectId, required : true, ref : 'User'},
-  order_id          : {type : String, required : true},
+  order_id          : {type : String, required : true, unique : true},
   status            : {type : String, enum : Constants.enums.BookingStatuses, required : true},
   delivery_address  : AddressSchema,
   pickup_address    : AddressSchema,

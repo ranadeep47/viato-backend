@@ -64,7 +64,13 @@ bookings.post('/', function*(){
       var rentals = cart.map(function(rentalItem){
         return {
           item : rentalItem,
-          expires_at : moment().add(rentalItem.pricing.period, 'days').toDate(),
+          expires_at : moment()
+              .add(rentalItem.pricing.period, 'days')
+              .hours(0)
+              .minutes(0)
+              .seconds(0)
+              .milliseconds(0)
+              .toDate(),
           status : 'YET TO DELIVER'
         }
       });

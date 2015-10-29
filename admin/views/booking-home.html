@@ -195,7 +195,9 @@
     $placedCancel.click(function(e){
       e.preventDefault();
       var orderId = $(e.target).data('orderid');
-      sendJSON('/admin/booking/cancel', {orderId : orderId});
+      if(window.confirm('Are you sure you want to cancel ?')) {
+        sendJSON('/admin/booking/cancel', {orderId : orderId});
+      }
       //Cancel booking with orderId
     });
 
