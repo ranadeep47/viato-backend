@@ -80,36 +80,38 @@ function parsePage($) {
 
 function getGoodReadsPopularity(isbn13){
   var url = "http://www.goodreads.com/search?utf8=%E2%9C%93&query="+isbn13;
-  return request.get(url).then(function(e,r,d){
-    var $ = cheerio.load(d);
-    var rating       = parseFloat($('.average').text())
-    var ratingsCount = parseInt($('.votes').text());
-    var reviewCount  = parseInt($('.count').text());
-    var description  = $('#description span~span').html() || '';
+  return new Promise(function(resolve, reject) {
+    request.get(url,function(e,r,d){
+      var $ = cheerio.load(d);
+      var rating       = parseFloat($('.average').text())
+      var ratingsCount = parseInt($('.votes').text());
+      var reviewCount  = parseInt($('.count').text());
+      var description  = $('#description span~span').html() || '';
 
-    if(description === '') {
-      description = $('#description span').html() || '';
-    }
+      if(description === '') {
+        description = $('#description span').html() || '';
+      }
 
-    if(isNaN(rating)) rating = 0;
-    if(isNaN(ratingsCount)) ratingsCount = 0;
-    if(isNaN(reviewCount)) reviewCount = 0;
+      if(isNaN(rating)) rating = 0;
+      if(isNaN(ratingsCount)) ratingsCount = 0;
+      if(isNaN(reviewCount)) reviewCount = 0;
 
-    if(rating === 0 && ratingsCount === 0 && reviewCount === 0){
-      throw new Error('Cant believe this data');
-    }
+      if(rating === 0 && ratingsCount === 0 && reviewCount === 0){
+        throw new Error('Cant believe this data');
+      }
 
-    var doc = {
-      popularity : {
-        rating : rating,
-        ratingsCount : ratingsCount,
-        reviewsCount : reviewCount,
-      },
-      description : description
-    }
+      var doc = {
+        popularity : {
+          rating : rating,
+          ratingsCount : ratingsCount,
+          reviewsCount : reviewCount,
+        },
+        description : description
+      }
 
-    return doc;
-  });
+      resolve(doc);
+    });
+  })
 }
 
 function getAmazonPopularity($){

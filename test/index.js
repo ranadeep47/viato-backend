@@ -1,5 +1,5 @@
 var env = process.env['NODE_ENV'];
-var config = require('./config')[env];
+var config = require('../config')[env];
 global.config = config;
 var amazonFetch = require('../services/amazon');
 
