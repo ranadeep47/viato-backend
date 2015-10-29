@@ -14,7 +14,7 @@ var RentalSchema = new Schema({
   status              : {type : String, enum : Constants.enums.RentStatus, required : true},
   is_delivered        : {type : Boolean, default : false},
   expected_delivery_at: {type : Date, default : null},
-  delivered_at       : {type : Date, default : null},
+  delivered_at        : {type : Date, default : null},
   is_picked           : {type : Boolean, default : false},
   pickup_done_at      : {type : Date, default : null},
   pickup_requested_at : {type : Date, default : null},

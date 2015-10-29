@@ -53,10 +53,32 @@ booking.post('/cancel', function*() {
 })
 
 booking.post('/dispatch', function*() {
+  var orderId = this.request.body['orderId'];
+  var Booking = yield db.Booking
+                .findOne({order_id : orderId})
+                .select('status')
+                .exec();
+
+  Booking.status = 'DISPATCHED';
+  Booking.save();
+  this.body = 'Booking dispatched';
 
 })
 
-booking.post('/delivered', function*() {
+booking.post('/deliver', function*() {
+  var orderId = this.request.body['orderId'];
+  var Booking = yield db.Booking.findOne({order_id : orderId})
+                .select('rentals status booking_payment')
+                .exec();
+
+  Booking.status = 'DELIVERED';
+  Booking.booking_payment.is_paid = true;
+  Booking.booking_payment.paid_at = new Date();
+  Booking.rentals.forEach(function(rental){
+    //Set expires_at, is_delivered, delivered_at,
+    var period = rental.item.pricing.period;
+    rental.expires_at = moment().add(period + 1, 'days').hours(0).minutes(0).seconds(0).toDate();
+  });
 
 })
 

@@ -49,8 +49,8 @@
                   <span data-rentalid={{rental._id.toString()}} class="placed-item">{{rental.item.title}} - {{rental.item.pricing.rent}}</span>
                   <br/>
                   {% endfor %}
-                  <a href="#" id="placed-confirm" data-orderid="{{booking.orderId.toString()}}"> Confirm</a>
-                  <a href="#" id="placed-cancel"> Cancel </a>
+                  <a href="#" class="btn-confirm" data-orderid="{{booking.orderId.toString()}}"> Confirm</a>
+                  <a href="#" class="btn-cancel" data-orderid="{{booking.orderId.toString()}}"> Cancel </a>
                 </div>
               </td>
             </tr>
@@ -82,11 +82,11 @@
                 <div>
                   {% for rental in booking.rentals %}
                     {% if rental.status !== 'CANCELLED' %}
-                      <span>{{rental.item.title}} - {{rental.item.pricing.rent}} </span>
-                      <a href="#" data-rentalId="{{rental._id}}"> Dispatch ? </a>
+                      <span data-rentalid={{rental._id.toString()}} class="confirmed-item">{{rental.item.title}} - {{rental.item.pricing.rent}} </span>
                       <br/>
                     {% endif %}
                   {% endfor %}
+                  <a href="#" data-orderid="{{booking.orderId}}" class="btn-dispatch"> Dispatch ? </a>
                 </div>
               </td>
             </tr>
@@ -118,11 +118,11 @@
                 <div>
                   {% for rental in booking.rentals %}
                     {% if rental.status !== 'CANCELLED' %}
-                      <span>{{rental.title}} - {{rental.pricing.rent}}</span>
-                      <a href="#" data-rentalId="{{rental._id}}">Delivered ? </a>
+                    <span data-rentalid={{rental._id.toString()}} class="dispatched-item">{{rental.item.title}} - {{rental.item.pricing.rent}} </span>
                       <br/>
                     {% endif %}
                   {% endfor %}
+                  <a href="#" class="btn-delivered" data-orderid="{{booking.orderId}}"> Delivered ? </a>
                 </div>
               </td>
             </tr>
@@ -170,23 +170,26 @@
 {% endblock %}
 
 {% block scripts %}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/locale/en-gb.js"></script>
   <script type="text/javascript">
-    var $placedConfirm = $('#placed-confirm');
-    var $placedCancel = $('#placed-cancel');
+    var $confirm      = $('.btn-confirm');
+    var $placedCancel = $('.btn-cancel');
+    var $dispatch     = $('.btn-dispatch');
+    var $deliver      = $('.btn-delivered');
 
-    $placedConfirm.click(function(e){
+    $confirm.click(function(e){
       e.preventDefault();
       //For each rental, confirm
-      var orderId = $(e.target).data('orderid');
-      var $items = $('.placed-item');
+      var orderId = $(this).data('orderid');
+      var $items = $(this).parent().find('.placed-item');
       var items = {};
       $.each($items, function(){ items[$(this).data('rentalid')] = $(this).text()});
 
       for(item in items){
         items[item] = window.confirm('Confirm ' + items[item] + ' ?');
       }
-      sendJSON('/admin/booking/confirm', {orderId : orderId, rentals : items});
+      if(window.confirm('Are you sure ? ')) {
+        sendJSON('/admin/booking/confirm', {orderId : orderId, rentals : items}).done(reload)
+      }
     });
 
     $placedCancel.click(function(e){
@@ -195,5 +198,26 @@
       sendJSON('/admin/booking/cancel', {orderId : orderId});
       //Cancel booking with orderId
     });
+
+    $dispatch.click(function(e){
+      e.preventDefault();
+      var orderId = $(this).data('orderid');
+    //  var $items = $(this).parent().find('.confirmed-item');
+      if(window.confirm('Are you sure ? ')) {
+        sendJSON('/admin/booking/dispatch', {orderId : orderId}).done(reload)
+      }
+    });
+
+    $deliver.click(function(e) {
+      e.preventDefault();
+      var orderId = $(this).data('orderid');
+      if(window.confirm('Are you sure ?')) {
+        sendJSON('/admin/booking/deliver', {orderId : orderId}).done(reload)
+      }
+    })
+
+    function reload(){
+      window.location.reload();
+    }
   </script>
 {% endblock %}
