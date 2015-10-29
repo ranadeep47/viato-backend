@@ -27,7 +27,7 @@ function checkExpires(){
     console.log('Active bookings : ',Bookings.length);
     Bookings.forEach(function(booking){
       var rentals = booking.rentals;
-      rental.forEach(function(rental){
+      rentals.forEach(function(rental){
         if(rental.status !== 'CANCELLED') {
           if(rental.expires_at.getTime() === today.getTime()){
             //Mark expires

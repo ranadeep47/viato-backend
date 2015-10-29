@@ -154,7 +154,7 @@ function getPickups(offset, limit){
   .then(function(docs){
     var docs = docs.map(function(doc){
       var rentalFields = '_id item expires_at'.split(' ');
-      var rentals = doc.rentals.filter(function(r){ return r.status !== 'CANCELLED'});
+      var rentals = doc.rentals.filter(function(r){ return r.status === 'SCHEDULED FOR PICKUP' });
       var rentals = rentals.map(function(r){ return _.pick(r, rentalFields)});
       var address = doc['delivery_address'];
       address = [address['flat'], address['street'], address['locality']['name']].join(',');
