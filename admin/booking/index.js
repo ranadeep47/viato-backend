@@ -28,6 +28,12 @@ booking.post('/confirm', function*(){
 
   var Booking = yield db.Booking.findOne({order_id : orderId}).exec();
   Booking.status = 'CONFIRMED';
+
+  var ActualTotalPayable = Booking.rentals.reduce(function(sum, r){
+    return sum + r.item.pricing.rent
+  }, 0);
+
+
   Booking.rentals.forEach(function(rental){
     if(rentals[rental._id.toString()]) {
       //If confirmed, set expected delivered_at
@@ -36,6 +42,10 @@ booking.post('/confirm', function*(){
     else {
       //rental is cancelled
       rental.status = 'CANCELLED';
+      //Remove its pricing booking, schedule refund for online payments
+      var fractionOfTotal = rental.item.pricing.rent / ActualTotalPayable;
+      var refund = Math.round(fractionOfTotal * Booking.booking_payment.total_payable);
+      Booking.booking_payment.total_payable -= refund;
     }
   });
 
@@ -74,11 +84,19 @@ booking.post('/deliver', function*() {
   Booking.status = 'DELIVERED';
   Booking.booking_payment.is_paid = true;
   Booking.booking_payment.paid_at = new Date();
+  
   Booking.rentals.forEach(function(rental){
     //Set expires_at, is_delivered, delivered_at,
     var period = rental.item.pricing.period;
-    rental.expires_at = moment().add(period + 1, 'days').hours(0).minutes(0).seconds(0).toDate();
+    if(rental.status !== 'CANCELLED') {
+      rental.expires_at = moment().add(period + 1, 'days').hours(0).minutes(0).seconds(0).toDate();
+      rental.is_delivered = true;
+      rental.delivered_at = new Date();
+    }
   });
+
+  Booking.save();
+  this.body = 'Booking delivered';
 
 })
 
