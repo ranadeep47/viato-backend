@@ -154,9 +154,9 @@
                 <div>
                   {% for rental in booking.rentals %}
                   <span>{{rental.item.title}} - {{rental.item.pricing.rent}}</span>
-                  <a href="">Collected ? </a>
                   <br/>
                   {% endfor %}
+                  <a href="#" class="btn-pickup" data-orderid="{{booking.orderId}}">Collected ? </a>
                 </div>
               </td>
             </tr>
@@ -175,6 +175,7 @@
     var $placedCancel = $('.btn-cancel');
     var $dispatch     = $('.btn-dispatch');
     var $deliver      = $('.btn-delivered');
+    var $pickup       = $('.btn-pickup');
 
     $confirm.click(function(e){
       e.preventDefault();
@@ -215,6 +216,14 @@
       var orderId = $(this).data('orderid');
       if(window.confirm('Are you sure ?')) {
         sendJSON('/admin/booking/deliver', {orderId : orderId}).done(reload)
+      }
+    })
+
+    $pickup.click(function(e){
+      e.preventDefault();
+      var orderId = $(this).data('orderid');
+      if(window.confirm('Are you sure ? ')) {
+        sendJSON('/admin/booking/pickup', {orderId : orderId}).done(reload);
       }
     })
 

@@ -101,8 +101,29 @@ booking.post('/deliver', function*() {
 
   Booking.save();
   this.body = 'Booking delivered';
-
 })
+
+booking.post('/pickup', function*(){
+  var orderId = this.request.body['orderId'];
+  var Booking = yield db.Booking.findOne({order_id : orderId})
+                .select('rentals status').exec();
+
+  Booking.rentals.forEach(function(rental){
+    if(rental.status === 'SCHEDULED FOR PICKUP') {
+      rental.status = 'RETURNED';
+      rental.is_picked = true;
+      rental.pickup_done_at = new Date();
+    }
+  });
+
+  var statuses = _.pluck(Booking.rentals, 'status');
+  var others   = _.without(statuses, 'RETURNED', 'CANCELLED');
+  if(others.length) Booking.status = 'PARTIALLY COMPLETED';
+  else Booking.status = 'COMPLETED';
+
+  Booking.save();
+  this.body = 'Picked up successfuly';
+});
 
 booking.get('/:orderId', function*() {
   // var orderId = this.params['orderId'];
