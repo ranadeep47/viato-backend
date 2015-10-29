@@ -1,11 +1,15 @@
 var db = require('../db');
 var storage = require('node-persist');
 var request = require('request');
+var cheerio = require('cheerio');
+
 
 storage.initSync({
   dir : __dirname + '/persist'
 });
 var offset = storage.getItemSync('offset');
+
+fetch();
 
 function fetch(){
   db.Catalogue.find()
