@@ -1,9 +1,9 @@
-var cron = require('cron').CronJob;
+var CronJob = require('cron').CronJob;
 var db = require('../db');
 var moment = require('moment');
 
 var job = new CronJob(
-  '3 15 * * *', // Run it every 00:01:00 minute of everyday
+  '4 15 * * *', // Run it every 00:01:00 minute of everyday
   checkExpires,
   postCheckComplete,
   true, /* Start the job right now */
