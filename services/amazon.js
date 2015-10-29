@@ -2,6 +2,7 @@ var axios = require('axios');
 var _ = require('lodash');
 var cheerio = require('cheerio');
 var store = require('./amazonImage');
+var request = require('request');
 
 module.exports = fetch;
 
@@ -63,8 +64,74 @@ function parsePage($) {
     book.available = (rent > 500 || rent == 0 ? false : true );
     book.source = 'AMAZON';
 
-    return book;
+    return getGoodReadsPopularity(book.isbn13).then(function(resp){
+      book.popularity = resp.popularity;
+      book.description = resp.description;
+      return book;
+    })
+    .catch(function(){
+      var resp = getAmazonPopularity($);
+      book.popularity = resp.popularity;
+      book.description = resp.description;
+      return book;
+    });
   })
+}
+
+function getGoodReadsPopularity(isbn13){
+  var url = "http://www.goodreads.com/search?utf8=%E2%9C%93&query="+isbn13;
+  return request.get(url).then(function(e,r,d){
+    var $ = cheerio.load(d);
+    var rating       = parseFloat($('.average').text())
+    var ratingsCount = parseInt($('.votes').text());
+    var reviewCount  = parseInt($('.count').text());
+    var description  = $('#description span~span').html() || '';
+
+    if(description === '') {
+      description = $('#description span').html() || '';
+    }
+
+    if(isNaN(rating)) rating = 0;
+    if(isNaN(ratingsCount)) ratingsCount = 0;
+    if(isNaN(reviewCount)) reviewCount = 0;
+
+    if(rating === 0 && ratingsCount === 0 && reviewCount === 0){
+      throw new Error('Cant believe this data');
+    }
+
+    var doc = {
+      popularity : {
+        rating : rating,
+        ratingsCount : ratingsCount,
+        reviewsCount : reviewCount,
+      },
+      description : description
+    }
+
+    return doc;
+  });
+}
+
+function getAmazonPopularity($){
+  var rating       = parseFloat($('#avgRating').text().replace('out of 5 stars', '')) || 0;
+  var ratingsCount = parseInt($('#acrCustomerReviewText').text()) || 0;
+  var description  = $('#bookDescription_feature_div noscript').html() || '';
+
+  if(isNaN(rating)) rating = 0;
+  if(isNaN(ratingsCount)) ratingsCount = 0;
+
+  var reviewCount = ratingsCount;
+
+  var doc = {
+    popularity : {
+      rating : rating,
+      ratingsCount : ratingsCount,
+      reviewsCount : reviewCount,
+    },
+    description : description
+  }
+
+  return doc;
 }
 
 function getBookTitle($){
@@ -72,7 +139,7 @@ function getBookTitle($){
 }
 
 function getDescription($){
-  return $('#bookDescription_feature_div noscript').text();
+  return $('#bookDescription_feature_div noscript').html().trim();
 }
 
 function otherDetails($){

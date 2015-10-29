@@ -6,10 +6,10 @@
     "mongo" : {
       "dburi" : "mongodb://localhost:27017/viato_dev"
     },
-    "json-token-secret" : "omgsecret",
-    "image_dir" : "/var/www/images/img",
-    "sms-key" : "95261AknFlgdMdT561f6db9",
-    "google-geocoding-key" : "AIzaSyCLlQTZKsoupkw_BCoe6dgNVu_pjhIMFR4"
+    "json-token-secret"     : "omgsecret",
+    "image_dir"             : "/var/www/images/img",
+    "sms-key"               : "95261AknFlgdMdT561f6db9",
+    "google-geocoding-key"  : "AIzaSyCLlQTZKsoupkw_BCoe6dgNVu_pjhIMFR4"
   },
 
   "testing" : {

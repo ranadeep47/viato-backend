@@ -15,6 +15,13 @@ function storeImage(link) {
   var cover = thumb = uuid.v4() + '.jpg';
 
   return new Promise(function(resolve, reject) {
+    return resolve(
+          {
+            cover : "http://img.viato.in/img/covers/" + cover,
+            thumb : "http://img.viato.in/img/thumbs/" + thumb
+          }
+    );
+
     var image = request(link).on('error', function(){resolve(null)})
 
     image.pipe(fs.createWriteStream(COVER_DIR + cover));
