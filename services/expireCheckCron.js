@@ -28,7 +28,7 @@ function checkExpires(){
     Bookings.forEach(function(booking){
       var rentals = booking.rentals;
       rentals.forEach(function(rental){
-        if(rental.status !== 'CANCELLED') {
+        if(rental.status === 'READING' || rental.status === 'READING-EXTENDED') {
           if(rental.expires_at.getTime() === today.getTime()){
             //Mark expires
             rental.status = 'SCHEDULED FOR PICKUP';

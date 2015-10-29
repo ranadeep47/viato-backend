@@ -153,7 +153,8 @@
               <td class="mdl-data-table__cell--non-numeric">
                 <div>
                   {% for rental in booking.rentals %}
-                  <span>{{rental.item.title}} - {{rental.item.pricing.rent}}</span>
+                  {% set rent = rental.is_extended ? rental.extension_payment.total_payable : rental.item.pricing.rent %}
+                  <span>{{rental.item.title}} - {{rent}}</span>
                   <br/>
                   {% endfor %}
                   <a href="#" class="btn-pickup" data-orderid="{{booking.orderId}}">Collected ? </a>
