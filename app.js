@@ -6,7 +6,9 @@ var logger = require('koa-logger');
 var router = require('koa-router')();
 var serve = require('koa-static');
 var mount = require('koa-mount');
-var compress = require('koa-compress')
+var compress = require('koa-compress');
+
+require('./services/expireCheckCron');
 
 var env = process.env['NODE_ENV'];
 var config = require('./config')[env];

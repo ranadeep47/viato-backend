@@ -89,7 +89,10 @@ booking.post('/deliver', function*() {
     //Set expires_at, is_delivered, delivered_at,
     var period = rental.item.pricing.period;
     if(rental.status !== 'CANCELLED') {
-      rental.expires_at = moment().add(period + 1, 'days').hours(0).minutes(0).seconds(0).toDate();
+      rental.expires_at = moment().add(period + 1, 'days')
+                          .hours(0).minutes(0).seconds(0).milliseconds(0)
+                          .toDate();
+                          
       rental.status = 'READING';
       rental.is_delivered = true;
       rental.delivered_at = new Date();
