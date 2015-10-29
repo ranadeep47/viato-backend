@@ -92,7 +92,7 @@ booking.post('/deliver', function*() {
       rental.expires_at = moment().add(period + 1, 'days')
                           .hours(0).minutes(0).seconds(0).milliseconds(0)
                           .toDate();
-                          
+
       rental.status = 'READING';
       rental.is_delivered = true;
       rental.delivered_at = new Date();
@@ -154,7 +154,8 @@ function getPickups(offset, limit){
   .then(function(docs){
     var docs = docs.map(function(doc){
       var rentalFields = '_id item expires_at'.split(' ');
-      var rentals = doc.rentals.map(function(r){ return _.pick(r, rentalFields)});
+      var rentals = doc.rentals.filter(function(r){ return r.status !== 'CANCELLED'});
+      var rentals = rentals.map(function(r){ return _.pick(r, rentalFields)});
       var address = doc['delivery_address'];
       address = [address['flat'], address['street'], address['locality']['name']].join(',');
       return {
