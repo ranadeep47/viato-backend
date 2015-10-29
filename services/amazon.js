@@ -60,7 +60,7 @@ function parsePage($) {
     //Accessory fields
     book.copies = 0;
     book.source = 'AMAZON';
-    if(book.owning.mrp > 0 && book.owning.mrp <= 1000){
+    if(book.pricing.owning.mrp > 0 && book.pricing.owning.mrp <= 1000){
       book.available = true;
     }
     else book.available = false;
