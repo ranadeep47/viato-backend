@@ -25,10 +25,8 @@ function fetch(amazonId) {
 }
 
 function parsePage($) {
-  var price = getPrice($);
-  var rent = parseFloat(price.mrp);
-  if(isNaN(rent)) rent = 0;
-  else rent = Math.round(0.25 * rent);
+  var owning = getPrice($);
+  var rent = Math.round(0.25 * owning.mrp);
   var rental = [{rent : rent, period : 15}];
 
   var images = getImages($);
@@ -42,7 +40,7 @@ function parsePage($) {
       description : getDescription($),
       authors     : getAuthors($),
       pricing      : {
-        owning : getPrice($),
+        owning : owning,
         rental : rental
       },
       releaseDate : getBookReleaseDate($),
@@ -61,8 +59,11 @@ function parsePage($) {
 
     //Accessory fields
     book.copies = 0;
-    book.available = (rent > 500 || rent == 0 ? false : true );
     book.source = 'AMAZON';
+    if(book.owning.mrp > 0 && book.owning.mrp <= 1000){
+      book.available = true;
+    }
+    else book.available = false;
 
     return getGoodReadsPopularity(book.isbn13).then(function(resp){
       book.popularity = resp.popularity;
@@ -225,6 +226,12 @@ function getPrice($){
     mrp = $('#buyBoxInner .a-text-strike').text().trim();
   }
   else mrp = offerPrice;
+
+  mrp = parseFloat(mrp.replace(',', ''));
+  offerPrice = parseFloat(offerPrice.replace(',', ''));
+
+  if(isNaN(mrp)) mrp = 0;
+  if(isNaN(offerPrice)) offerPrice = 0;
 
   return {
     mrp : mrp,
