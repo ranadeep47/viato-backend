@@ -98,7 +98,7 @@ function getGoodReadsPopularity(isbn13){
       if(isNaN(reviewCount)) reviewCount = 0;
 
       if(rating === 0 && ratingsCount === 0 && reviewCount === 0){
-        throw new Error('Cant believe this data');
+        return reject(new Error('Cant believe this data'));
       }
 
       var doc = {
