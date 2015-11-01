@@ -7,7 +7,10 @@ var _ = require('lodash');
 module.exports = feed;
 
 feed.get('/home', function*() {
-  this.body = yield db.Feed.find({type : 'GENRES'}).select('-list -__v').exec();
+  this.body = yield db.Feed.find({type : 'GENRES'})
+  .select('-list -__v')
+  .sort({'rating' : -1})
+  .exec();
 })
 
 feed.get('/trending', function*(){
