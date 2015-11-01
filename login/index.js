@@ -23,7 +23,7 @@ login.post('/', function*(){
   var imei      = this.request.body['device_id'];
   var mobile    = this.request.body['mobile'];
 
-  if(!deviceId.length
+  if(!imei.length
     || mobile.length != 10
     || !/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/.test(mobile) ) {
       return this.throw(400, 'Please check your mobile number');
