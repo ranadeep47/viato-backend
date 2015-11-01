@@ -45,7 +45,7 @@ login.post('/', function*(){
         //Create a new temp user
         var tuser = {
           mobile            : mobile,
-          imei              : imei
+          imei              : imei,
           otp               : otp,
           otp_generated_at  : new Date(),
           device_id         : deviceId,
