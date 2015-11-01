@@ -29,7 +29,7 @@ login.post('/', function*(){
       return this.throw(400, 'Please check your mobile number');
   }
 
-    var ok = db.TempUser.find({imei : imei}).exec().then(function(tuser){
+  var ok = yield db.TempUser.find({imei : imei}).exec().then(function(tuser){
     if(tuser.length && tuser.length > 1) {
       //Limit exceeded. Only a maximum of 2 accounts allowed per device
       return this.throw(400, 'Limit exceeded. Only a maximum of 2 accounts allowed per device');
