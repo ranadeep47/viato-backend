@@ -166,7 +166,7 @@ login.post('/complete', function*(){
             user.set('email.is_verified', false);
             user.set('email.verification_token', verificationToken);
             user.save();
-            db.User.addAccounts(user['_id'], accounts);
+            db.User.addAccounts(user.get('_id'), accounts);
             sendEmail(email, verificationToken);
             return {access_token : user.get('access_token'), user_id : user.get('_id')}
           })
