@@ -10,7 +10,6 @@ var TempUserSchema = new Schema({
   otp_generated_at: {type : Date},
   otp_verified_at : {type : Date, default : null},
   is_otp_verified : {type : Boolean, default : false},
-  device_id       : {type : String, required : true},
   imei            : {type : String, required : true}
 }, SchemaUtils.defaultOptions);
 
