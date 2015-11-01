@@ -141,7 +141,7 @@ login.post('/complete', function*(){
                     verified_at : null,
                     verification_token : verificationToken
                   },
-                social_accounts : tuser.get('accounts'),
+                social_accounts : null,
                 devices : [{device_id : tuser.get('device_id'), platform : 'Android'}]
               }
 
@@ -153,6 +153,7 @@ login.post('/complete', function*(){
 
                  var accessToken = jwt.sign(session, config['json-token-secret']);
                  user.set('access_token', accessToken);
+                 db.User.addAccounts(user['_id'], accounts);
                  user.save();
                  return accessToken;
               });
