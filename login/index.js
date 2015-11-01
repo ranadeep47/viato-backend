@@ -47,9 +47,7 @@ login.post('/', function*(){
           mobile            : mobile,
           imei              : imei,
           otp               : otp,
-          otp_generated_at  : new Date(),
-          device_id         : deviceId,
-          accounts          : accounts || []
+          otp_generated_at  : new Date()
         }
 
         return db.TempUser
