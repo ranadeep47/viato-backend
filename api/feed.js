@@ -15,5 +15,6 @@ feed.get('/trending', function*(){
 })
 
 feed.get('/category/:id', function*() {
+  var categoryId = this.params['id'];
   this.body = yield db.Feed.findOne({_id : categoryId}).exec();
 })
