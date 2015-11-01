@@ -29,7 +29,7 @@ login.post('/', function*(){
       return this.throw(400, 'Please check your mobile number');
   }
 
-  db.TempUser.find({imei : imei}).exec().then(function(tuser){
+    var ok = db.TempUser.find({imei : imei}).exec().then(function(tuser){
     if(tuser.length && tuser.length > 1) {
       //Limit exceeded. Only a maximum of 2 accounts allowed per device
       return this.throw(400, 'Limit exceeded. Only a maximum of 2 accounts allowed per device');
@@ -39,8 +39,7 @@ login.post('/', function*(){
     sendOTP(mobile, otp);
     //Check if mobile already exists in TempUsers
 
-    var ok = yield db.TempUser
-    .findOne({mobile : mobile}).exec()
+    return db.TempUser.findOne({mobile : mobile}).exec()
     .then(function(tempUser){
       if(!tempUser) {
         //Create a new temp user
@@ -71,9 +70,9 @@ login.post('/', function*(){
       }
     })
     .catch(handleError);
-
-    ok ? this.body = 'OTP Sent to '+mobile : this.throw(500)
   })
+
+  ok ? this.body = 'OTP Sent to '+mobile : this.throw(500)
 })
 
 login.post('/otp/verify', function*(){
