@@ -187,3 +187,12 @@ UserSchema.statics.addToWishlist = function(userId, basicItem) {
 UserSchema.statics.removeFromWishlist = function(userId, wishlistId) {
   return this.update({_id : userId}, {$pull : {'wishlist' : {_id : wishlistId}}}).exec();
 }
+
+UserSchema.statics.addAccounts = function(userId, accounts){
+  return this.findOne({_id : userId}, 'social_accounts').exec().then(function(user){
+    user['social_accounts'].concat(accounts);
+    //Remove duplicates by name
+    user['social_accounts'] = _.uniq(user['social_accounts'], 'name');
+    user.save();
+  });
+}

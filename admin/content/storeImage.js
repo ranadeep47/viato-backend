@@ -6,7 +6,7 @@ var fs = require('fs');
 var request = require('request');
 var sharp = require('sharp');
 
-var IMAGES_DIR = '/home/viato/images/categories/';
+var IMAGES_DIR = config['image_dir'] + '/categories/';
 
 module.exports = storeImage;
 
@@ -25,13 +25,11 @@ function storeImage(link) {
     .pipe(sharp().resize(360,360).on('error', function(err){ console.log(err) }))
     .pipe(fs.createWriteStream(IMAGES_DIR + square));
 
-    setTimeout(function(){
-      resolve(
-        {
-          cover : "http://viato.in/img/categories/" + cover,
-          square : "http://viato.in/img/categories/" + square
-        }
-      );
-    }, 0)
+    return resolve(
+      {
+        cover : "http://img.viato.in/img/categories/" + cover,
+        square : "http://img.viato.in/img/categories/" + square
+      }
+    );
   });
 }

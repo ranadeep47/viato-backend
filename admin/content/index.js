@@ -23,15 +23,17 @@ content.get('/category/add', function*(){
 content.post('/category/add', function*(){
   var title = this.request.body['title'];
   var image = this.request.body['image'];
-  if(!title || !image) return this.throw(400);
+  var type  = this.request.body['type'];
+  var rating = this.request.body['rating'];
 
   //Fetch, resize and store cover images
-  var category = yield storeImage(image)
-  .then(function(image){
+  var category = yield storeImage(image).then(function(image){
     return db.Feed.create({
-      title : title,
-      images : image,
-      list : []
+      title   : title,
+      images  : image,
+      list    : [],
+      type    : type,
+      rating  : rating
     });
   });
 

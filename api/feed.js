@@ -7,11 +7,13 @@ var _ = require('lodash');
 module.exports = feed;
 
 feed.get('/home', function*() {
-  this.body = yield db.Feed.find().select('-list -__v').exec();
+  this.body = yield db.Feed.find({type : 'GENRES'}).select('-list -__v').exec();
+})
+
+feed.get('/trending', function*(){
+  this.body = yield db.Feed.findOne({type : 'TRENDING'}).exec();
 })
 
 feed.get('/category/:id', function*() {
-  var categoryId = this.params['id'];
-  if(categoryId === 'trending') categoryId = '561e5c978669ae5535cff4f2';
   this.body = yield db.Feed.findOne({_id : categoryId}).exec();
 })

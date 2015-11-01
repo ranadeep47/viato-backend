@@ -11,7 +11,7 @@ var TempUserSchema = new Schema({
   otp_verified_at : {type : Date, default : null},
   is_otp_verified : {type : Boolean, default : false},
   device_id       : {type : String, required : true},
-  accounts        : {type : [Schema.Types.Mixed], default : []}
+  imei            : {type : String, required : true}
 }, SchemaUtils.defaultOptions);
 
 //Path

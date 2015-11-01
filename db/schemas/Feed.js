@@ -13,7 +13,9 @@ var FeedSchema = new Schema({
     cover   : {type : String, required : true},
     square  : {type : String, required : true}
   },
-  list  : [BasicItemSchema]
+  type      : {type : String, enum : Constants.enums.FeedTypes, default : 'SPECIAL-LIST'},
+  list      : [BasicItemSchema],
+  rating    : {type : Number, default : 0} //5 - 0 , based on importance
 }, SchemaUtils.defaultOptions);
 
 module.exports = FeedSchema;

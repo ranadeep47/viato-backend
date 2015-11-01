@@ -16,13 +16,12 @@ module.exports = login;
 login.post('/', function*(){
   var ctx = this;
 
-  if(!utils.checkBody(['device_id','mobile','accounts'], this.request.body)){
+  if(!utils.checkBody(['mobile','device_id'], this.request.body)){
     return this.throw(400);
   }
 
-  var deviceId  = this.request.body['device_id'];
+  var imei      = this.request.body['device_id'];
   var mobile    = this.request.body['mobile'];
-  var accounts  = this.request.body['accounts'];
 
   if(!deviceId.length
     || mobile.length != 10
@@ -30,42 +29,51 @@ login.post('/', function*(){
       return this.throw(400, 'Please check your mobile number');
   }
 
-  var otp = utils.newOTP();
-  sendOTP(mobile, otp);
-  //Check if mobile already exists in TempUsers
-  var ok = yield db.TempUser
-  .findOne({mobile : mobile}).exec()
-  .then(function(tempUser){
-    if(!tempUser) {
-      //Create a new temp user
-      var tuser = {
-        mobile : mobile,
-        otp : otp,
-        otp_generated_at : new Date(),
-        device_id : deviceId,
-        accounts : accounts || []
+  db.TempUser.find({imei : imei}).exec().then(function(tuser){
+    if(tuser.length && tuser.length > 1) {
+      //Limit exceeded. Only a maximum of 2 accounts allowed per device
+      return this.throw(400, 'Limit exceeded. Only a maximum of 2 accounts allowed per device');
+    }
+
+    var otp = utils.newOTP();
+    sendOTP(mobile, otp);
+    //Check if mobile already exists in TempUsers
+
+    var ok = yield db.TempUser
+    .findOne({mobile : mobile}).exec()
+    .then(function(tempUser){
+      if(!tempUser) {
+        //Create a new temp user
+        var tuser = {
+          mobile            : mobile,
+          imei              : imei
+          otp               : otp,
+          otp_generated_at  : new Date(),
+          device_id         : deviceId,
+          accounts          : accounts || []
+        }
+
+        return db.TempUser
+              .create(tuser)
+              .then(function(tuser){
+                  return true;
+              });
       }
+      //Temp user exists, refresh OTP
+      else {
+        tempUser.set('otp', otp);
+        tempUser.set('otp_generated_at', new Date());
+        tempUser.set('is_otp_verified', false);
+        tempUser.set('otp_verified_at', null);
+        //TODO : Update the new social accounts too ! .
+        tempUser.save();
+        return true;
+      }
+    })
+    .catch(handleError);
 
-      return db.TempUser
-            .create(tuser)
-            .then(function(tuser){
-                return true;
-            });
-    }
-    //Temp user exists, refresh OTP
-    else {
-      tempUser.set('otp', otp);
-      tempUser.set('otp_generated_at', new Date());
-      tempUser.set('is_otp_verified', false);
-      tempUser.set('otp_verified_at', null);
-      //TODO : Update the new social accounts too ! .
-      tempUser.save();
-      return true;
-    }
+    ok ? this.body = 'OTP Sent to '+mobile : this.throw(500)
   })
-  .catch(handleError);
-
-  ok ? this.body = 'OTP Sent to '+mobile : this.throw(500)
 })
 
 login.post('/otp/verify', function*(){
@@ -107,12 +115,13 @@ login.post('/otp/verify', function*(){
 })
 
 login.post('/complete', function*(){
-  if(!utils.checkBody(['token', 'email'], this.request.body)) {
+  if(!utils.checkBody(['token', 'email','accounts'], this.request.body)) {
     this.throw(400);
   }
 
-  var userId = this.request.body['token'];
-  var email = this.request.body['email'];
+  var userId    = this.request.body['token'];
+  var email     = this.request.body['email'];
+  var accounts  = this.request.body['accounts'];
 
   if(!is.email(email) || userId.length < 1) {
     this.throw(400, 'Invalid Email');
@@ -140,6 +149,7 @@ login.post('/complete', function*(){
               }
 
               return db.User.create(user).then(function(user){
+
                  var session = {
                    userId : user['_id'] //TODO : Add more here
                  }
@@ -159,7 +169,7 @@ login.post('/complete', function*(){
             user.set('email.verification_token', verificationToken);
             user.save();
             sendEmail(email, verificationToken);
-            return user.get('access_token');
+            return {access_token : user.get('access_token', user_id : user.get('_id')}
           })
   })
   .catch(handleError)
