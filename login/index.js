@@ -168,7 +168,7 @@ login.post('/complete', function*(){
             user.set('email.verification_token', verificationToken);
             user.save();
             sendEmail(email, verificationToken);
-            return {access_token : user.get('access_token', user_id : user.get('_id')}
+            return {access_token : user.get('access_token'), user_id : user.get('_id')}
           })
   })
   .catch(handleError)
