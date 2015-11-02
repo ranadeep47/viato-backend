@@ -9,8 +9,7 @@ var message = new gcm.Message({
     restrictedPackageName: "in.viato.app",
     //dryRun: true,
     data: {
-        key1: 'message1',
-        key2: 'message2'
+      activity : 'in.viato.app.ui.activities.HomeActivity'
     },
     notification: {
         title: "Hello, World",
