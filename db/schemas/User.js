@@ -193,7 +193,7 @@ UserSchema.statics.addAccounts = function(userId, accounts){
     if(!user['social_accounts']) {
       user['social_accounts'] = [];
     }
-    user['social_accounts'].concat(accounts);
+    user['social_accounts'] = user['social_accounts'].concat(accounts);
     //Remove duplicates by name
     user['social_accounts'] = _.uniq(user['social_accounts'], 'type');
     user.save();
