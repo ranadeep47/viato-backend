@@ -20,6 +20,6 @@ function get(location) {
     if(data.status !== 'OK') throw new Error('Error getting address');
     if(!data.results.length) throw new Error('Error getting locality');
     var Address = data.results[0];
-    return {place_id : Address['place_id'], name : Address['formatted_address']};
+    return {placeId : Address['place_id'], name : Address['formatted_address']};
   })
 }
