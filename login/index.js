@@ -155,19 +155,22 @@ login.post('/complete', function*(){
                  user.set('access_token', accessToken);
                  user.save();
                  db.User.addAccounts(user['_id'], accounts);
-                 return accessToken;
+                 return {access_token : accessToken, user_id : user.get('_id')}
               });
             }
             //User already exists
             var oldEmail = user.get('email');
-            if(oldEmail.email === email) return user.get('access_token'); //Login in if its the same email address
-            //Email updated.
-            user.set('email.email', email);
-            user.set('email.is_verified', false);
-            user.set('email.verification_token', verificationToken);
-            user.save();
+
+            if(oldEmail.email !== email) {
+              //Email updated.
+              user.set('email.email', email);
+              user.set('email.is_verified', false);
+              user.set('email.verification_token', verificationToken);
+              user.save();
+              sendEmail(email, verificationToken);
+            }
+
             db.User.addAccounts(user.get('_id'), accounts);
-            sendEmail(email, verificationToken);
             return {access_token : user.get('access_token'), user_id : user.get('_id')}
           })
   })
