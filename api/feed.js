@@ -14,10 +14,28 @@ feed.get('/home', function*() {
 })
 
 feed.get('/trending', function*(){
-  this.body = yield db.Feed.findOne({type : 'TRENDING'}).exec();
+  var page = this.query['page'] || 0;
+  page = parseInt(page);
+  if(isNaN(page)) page = 0;
+
+  var limit = 12;
+  var skip = page * limit;
+
+  this.body = yield db.Feed
+  .findOne({type : 'TRENDING'},{list : {$slice : [skip, limit]}})
+  .exec();
 })
 
 feed.get('/category/:id', function*() {
+  var page = this.query['page'] || 0;
+  page = parseInt(page);
+  if(isNaN(page)) page = 0;
+
+  var limit = 12;
+  var skip = page * limit;
+
   var categoryId = this.params['id'];
-  this.body = yield db.Feed.findOne({_id : categoryId}).exec();
+  this.body = yield db.Feed
+  .findOne({_id : categoryId},{list : {$slice : [skip, limit]}})
+  .exec();
 })
