@@ -102,8 +102,6 @@ bookings.post('/', function*(){
       db.Booking.create(booking);
       //Empty cart
       db.User.emptyCart(userId);
-      //Prevent extensions of books
-      db.Booking.find({rental.})
       return booking['order_id'];
     })
   })
