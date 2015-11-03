@@ -21,7 +21,7 @@ var message = new gcm.Message({
 var regTokens = ['fil7ezkWvJ0:APA91bED7LxPkml4JzofPnMOhKps5z_vt66yn2RwY5FpNtsLT1HyaX3lEYe6XvP_tqhFCaDnKHVlvGgMCr1c6ggDueWDpcIDx6wPtOw2EKqABvmWONy6cJe_zzoiFHGs3MoKWgmYLPd0'];
 var sender = new gcm.Sender('AIzaSyBo8mYCRkA9EBp8kjrqbu43C-GadTtVO64');
 
-sender.send(message, { registrationTokens: regTokens }, function (err, result) {
+sender.send(message, { registrationIds: regTokens }, function (err, result) {
     if(err) console.error(err);
     else  console.log(result);
 });
