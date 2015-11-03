@@ -102,6 +102,8 @@ bookings.post('/', function*(){
       db.Booking.create(booking);
       //Empty cart
       db.User.emptyCart(userId);
+      //Prevent extensions of books
+      db.Booking.find({rental.})
       return booking['order_id'];
     })
   })
@@ -117,9 +119,10 @@ bookings.post('/rents/extend', function*(){
   var message = yield db.Booking.findOne({user_id : userId, 'rentals._id' : rentId},{"rentals.$" : 1}).exec()
   .then(function(booking){
     var rental = booking.rentals[0];
-    if(!rental.is_picked && !rental.is_extended) {
+    if(!rental.is_picked && !rental.is_extended && rental.pickup_requested_at === null) {
       var period = rental.item.pricing.period;
-      var extension_cost = rental.item.pricing.rent - 20;
+      var extension_cost = rental.extension_pricing.rent;
+      var extension_period = renta.extension_pricing.period;
       //Extend
       var extension_payment = {
         payment_mode : 'COD',
@@ -128,7 +131,6 @@ bookings.post('/rents/extend', function*(){
 
       var updateParams = {
         "rentals.$.status"              : 'READING-EXTENDED',
-        "rentals.$.pickup_requested_at" : null,
         "rentals.$.expires_at"          : moment(rental.expires_at).add(period, 'days').toDate(),
         "rentals.$.is_extended"         : true,
         "rentals.$.extended_at"         : new Date(),
@@ -137,7 +139,7 @@ bookings.post('/rents/extend', function*(){
 
       return db.Booking.findOneAndUpdate({user_id : userId, 'rentals._id' : rentId}, {$set : updateParams},{new : true}).exec()
       .then(function(booking){
-        return 'Rental extended for '+period+' more days.';
+        return 'Rental extended for '+extension_period+' more days.';
       })
     }
     else return this.throw(400,'Sorry you have already extended the rental tenure');

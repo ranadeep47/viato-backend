@@ -25,7 +25,7 @@ var RentalSchema = new Schema({
     _id         : {type : Schema.Types.ObjectId},
     rent        : Number,
     period      : Number
-  }
+  },
 }, SchemaUtils.defaultOptions);
 
 module.exports = RentalSchema;
