@@ -142,7 +142,8 @@ function getBookTitle($){
 }
 
 function getDescription($){
-  return $('#bookDescription_feature_div noscript').html().trim();
+  var html = $('#bookDescription_feature_div noscript').html();
+  return html ? html.trim() : "";
 }
 
 function otherDetails($){
