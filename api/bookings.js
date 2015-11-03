@@ -71,7 +71,12 @@ bookings.post('/', function*(){
               .seconds(0)
               .milliseconds(0)
               .toDate(),
-          status : 'YET TO DELIVER'
+          status : 'YET TO DELIVER',
+          extension_pricing : {
+            _id     : new ObjectId(),
+            rent    : rentalItem.pricing.rent,
+            period  : rentalItem.pricing.period
+          }
         }
       });
 
@@ -122,11 +127,12 @@ bookings.post('/rents/extend', function*(){
       }
 
       var updateParams = {
-        "rentals.$.status" : 'READING-EXTENDED',
-        "rentals.$.expires_at"  : moment(rental.expires_at).add(period, 'days').toDate(),
-        "rentals.$.is_extended" : true,
-        "rentals.$.extended_at" : new Date(),
-        "rentals.$.extension_payment" : extension_payment
+        "rentals.$.status"              : 'READING-EXTENDED',
+        "rentals.$.pickup_requested_at" : null,
+        "rentals.$.expires_at"          : moment(rental.expires_at).add(period, 'days').toDate(),
+        "rentals.$.is_extended"         : true,
+        "rentals.$.extended_at"         : new Date(),
+        "rentals.$.extension_payment"   : extension_payment
       }
 
       return db.Booking.findOneAndUpdate({user_id : userId, 'rentals._id' : rentId}, {$set : updateParams},{new : true}).exec()

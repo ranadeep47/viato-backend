@@ -20,7 +20,12 @@ var RentalSchema = new Schema({
   pickup_requested_at : {type : Date, default : null},
   is_extended         : {type : Boolean, default : false},
   extended_at         : {type : Date, default : null},
-  extension_payment   : {type : PaymentSchema, default : null}
+  extension_payment   : {type : PaymentSchema, default : null},
+  extension_pricing   : {
+    _id         : {type : Schema.Types.ObjectId},
+    rent        : Number,
+    period      : Number
+  }
 }, SchemaUtils.defaultOptions);
 
 module.exports = RentalSchema;
