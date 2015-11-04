@@ -173,7 +173,7 @@ UserSchema.statics.addToWishlist = function(userId, basicItem) {
     var catalogueId = basicItem.catalogueId;
     var contains = _.filter(user.wishlist, function(r){ return r['catalogueId'] === catalogueId });
     if(contains.length > 0) {
-      throw new Error('Book already exists');
+      return contains[0];
     }
 
     //If doesnt exists
