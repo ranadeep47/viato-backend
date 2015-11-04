@@ -119,12 +119,12 @@ bookings.post('/rents/extend', function*(){
 
   var message = yield db.Booking.findOne({user_id : userId, 'rentals._id' : rentId},{"rentals.$" : 1}).exec()
   .then(function(booking){
-    if(booking.status === 'CANCELLED') return ctx.throw(400, 'Cancelled orders cannot be extended');
     var rental = booking.rentals[0];
+    if(rental.status === 'CANCELLED') return ctx.throw(400, 'Cancelled orders cannot be returned');
+
     if(!rental.is_picked &&
       !rental.is_extended &&
-      rental.pickup_requested_at === null &&
-      rental.status !== 'CANCELLED') {
+      rental.pickup_requested_at === null) {
       var period = rental.item.pricing.period;
       var extension_cost = rental.extension_pricing.rent;
       var extension_period = rental.extension_pricing.period;
@@ -147,7 +147,7 @@ bookings.post('/rents/extend', function*(){
         return 'Rental extended for '+extension_period+' more days.';
       })
     }
-    else return this.throw(400,'Sorry you have already extended the rental tenure');
+    else return ctx.throw(400,'Sorry you have already extended the rental tenure');
   })
 
   this.body = message;
@@ -164,9 +164,9 @@ bookings.post('/rents/return', function*(){
   var ctx = this;
   var message = yield db.Booking.findOne({user_id : userId, 'rentals._id' : rentId},{"rentals.$" : 1}).exec()
   .then(function(booking){
-    if(booking.status === 'CANCELLED') return ctx.throw(400, 'Cancelled orders cannot be returned');
     var rental = booking.rentals[0];
-    if(!rental.is_picked && rental.status !== 'CANCELLED') {
+    if(rental.status === 'CANCELLED') return ctx.throw(400, 'Cancelled orders cannot be returned')
+    if(!rental.is_picked) {
       var updateParams = {
         "rentals.$.status" : 'SCHEDULED FOR PICKUP',
         "rentals.$.pickup_requested_at" : new Date()
