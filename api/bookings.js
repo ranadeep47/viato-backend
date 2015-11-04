@@ -121,7 +121,10 @@ bookings.post('/rents/extend', function*(){
   .then(function(booking){
     if(booking.status === 'CANCELLED') return ctx.throw(400, 'Cancelled orders cannot be extended');
     var rental = booking.rentals[0];
-    if(!rental.is_picked && !rental.is_extended && rental.pickup_requested_at === null) {
+    if(!rental.is_picked &&
+      !rental.is_extended &&
+      rental.pickup_requested_at === null &&
+      rental.status !== 'CANCELLED') {
       var period = rental.item.pricing.period;
       var extension_cost = rental.extension_pricing.rent;
       var extension_period = rental.extension_pricing.period;
@@ -163,7 +166,7 @@ bookings.post('/rents/return', function*(){
   .then(function(booking){
     if(booking.status === 'CANCELLED') return ctx.throw(400, 'Cancelled orders cannot be returned');
     var rental = booking.rentals[0];
-    if(!rental.is_picked) {
+    if(!rental.is_picked && rental.status !== 'CANCELLED') {
       var updateParams = {
         "rentals.$.status" : 'SCHEDULED FOR PICKUP',
         "rentals.$.pickup_requested_at" : new Date()
