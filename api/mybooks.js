@@ -69,7 +69,7 @@ mybooks.get('/wishlist', function*(){
   this.body = (yield db.User.getMyBooks(userId))['wishlist'];
 });
 
-mybooks.get('/isInWishlist/:bookId', function*(){
+mybooks.get('/wishlist/status/:bookId', function*(){
   var userId      = this.state.user['userId'];
   var catalogueId = this.params['bookId'];
 
