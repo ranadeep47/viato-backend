@@ -8,7 +8,7 @@ var reverseGeocoding  = require('../services/reverseGeocoding');
 module.exports = geo;
 
 geo.get('/supported/all', function*(){
-  this.body = reverseGeocoding.getSupported;
+  this.body = reverseGeocoding.getSupported();
 })
 
 geo.get('/supported/status', function*(){

@@ -22,7 +22,7 @@ var supported_localities = [
 
 function isSupported(location){
   return get(location).then(function(Address){
-    var Locality = _.find(a.address_components,function(o) { return o.types.indexOf('sublocality_level_1') >= 0 });
+    var Locality = _.find(Address.address_components,function(o) { return o.types.indexOf('sublocality_level_1') >= 0 });
     var is_supported = supported_localities.indexOf(Locality.long_name) >= 0 ? true : false;
     return {is_supported : is_supported, supported_localities : supported_localities}
   });
