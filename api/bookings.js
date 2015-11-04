@@ -115,13 +115,16 @@ bookings.post('/rents/extend', function*(){
     return this.throw(400);
   }
 
+  var ctx = this;
+
   var message = yield db.Booking.findOne({user_id : userId, 'rentals._id' : rentId},{"rentals.$" : 1}).exec()
   .then(function(booking){
+    if(booking.status === 'CANCELLED') return ctx.throw(400, 'Cancelled orders cannot be extended');
     var rental = booking.rentals[0];
     if(!rental.is_picked && !rental.is_extended && rental.pickup_requested_at === null) {
       var period = rental.item.pricing.period;
       var extension_cost = rental.extension_pricing.rent;
-      var extension_period = renta.extension_pricing.period;
+      var extension_period = rental.extension_pricing.period;
       //Extend
       var extension_payment = {
         payment_mode : 'COD',
@@ -155,8 +158,10 @@ bookings.post('/rents/return', function*(){
     return this.throw(400);
   }
 
+  var ctx = this;
   var message = yield db.Booking.findOne({user_id : userId, 'rentals._id' : rentId},{"rentals.$" : 1}).exec()
   .then(function(booking){
+    if(booking.status === 'CANCELLED') return ctx.throw(400, 'Cancelled orders cannot be returned');
     var rental = booking.rentals[0];
     if(!rental.is_picked) {
       var updateParams = {
