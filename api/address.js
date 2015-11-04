@@ -20,7 +20,7 @@ address.get('/locality', function*(){
   var userId = this.state.user['userId'];
   var ctx = this;
   var location = this.request.query;
-  this.body = yield reverseGeocoding(location).catch(function(e){ ctx.throw(400, 'Error getting location') });
+  this.body = yield reverseGeocoding.getLocality(location).catch(function(e){ ctx.throw(400, 'Error getting location') });
 })
 
 address.post('/', function*(){
