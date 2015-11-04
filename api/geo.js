@@ -5,6 +5,8 @@ var utils             = require('../utils');
 var _                 = require('lodash');
 var reverseGeocoding  = require('../services/reverseGeocoding');
 
+module.exports = geo;
+
 geo.get('/supported/all', function*(){
   this.body = reverseGeocoding.getSupported;
 })
