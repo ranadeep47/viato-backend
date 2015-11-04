@@ -4,6 +4,7 @@ var db = require('../db');
 var utils = require('../utils');
 var moment = require('moment');
 var _ = require('lodash');
+var ObjectId = require('mongoose').Types.ObjectId;
 
 module.exports = bookings;
 

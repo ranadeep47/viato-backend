@@ -69,6 +69,19 @@ mybooks.get('/wishlist', function*(){
   this.body = (yield db.User.getMyBooks(userId))['wishlist'];
 });
 
+mybooks.get('/isInWishlist/:bookId', function*(){
+  var userId      = this.state.user['userId'];
+  var catalogueId = this.params['bookId'];
+
+  if(!catalogueId || catalogueId.length !== 24) return this.throw(400);
+  var User = yield db.User
+  .findOne({_id : userId, 'wishlist.catalogueId' : catalogueId})
+  .select('wishlist')
+  .exec();
+
+  this.body = User.wishlist.length > 0 ? true : false;
+})
+
 mybooks.post('/wishlist', function*(){
   var userId = this.state.user['userId'];
   if(!utils.checkBody(['catalogueId'], this.request.body)) return this.throw(400);
