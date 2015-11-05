@@ -149,7 +149,8 @@ login.post('/complete', function*(){
               return db.User.create(user).then(function(user){
 
                  var session = {
-                   userId : user['_id'] //TODO : Add more here
+                   userId : user['_id'], //TODO : Add more here
+                   updated : Date.now()
                  }
 
                  var accessToken = jwt.sign(session, config['json-token-secret']);
@@ -161,18 +162,25 @@ login.post('/complete', function*(){
             }
             //User already exists
             var oldEmail = user.get('email');
-
+            var accessToken;
             if(oldEmail.email !== email) {
               //Email updated.
               user.set('email.email', email);
               user.set('email.is_verified', false);
               user.set('email.verification_token', verificationToken);
+              var session = {
+                userId : user['_id'], //TODO : Add more here
+                updated : Date.now()
+              }
+
+              accessToken = jwt.sign(session, config['json-token-secret']);
+              user.set('access_token', accessToken);
               user.save();
               sendEmail(email, verificationToken);
             }
 
             db.User.addAccounts(user.get('_id'), accounts);
-            return {access_token : user.get('access_token'), user_id : user.get('_id')}
+            return {access_token : accessToken, user_id : user.get('_id')}
           })
   })
   .catch(handleError)
