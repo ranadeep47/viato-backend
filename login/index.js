@@ -30,9 +30,10 @@ login.post('/', function*(){
   }
 
   var ok = yield db.TempUser.find({imei : imei}).exec().then(function(tuser){
-    if(tuser.length && tuser.length > 1) {
+    if(tuser.length && tuser.length > 2) {
       //Limit exceeded. Only a maximum of 2 accounts allowed per device
-      return this.throw(400, 'Limit exceeded. Only a maximum of 2 accounts allowed per device');
+      //TODO
+      return ctx.throw(400, 'Limit exceeded. Only a maximum of 2 accounts allowed per device');
     }
 
     var otp = utils.newOTP();

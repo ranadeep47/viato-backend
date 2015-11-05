@@ -7,6 +7,7 @@ var router = require('koa-router')();
 var serve = require('koa-static');
 var mount = require('koa-mount');
 var compress = require('koa-compress');
+var render = require('koa-swig');
 
 var env = process.env['NODE_ENV'];
 var config = require('./config')[env];
@@ -21,6 +22,16 @@ app.use(compress({
   threshold: 2048,
   flush: require('zlib').Z_SYNC_FLUSH
 }))
+
+app.context.render = render({
+  root: __dirname + '/views',
+  autoescape: true,
+  cache: 'memory', // disable, set to false
+  ext: 'html'
+});
+
+app.use(serve(__dirname + '/public'));
+
 //Routing Middleware
 router.use('/api', jwt({secret : config['json-token-secret']}));
 router.use('/api', require('./api').routes());
@@ -31,7 +42,6 @@ app.listen(config.server.port);
 console.log('Server listening on port : ', config.server.port);
 
 require('./services/expireCheckCron');
-
 function ignoreAssets(mw) {
   return function *(next){
     if (/(\.js|\.css|\.ico)$/.test(this.path)) {
