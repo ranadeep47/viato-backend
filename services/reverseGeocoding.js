@@ -27,7 +27,7 @@ function isAddressServed(address){
     var obj = {supported_localities : supported_localities};
     if(!Address) obj.is_supported = false;
     else {
-      obj = isSupportedAddress(address);
+      obj = isSupportedAddress(Address);
     }
 
     return obj;
