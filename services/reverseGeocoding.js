@@ -21,15 +21,15 @@ var supported_localities = [
 ]
 
 function isAddressServed(address){
-  var placeId = address.Locality.placeId;
-  var params = {place_id : address.locality.placeId, key : apiKey}
+  var placeId = address.locality.placeId;
+  var params = {place_id : placeId, key : apiKey}
   return get(params).then(function(Address){
     var obj = {supported_localities : supported_localities};
     if(!Address) obj.is_supported = false;
     else {
       obj = isSupportedAddress(address);
     }
-    
+
     return obj;
   })
 }
