@@ -121,7 +121,8 @@ bookings.post('/rents/extend', function*(){
   .then(function(booking){
     var rental = booking.rentals[0];
     if(rental.status === 'CANCELLED') return ctx.throw(400, 'Cancelled orders cannot be returned');
-
+    if(booking.status === 'PLACED') return ctx.throw(400, 'Cannot return the book.');
+        
     if(!rental.is_picked &&
       !rental.is_extended &&
       rental.pickup_requested_at === null) {
@@ -166,7 +167,8 @@ bookings.post('/rents/return', function*(){
   .then(function(booking){
     var rental = booking.rentals[0];
     if(rental.status === 'CANCELLED') return ctx.throw(400, 'Cancelled orders cannot be returned')
-    if(!rental.is_picked) {
+    if(booking.status === 'PLACED') return ctx.throw(400, 'Cannot return the book.');
+    if(!rental.is_picked && rental.pickup_requested_at === null) {
       var updateParams = {
         "rentals.$.status" : 'SCHEDULED FOR PICKUP',
         "rentals.$.pickup_requested_at" : new Date()
@@ -174,10 +176,12 @@ bookings.post('/rents/return', function*(){
 
       return db.Booking.findOneAndUpdate({user_id : userId, 'rentals._id' : rentId}, {$set : updateParams},{new : true}).exec()
       .then(function(booking){
+        if(booking.status === 'PARTIALLY COMPLETED') booking.status = 'COMPLETED';
+        booking.save();
         return 'We will pickup the book as soon as possible';
       });
     }
-    else this.throw(400, 'This book has already been collected');
+    else this.throw(400, 'Pickup is already in progress for this book');
   })
 
   this.body = message;
