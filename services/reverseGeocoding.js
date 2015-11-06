@@ -35,7 +35,15 @@ function isAddressServed(address){
 }
 
 function isSupported(location){
-  return getLocality(location).then(function(Address){
+  var lat = location.lat.trim();
+  var lon = location.lon.trim();
+  var params = {
+    latlng          : lat + ',' + lon,
+    key             : apiKey,
+    'result_type'   : 'street_address',
+    'location_type' : 'ROOFTOP'
+  }
+  return get(location).then(function(Address){
     return isSupportedAddress(Address);
   });
 }
