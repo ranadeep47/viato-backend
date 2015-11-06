@@ -43,7 +43,7 @@ function isSupported(location){
     'result_type'   : 'street_address',
     'location_type' : 'ROOFTOP'
   }
-  return get(location).then(function(Address){
+  return get(params).then(function(Address){
     return isSupportedAddress(Address);
   });
 }
