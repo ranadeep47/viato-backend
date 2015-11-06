@@ -168,17 +168,18 @@ login.post('/complete', function*(){
               user.set('email.email', email);
               user.set('email.is_verified', false);
               user.set('email.verification_token', verificationToken);
-              var session = {
-                userId : user['_id'], //TODO : Add more here
-                updated : Date.now()
-              }
-
-              accessToken = jwt.sign(session, config['json-token-secret']);
-              user.set('access_token', accessToken);
-              user.save();
               sendEmail(email, verificationToken);
             }
 
+            var session = {
+              userId : user['_id'], //TODO : Add more here
+              updated : Date.now()
+            }
+
+            accessToken = jwt.sign(session, config['json-token-secret']);
+            user.set('access_token', accessToken);
+            user.save();
+            
             db.User.addAccounts(user.get('_id'), accounts);
             return {access_token : accessToken, user_id : user.get('_id')}
           })
