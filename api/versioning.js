@@ -13,5 +13,5 @@ version.get('/check', function*(){
   if(LATEST_VERSION[body.build]['number'] > body.version) {
     this.body = {update : true,message : 'A better app version is available. Please update to have a better expierience'}
   }
-  else this.body = {update : false}
+  else this.body = {update : false, message : 'You are already using the latest version of the app'}
 })
