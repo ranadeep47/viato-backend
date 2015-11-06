@@ -1,8 +1,8 @@
 var Router            = require('koa-router');
-var version              = new Router();
+var version           = new Router();
 var db                = require('../db');
 
-module.exorts = version;
+module.exports = version;
 
 //TODO
 var LATEST_VERSION = config.versioning;
