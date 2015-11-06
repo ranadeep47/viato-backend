@@ -35,7 +35,7 @@ function isAddressServed(address){
 }
 
 function isSupported(location){
-  return get(location).then(function(Address){
+  return getLocality(location).then(function(Address){
     return isSupportedAddress(Address);
   });
 }
