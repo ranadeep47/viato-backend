@@ -10,7 +10,17 @@
     "image_dir"             : "/var/www/images/img",
     "sms-key"               : "95261AknFlgdMdT561f6db9",
     "google-geocoding-key"  : "AIzaSyCLlQTZKsoupkw_BCoe6dgNVu_pjhIMFR4",
-    "gcm-sender-id"         : "AIzaSyBo8mYCRkA9EBp8kjrqbu43C-GadTtVO64"
+    "gcm-sender-id"         : "AIzaSyBo8mYCRkA9EBp8kjrqbu43C-GadTtVO64",
+    "versioning"            : {
+      "DEBUG" : {
+        "name" : "1.0",
+        "number" : 1
+      },
+      "RELEASE" : {
+        "name" : "1.0",
+        "number" : 1
+      }
+    }
   },
 
   "testing" : {

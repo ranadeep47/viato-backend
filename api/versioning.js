@@ -4,16 +4,8 @@ var db                = require('../db');
 
 module.exorts = version;
 
-var LATEST_VERSION = {
-  'DEBUG' : {
-    name : '1.0',
-    number : 1
-  }
-  'RELEASE' : {
-    name : '1.0',
-    number : 1
-  },
-}
+//TODO
+var LATEST_VERSION = config.versioning;
 
 version.get('/check', function*(){
   var body = this.query;
