@@ -36,7 +36,7 @@ app.use(serve(__dirname + '/public'));
 router.use('/api', jwt({secret : config['json-token-secret']}));
 router.use('/api', require('./api').routes());
 router.use('/login', require('./login').routes());
-router.use('/app', function*(){
+router.get('/app', function*(){
   this.redirect('https://play.google.com/store/apps/details?id=in.viato.app');
 })
 
