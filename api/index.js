@@ -3,6 +3,7 @@ var api = new Router();
 
 module.exports = api;
 
+api.use('/version', require('./versioning'));
 api.use('/geo', require('./geo').routes());
 api.use('/books', require('./books').routes());
 api.use('/feed', require('./feed').routes());
