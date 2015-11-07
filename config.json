@@ -13,12 +13,12 @@
     "gcm-sender-id"         : "AIzaSyBo8mYCRkA9EBp8kjrqbu43C-GadTtVO64",
     "versioning"            : {
       "DEBUG" : {
-        "name" : "1.0.0",
-        "number" : 100
+        "name" : "1.0.1",
+        "number" : 101
       },
       "RELEASE" : {
         "name" : "1.0.1",
-        "number" : 100
+        "number" : 101
       }
     }
   },
