@@ -12,8 +12,8 @@ var offset = storage.getItemSync('offset');
 fetch();
 
 function fetch(){
-  db.Catalogue.find()
-  .select('isbn13').sort({'popularity.ratingsCount' : {$gt : 999}}).skip(offset).limit(10)
+  db.Catalogue.find({'popularity.ratingsCount' : {$gt : 999}})
+  .select('isbn13').sort({_id : 1}).skip(offset).limit(10)
   .exec().then(function(docs){
     if(!docs) {
       process.exit();
