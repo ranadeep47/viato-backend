@@ -13,7 +13,7 @@ fetch();
 
 function fetch(){
   db.Catalogue.find()
-  .select('isbn13').sort({_id : 1}).skip(offset).limit(10)
+  .select('isbn13').sort({'popularity.ratingsCount' : {$gt : 999}}).skip(offset).limit(10)
   .exec().then(function(docs){
     if(!docs) {
       process.exit();
@@ -53,13 +53,13 @@ function update(doc, popularity){
 }
 
 function get(isbn13){
-  var url = "http://www.goodreads.com/search?utf8=%E2%9C%93&query="+isbn13;
+  var url = "http://www.goodreads.com/search?query="+isbn13;
   return new Promise(function(resolve, reject) {
     request.get(url,function(e,r,d){
       var $ = cheerio.load(d);
       var rating       = parseFloat($('.average').text())
-      var ratingsCount = parseInt($('.votes').text().replace(',',''));
-      var reviewCount  = parseInt($('.count').text().replace(',',''));
+      var ratingsCount = parseInt($('.votes').text().replace(/,/g,''));
+      var reviewCount  = parseInt($('.count').text().replace(/,/g,''));
 
       if(isNaN(rating)) rating = 0;
       if(isNaN(ratingsCount)) ratingsCount = 0;
