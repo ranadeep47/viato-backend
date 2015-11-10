@@ -81,13 +81,13 @@ function parsePage($) {
 }
 
 function getGoodReadsPopularity(isbn13){
-  var url = "http://www.goodreads.com/search?utf8=%E2%9C%93&query="+isbn13;
+  var url = "http://www.goodreads.com/search?query="+isbn13;
   return new Promise(function(resolve, reject) {
     request.get(url,function(e,r,d){
       var $ = cheerio.load(d);
       var rating       = parseFloat($('.average').text())
-      var ratingsCount = parseInt($('.votes').text().replace(',',''));
-      var reviewCount  = parseInt($('.count').text().replace(',',''));
+      var ratingsCount = parseInt($('.votes').text().replace(/,/g,''));
+      var reviewCount  = parseInt($('.count').text().replace(/,/g,''));
       var description  = $('#description span~span').html() || '';
 
       if(description === '') {
