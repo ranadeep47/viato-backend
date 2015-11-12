@@ -16,7 +16,7 @@ function bookingPayment(Cart, Copouns, copounCode){
   var copounDiscount = 0;
 
   if(copounCode) {
-    var Response = validateCopoun(Cart, Copouns);
+    var Response = validateCopoun(Cart, Copouns, copounCode);
     if(Response.isApplicable) {
       var Copoun = Response.Copoun;
       copounId = Copoun['_id'];
