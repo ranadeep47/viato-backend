@@ -5,10 +5,17 @@ var db = require('../db');
 
 var _ = require('lodash');
 var isbn = require('isbn-utils');
-
 var gbooks = require('../services/gbooks');
 
 module.exports = search;
+
+search.get('/suggest', function*(){
+  var query = this.query['q'];
+  if(!query) return this.throw('Invalid search query parameter');
+  query = query.trim();
+
+
+})
 
 search.get('/', function*(){
   var query = this.query['q']

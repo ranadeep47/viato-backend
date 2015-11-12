@@ -1,17 +1,21 @@
 var elasticsearch = require('elasticsearch');
 var client = new elasticsearch.Client({
-  host: 'localhost:9200',
-  log: 'trace'
+  host: 'localhost:9200'
+  // ,log: 'trace'
 });
 
-client.suggest({
-  index: 'viato',
-  body: {
-    catalogues: {
-      text: 'che',
-      completion : {
-        field: 'tags_search'
-      }
+client.search({
+  index : 'viato',
+  type  : 'catalogues',
+  size  : 20,
+  body  : {
+    query : {
+       match : {
+          "_all" : {
+             query : "wings abdul",
+             operator : "and"
+          }
+       }
     }
   }
 })
