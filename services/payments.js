@@ -32,7 +32,7 @@ function bookingPayment(Cart, Copouns, copounCode){
     }
   }
 
-  var totalPayable -= copounDiscount;
+  var totalPayable = totalPayable - copounDiscount;
   var Payment = {
     payment_mode    : 'COD',
     total_payable   : totalPayable,

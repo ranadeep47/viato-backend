@@ -22,7 +22,7 @@ cart.get('/', function*(){
 cart.get('/copoun', function*(){
   var userId   = this.state.user['userId'];
   var copoun   = this.query['copoun'];
-  this.body    = yield this.findOne({_id : userId}).select('cart copouns').exec()
+  this.body    = yield db.User.findOne({_id : userId}).select('cart copouns').exec()
   .then(function(User){
     var Response = paymentService.validateCopoun(User.cart, User.copouns, copoun);
     delete Response.copoun;
