@@ -1,4 +1,5 @@
 var db = require('../db');
+var _ = require('lodash');
 
 exports.bookingPayment = bookingPayment;
 exports.validateCopoun = validateCopoun;
