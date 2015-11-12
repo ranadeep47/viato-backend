@@ -20,5 +20,5 @@ client.search({
   }
 })
 .then(function(resp){
-  console.log(resp);
+  console.log(resp.hits.hits);
 })

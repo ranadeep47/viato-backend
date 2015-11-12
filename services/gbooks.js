@@ -91,7 +91,8 @@ function parseItem(item){
 
   var isbn13 = _.find(item['industryIdentifiers'], {type: "ISBN_13"});
   if(isbn13 && 'identifier' in isbn13) isbn13 = isbn13['identifier'];
-  else isbn13 = isbnUtils.parse(isbn10).asIsbn13();
+  else if(isbn10) isbn13 = isbnUtils.parse(isbn10).asIsbn13();
+  else isbn13 = "";
 
   return {
     title       : item['title'] + subtitle,
