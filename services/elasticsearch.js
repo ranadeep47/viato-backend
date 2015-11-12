@@ -5,11 +5,13 @@ var client        = new elasticsearch.Client({
     // ,log: 'trace'
 });
 
+var BASIC_FIELDS = require('../db/schemas/Catalogue').BASIC_FIELDS;
+
 exports.suggest = sugget;
 exports.search = search;
 
 function suggest(q){
-  client.suggest({
+  return client.suggest({
     index: 'viato',
     body: {
       catalogues: {
@@ -21,7 +23,7 @@ function suggest(q){
     }
   })
   .then(function(resp){
-    _.pluck(resp.catalogues[0].options, 'text');
+    return _.pluck(resp.catalogues[0].options, 'text');
   })
   .catch(function(e){
     return [];
@@ -29,5 +31,49 @@ function suggest(q){
 }
 
 function search(q){
-  
+  return client.search({
+    index : 'viato',
+    type  : 'catalogues',
+    size  : 20,
+    body  : {
+      query : {
+         match : {
+            "_all" : {
+               query : q,
+               operator : "and"
+            }
+         }
+      }
+    }
+  })
+  .then(function(resp){
+    return process(_.pluck(resp.hits.hits, '_source'));
+  })
+  .catch(function(e){
+    console.log(e);
+    return [];
+  })
+}
+
+function process(docs){
+  var fields = BASIC_FIELDS.concat(['isbn13']);
+  //Show english first
+  var others = [];
+  var english = _.filter(docs, function(doc){
+    if(doc.language !== 'English') others.push(doc);
+    else return true;
+  });
+  docs = english.concat(others);
+  //Sort by popularity
+  docs = _.sortBy(docs, function(d){ return d.popularity.ratingsCount });
+  docs.reverse();
+
+  return docs.map(function(doc){
+    var item          = _.pick(doc, fields);
+    item.pricing      = doc.pricing.rental[0];
+    item.catalogueId  = doc.id;
+    item.extraKey     = "VIATO";
+    item.extraId      = doc.id;
+    return item;
+  });
 }

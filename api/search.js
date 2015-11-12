@@ -7,14 +7,15 @@ var _ = require('lodash');
 var isbn = require('isbn-utils');
 var gbooks = require('../services/gbooks');
 
+var es = require('../services/elasticsearch');
+
 module.exports = search;
 
 search.get('/suggest', function*(){
   var query = this.query['q'];
   if(!query) return this.throw('Invalid search query parameter');
   query = query.trim();
-
-
+  this.body = yield es.suggest(query);
 })
 
 search.get('/', function*(){
@@ -30,7 +31,7 @@ search.get('/', function*(){
 });
 
 function handleTextSearch(query){
-  return Promise.all([catalogueTextSearch(query), googleTextSearch(query)])
+  return Promise.all([es.search(query), googleTextSearch(query)])
   .then(function(results){
     var catalogue = results[0] || [];
     var google = results[1] || [];
@@ -53,11 +54,11 @@ function handleISBNSearch(isbn){
   })
 }
 
-function catalogueTextSearch(query) {
-    //Check if its a phrase
-    query = query.split(' ').length > 1 ? '\"'+query+'\"' : query;
-    return db.Catalogue.search(query);
-}
+// function catalogueTextSearch(query) {
+//     //Check if its a phrase
+//     query = query.split(' ').length > 1 ? '\"'+query+'\"' : query;
+//     return db.Catalogue.search(query);
+// }
 
 function catalogueISBNSearch(isbn13){
   return db.Catalogue.findOne({isbn13 : isbn13}).exec().then(function(catItem){
