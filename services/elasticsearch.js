@@ -7,7 +7,7 @@ var client        = new elasticsearch.Client({
 
 var BASIC_FIELDS = require('../db/schemas/Catalogue').BASIC_FIELDS;
 
-exports.suggest = sugget;
+exports.suggest = suggest;
 exports.search = search;
 
 function suggest(q){
