@@ -57,6 +57,10 @@ function search(q){
 
 function process(docs){
   var fields = BASIC_FIELDS.concat(['isbn13']);
+  //Sort by popularity
+  docs = _.sortBy(docs, function(d){ return d.popularity.ratingsCount });
+  docs.reverse();
+
   //Show english first
   var others = [];
   var english = _.filter(docs, function(doc){
@@ -64,9 +68,6 @@ function process(docs){
     else return true;
   });
   docs = english.concat(others);
-  //Sort by popularity
-  docs = _.sortBy(docs, function(d){ return d.popularity.ratingsCount });
-  docs.reverse();
 
   return docs.map(function(doc){
     var item          = _.pick(doc, fields);

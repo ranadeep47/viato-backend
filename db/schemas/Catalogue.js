@@ -61,7 +61,7 @@ module.exports = CatalogueSchema;
 
 var BASIC_FIELDS = ['title','cover','authors','pricing','thumbs']
 
-exports.BASIC_FIELDS = BASIC_FIELDS;
+module.xports.BASIC_FIELDS = BASIC_FIELDS;
 
 CatalogueSchema.path('isbn13').index(true);
 
