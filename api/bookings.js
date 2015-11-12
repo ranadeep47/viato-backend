@@ -106,11 +106,14 @@ bookings.post('/', function*(){
 
           db.Booking.create(booking).then(function(Booking){
             if(copoun) {
-              db.User.updateCopounApplied(userId, Booking['booking_payment']['copoun_applied']);
+              if(paymentService.validateCopoun(cart, copouns, copoun).isApplicable){
+                db.User.updateCopounApplied(userId, Booking['booking_payment']['copoun_applied']);
+              }
             }
+            //Empty cart
+            db.User.emptyCart(userId);
           });
-          //Empty cart
-          db.User.emptyCart(userId);
+
           return booking['order_id'];
         })
       }

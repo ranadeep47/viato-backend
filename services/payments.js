@@ -18,7 +18,7 @@ function bookingPayment(Cart, Copouns, copounCode){
   if(copounCode) {
     var Response = validateCopoun(Cart, Copouns, copounCode);
     if(Response.isApplicable) {
-      var Copoun = Response.Copoun;
+      var Copoun = Response.copoun;
       copounId = Copoun['_id'];
       switch(Copoun.type) {
         case 'CASH' :
