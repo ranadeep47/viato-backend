@@ -4,6 +4,8 @@ var db = require('../db');
 var utils = require('../utils');
 var _ = require('lodash');
 
+var paymentService = require('../services/payments');
+
 module.exports = cart;
 
 cart.get('/', function*(){
@@ -16,6 +18,17 @@ cart.get('/', function*(){
 
   this.body = doc;
 })
+
+cart.get('/copoun', function*(){
+  var userId   = this.state.user['userId'];
+  var copoun   = this.query['copoun'];
+  this.body    = yield this.findOne({_id : userId}).select('cart copouns').exec()
+  .then(function(User){
+    var Response = paymentService.validateCopoun(User.cart, User.copouns, copoun);
+    delete Response.copoun;
+    return Response;
+  });
+});
 
 cart.post('/', function*(){
   var ctx = this;

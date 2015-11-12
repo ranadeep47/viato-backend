@@ -3,10 +3,11 @@ var is = require('is_js');
 var _ = require('lodash');
 var Schema = mongoose.Schema;
 
-var AddressSchema = require('./Address');
+var AddressSchema   = require('./Address');
 var BasicItemSchema = require('./BasicItem');
+var CopounSchema    = require('./Copoun');
 
-var Constants = require('../../constants');
+var Constants   = require('../../constants');
 var SchemaUtils = require('../utils');
 
 var UserDeviceSchema = new Schema({
@@ -40,7 +41,8 @@ var UserSchema = new Schema({
     _id : false,
     reading : {type : [BasicItemSchema], default : []},
     read : {type : [BasicItemSchema], default : []}
-  }
+  },
+  copouns        : {type : [CopounSchema], default : []}
 }, UserSchemaOptions);
 
 module.exports = UserSchema;
@@ -51,6 +53,24 @@ UserSchema
     return this.first_name + ' ' + this.last_name;
   });
 
+UserSchema.statics.addCopoun = function(userId, Copoun){
+  return this.findOne({_id : userId}).select('copouns').exec().then(function(User){
+    if(!User) return User;
+    User.copouns.push(Copoun);
+    User.save();
+    return User.copouns.pop();
+  });
+}
+
+UserSchema.statics.updateCopounApplied = function(userId, copounId){
+  return this.findOne({_id : userId, 'copouns._id' : copounId}).select('copouns').exec()
+  .then(function(User){
+    if(!User) return;
+    User.copouns[0]['applied_at'] = new Date();
+    User.save();
+    return User.copouns[0];
+  })
+}
 
 UserSchema.statics.addToCart = function(userId, basicItem) {
   return this.findOne({_id : userId}).select('cart addresses').exec()

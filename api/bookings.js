@@ -7,6 +7,7 @@ var _ = require('lodash');
 var ObjectId = require('mongoose').Types.ObjectId;
 
 var reverseGeoCoding = require('../services/reverseGeocoding');
+var paymentService = require('../services/payments');
 
 module.exports = bookings;
 
@@ -35,9 +36,10 @@ bookings.post('/', function*(){
   if(!utils.checkBody(['addressId'], this.request.body)) return this.throw(400);
 
   var addressId = this.request.body['addressId'];
-//TODO  var copounCode = this.request.body['copounId'];
+  var copoun    = this.request.body['copoun'];
+  if(copoun) copoun = copoun.trim();
 
-  var fields = ['cart', 'addresses'];
+  var fields = ['cart', 'addresses','copouns'];
   this.body = yield db.User.findOne({_id : userId}).select(fields.join(' ')).exec()
   .then(function(user){
     if(!user) throw new Error('Invalid userId');
@@ -48,6 +50,7 @@ bookings.post('/', function*(){
     return reverseGeoCoding.isAddressServed(address).then(function(isServed){
       if(isServed.is_supported){
         var cart = user.cart;
+        var copouns = user.copouns;
         if(!cart.length) return ctx.throw(400, 'Cart is empty!');
 
         //Check if there are no pending bookings with more than 1 book in READING / READING - EXTENDED
@@ -89,14 +92,7 @@ bookings.post('/', function*(){
             }
           });
 
-          var total_payable = cart.reduce(function(total,item){
-            return total += item.pricing.rent;
-          }, 0);
-
-          var payment = {
-            payment_mode : 'COD',
-            total_payable : total_payable
-          }
+          var payment = paymentService.bookingPayment(cart, copouns, copoun);
 
           var booking = {
             user_id : userId,
@@ -108,7 +104,11 @@ bookings.post('/', function*(){
             booking_payment : payment
           };
 
-          db.Booking.create(booking);
+          db.Booking.create(booking).then(function(Booking){
+            if(copoun) {
+              db.User.updateCopounApplied(userId, Booking['booking_payment']['copoun_applied']);
+            }
+          });
           //Empty cart
           db.User.emptyCart(userId);
           return booking['order_id'];

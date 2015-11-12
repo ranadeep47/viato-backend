@@ -3,7 +3,8 @@ var enums = {
   BookingStatuses : ['PLACED', 'CONFIRMED', 'DISPATCHED', 'DELIVERED' ,'PARTIALLY COMPLETED','COMPLETED', 'CANCELLED'],
   PaymentModes    : ['COD'],
   DevicePlatforms : ['Android', 'Web', 'iOS', 'Windows Phone'],
-  FeedTypes       : ['GENRES', 'TRENDING', 'SPECIAL-LIST']
+  FeedTypes       : ['GENRES', 'TRENDING', 'SPECIAL-LIST'],
+  CopounTypes     : ['PERCENT', 'CASH']
 }
 
 module.exports = {enums : enums};
