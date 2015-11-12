@@ -79,8 +79,7 @@ mybooks.get('/wishlist/status/:bookId', function*(){
   .select('wishlist')
   .exec();
 
-
-  this.body = (User && User.wishlist.length > 0) ? true : false;
+  this.body = User.wishlist.length ? User.wishlist[0]._id.toString() : "";
 })
 
 mybooks.post('/wishlist', function*(){
