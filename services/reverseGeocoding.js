@@ -23,15 +23,16 @@ var supported_localities = [
 function isAddressServed(address){
   var placeId = address.locality.placeId;
   var params = {place_id : placeId, key : apiKey}
+  var obj = {is_supported : true, supported_localities : supported_localities};
+  if(!placeId) return obj;
   return get(params).then(function(Address){
-    var obj = {supported_localities : supported_localities};
     if(!Address) obj.is_supported = false;
-    else {
-      obj = isSupportedAddress(Address);
-    }
-
     return obj;
   })
+  .catch(function(){
+    return obj; //In case of error just say its supported and deal with it later
+  })
+
 }
 
 function isSupported(location){
@@ -45,12 +46,13 @@ function isSupported(location){
   }
   return get(params).then(function(Address){
     return isSupportedAddress(Address);
-  });
+  })
 }
 
 function isSupportedAddress(Address){
   var Locality = _.find(Address.address_components,function(o) {
     if(o.types.indexOf('sublocality_level_1') >= 0) return true;
+    if(o.types.indexOf('sublocality') >= 0) return true;
     if(o.types.indexOf('locality') >= 0) return true;
   });
   var is_supported = supported_localities.indexOf(Locality.long_name) >= 0 ? true : false;
@@ -80,9 +82,15 @@ function get(params){
   var url = "https://maps.googleapis.com/maps/api/geocode/json";
   return axios.get(url, {params : params}).then(function(res){
     var data = res.data;
-    if(data.status !== 'OK') throw new Error('Error getting address');
-    if(!data.results.length) throw new Error('Error getting locality');
-    var Address = data.results[0];
-    return Address;
+    if(!data.results.length) {
+      delete params['location_type'];
+      return axios.get(url, {params : params}).then(function(res){
+        if(res.data.results.length) {
+          return res.data.results[0];
+        }
+        else throw new Error('Error getting locality');
+      })
+    }
+    return data.results[0];    
   })
 }

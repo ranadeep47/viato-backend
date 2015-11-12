@@ -83,8 +83,8 @@ bookings.post('/', function*(){
               status : 'YET TO DELIVER',
               extension_pricing : {
                 _id     : new ObjectId(),
-                rent    : rentalItem.pricing.rent,
-                period  : rentalItem.pricing.period
+                rent    : rentalItem.pricing.rent / 2,
+                period  : rentalItem.pricing.period / 2
               }
             }
           });
