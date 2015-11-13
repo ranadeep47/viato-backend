@@ -17,7 +17,7 @@ bookings.get('/', function*(){
   this.body = yield db.Booking
   .find({user_id : userId})
   .select('-user_id')
-  .sort({booked_at : -1}).exec()
+  .sort({_id : -1}).exec()
   .then(function(bookings){
     return bookings;
   });
