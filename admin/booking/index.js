@@ -55,7 +55,7 @@ booking.post('/confirm', function*(){
 
   Booking.save(function(){
     //SMS
-    sms.informOrder(userId, Booking['status'], Booking);
+    sms.informOrder(Booking['user_id'], Booking['status'], Booking);
   });
   this.body = 'Booking confirmed';
 });
@@ -72,7 +72,7 @@ booking.post('/cancel', function*() {
   Booking.save(function(){
       sms.informOrder(Booking['user_id'], Booking['status'], Booking);
   });
-  
+
   this.body = 'Booking cancelled';
 })
 
