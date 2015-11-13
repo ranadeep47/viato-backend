@@ -79,14 +79,14 @@ function notifyOrder(userId,status,body,bookingId){
 function notifyExpirey(){
   var message = _.extend({}, defaults);
   message.notification.click_action = 'in.viato.app.BOOKING';
-  message.body.bookingId = "";
+  message.data.bookingId = "";
 }
 
 function notifyNewBooks() {
   var message = _.extend({}, defaults);
   message.notification.click_action = 'in.viato.app.CATEGORY';
-  message.body.categoryId = "";
-  message.body.categoryName = "";
+  message.data.categoryId = "";
+  message.data.categoryName = "";
 }
 
 function notifyCartRemaining(){
@@ -94,6 +94,7 @@ function notifyCartRemaining(){
 }
 
 function send(message, tokens){
+  message = new gcm.Message(message);
   sender.send(message, { registrationIds : tokens }, function (err, result) {
       if(err) console.error(err);
       else  console.log(result); //TODO update tokens based on message failure message
