@@ -61,9 +61,9 @@ booking.post('/cancel', function*() {
   var Booking = yield db.Booking.findOne({order_id : orderId}).exec();
   Booking.status = 'CANCELLED';
   Booking.rentals.forEach(function(rental){
-    rental.status = 'CANCELLED'}
+    rental.status = 'CANCELLED'
     gcm.notifyOrder(Booking['user_id'], rental['status'], rental, Booking['_id']);
-  );
+  });
   Booking.save();
   this.body = 'Booking cancelled';
 })
