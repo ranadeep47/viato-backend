@@ -41,7 +41,6 @@
     "node-gcm": "^0.12.0",
     "node-persist": "0.0.6",
     "node-uuid": "^1.4.3",
-    "request": "^2.65.0",
-    "sharp": "^0.11.3"
+    "request": "^2.65.0"
   }
 }

@@ -4,7 +4,7 @@ var path = require('path');
 var uuid = require('node-uuid');
 var fs = require('fs');
 var request = require('request');
-var sharp = require('sharp');
+var gm = require('gm');
 
 var IMAGES_DIR = config['image_dir'] + '/categories/';
 
@@ -17,12 +17,20 @@ function storeImage(link) {
   return new Promise(function(resolve, reject) {
     var image = request(link).on('error', function(){resolve(null)})
 
-    image
-    .pipe(sharp().resize(720,360).on('error', function(err){ console.log(err) }))
+    gm(image)
+    .resize('720', '360', '^')
+    .gravity('Center')
+    .crop('720', '360')
+    .quality(55)
+    .stream()
     .pipe(fs.createWriteStream(IMAGES_DIR + cover));
 
-    image
-    .pipe(sharp().resize(360,360).on('error', function(err){ console.log(err) }))
+    gm(image)
+    .resize('360', '360', '^')
+    .gravity('Center')
+    .crop('360', '360')
+    .quality(55)
+    .stream()
     .pipe(fs.createWriteStream(IMAGES_DIR + square));
 
     return resolve(

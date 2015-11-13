@@ -13,12 +13,12 @@
     "gcm-sender-id"         : "AIzaSyBo8mYCRkA9EBp8kjrqbu43C-GadTtVO64",
     "versioning"            : {
       "DEBUG" : {
-        "name" : "1.0.2",
-        "number" : 102
+        "name" : "1.0.3",
+        "number" : 103
       },
       "RELEASE" : {
         "name" : "1.0.2",
-        "number" : 102
+        "number" : 103
       }
     }
   },
@@ -29,11 +29,25 @@
 
   "development" : {
     "server" : {
-      "port" : 3000
+      "port" : 8080
     },
     "mongo" : {
       "dburi" : "mongodb://localhost:27017/viato_dev"
     },
-    "json-token-secret" : "omgsecret"
+    "json-token-secret"     : "omgsecret",
+    "image_dir"             : "/Users/ranadeep/viato/images/img",
+    "sms-key"               : "95261AknFlgdMdT561f6db9",
+    "google-geocoding-key"  : "AIzaSyCLlQTZKsoupkw_BCoe6dgNVu_pjhIMFR4",
+    "gcm-sender-id"         : "AIzaSyBo8mYCRkA9EBp8kjrqbu43C-GadTtVO64",
+    "versioning"            : {
+      "DEBUG" : {
+        "name" : "1.0.2",
+        "number" : 102
+      },
+      "RELEASE" : {
+        "name" : "1.0.2",
+        "number" : 102
+      }
+    }
   }
 }
