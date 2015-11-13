@@ -71,7 +71,7 @@ function notifyOrder(userId,status,body,bookingId){
         return;
     }
 
-    message.body.bookingId = bookingId;
+    message.data.bookingId = bookingId;
     send(message, tokens);
   })
 }
