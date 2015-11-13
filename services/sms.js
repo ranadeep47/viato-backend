@@ -47,8 +47,8 @@ function informOrder(userId, status, body) {
         break;
 
       case 'CANCELLED' :
-        var message = 'Sorry your order '+ body['order_id'] + ' has been cancelled '+
-        'due to unavailibity. Please call ' + Constants['ContactNumber'] + ' for any inquiries. Thank you for using Viato.';
+        var message = 'Sorry your order #'+ body['order_id'].toUpperCase() + ' has been cancelled '+
+        'due to unavailibity of books. Please call ' + Constants['ContactNumber'] + ' for any inquiries. Thank you for using Viato.';
         break;
       // case 'DELIVERED' :
       //   var message = 'Your order from viato has been successfully delivered. Thank you for choosing us';

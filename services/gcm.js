@@ -12,7 +12,8 @@ var defaults = {
 
       notification : {
         icon  : "ic_notification",
-        sound : "default"
+        sound : "default",
+        color : "#00bcd4"
       }
 }
 
