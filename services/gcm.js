@@ -98,7 +98,7 @@ function send(message, tokens){
   message = new gcm.Message(message);
   sender.send(message, { registrationIds : tokens }, function (err, result) {
       if(err) console.error(err);
-      else  console.log(result); //TODO update tokens based on message failure message
+     //TODO update tokens based on message failure message
   });
 }
 
