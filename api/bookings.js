@@ -72,6 +72,10 @@ bookings.post('/', function*(){
             if(RentalsPending > 1) {
               return ctx.throw(400, 'Please return the rented books to continue booking.');
             }
+
+            if(RentalsPending === 1 && user.cart.length === 2) {
+              return ctx.throw(400, 'You can only order one more book. Please remove a book from your cart.');
+            }
           }
           //Ok . Proceed with booking
           var rentals = cart.map(function(rentalItem){
