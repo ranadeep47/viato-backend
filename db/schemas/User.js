@@ -11,10 +11,10 @@ var Constants   = require('../../constants');
 var SchemaUtils = require('../utils');
 
 var UserDeviceSchema = new Schema({
-  device_id     : {type : String},
-  platform      : {type : String, enum : Constants.enums.DevicePlatforms},
-  dimensions    : {type : Schema.Types.Mixed},
-  model         : String
+  device_id     : {type : String},  //IMEI / CDMI id
+  app_token     : {type : String},
+  created_at    : {type : Date, default : new Date},
+  updated_at    : {type : Date, default : new Date}
 }, SchemaUtils.defaultOptions)
 
 var UserSchemaOptions = _.clone(SchemaUtils.defaultOptions);

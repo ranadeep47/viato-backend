@@ -8,6 +8,7 @@ var ObjectId = require('mongoose').Types.ObjectId;
 
 var reverseGeoCoding = require('../services/reverseGeocoding');
 var paymentService = require('../services/payments');
+var gcm = require('../services/gcm');
 
 module.exports = bookings;
 
@@ -112,6 +113,9 @@ bookings.post('/', function*(){
             }
             //Empty cart
             db.User.emptyCart(userId);
+
+            //notification
+            gcm.notifyOrder(Booking['user_id'], Booking['status'], {}, Booking['_id']);
           });
 
           return booking['order_id'];
@@ -161,6 +165,7 @@ bookings.post('/rents/extend', function*(){
 
       return db.Booking.findOneAndUpdate({user_id : userId, 'rentals._id' : rentId}, {$set : updateParams},{new : true}).exec()
       .then(function(booking){
+        gcm.notifyOrder(userId, 'READING-EXTENDED', rental, {}, booking['_id']);
         return 'Rental extended for '+extension_period+' more days.';
       })
     }
@@ -192,6 +197,8 @@ bookings.post('/rents/return', function*(){
 
       return db.Booking.findOneAndUpdate({user_id : userId, 'rentals._id' : rentId}, {$set : updateParams},{new : true}).exec()
       .then(function(booking){
+        //notification
+        gcm.notifyOrder(userId, 'SCHEDULED FOR PICKUP', rental, booking['_id']);
         if(booking.status === 'PARTIALLY COMPLETED') booking.status = 'COMPLETED';
         booking.save();
         return 'We will pickup the book as soon as possible';

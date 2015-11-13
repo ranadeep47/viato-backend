@@ -33,10 +33,11 @@ app.context.render = render({
 app.use(serve(__dirname + '/public'));
 
 //Routing Middleware
-router.use('/api', jwt({secret : config['json-token-secret']}));
-router.use('/api', require('./api').routes());
-router.use('/login', require('./login').routes());
-router.get('/app', function*(){
+router.use('/api',    require('./api/middleware'));
+router.use('/api',    jwt({secret : config['json-token-secret']}));
+router.use('/api',    require('./api').routes());
+router.use('/login',  require('./login').routes());
+router.get('/app',    function*(){
   this.redirect('https://play.google.com/store/apps/details?id=in.viato.app');
 })
 

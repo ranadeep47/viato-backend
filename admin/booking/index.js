@@ -4,6 +4,7 @@ var booking = new Router();
 var _ = require('lodash');
 var moment = require('moment');
 
+var gcm = require('../../services/gcm');
 /*
  * Get all the active bookings, ie : PLACED, CONFIRMED, DISPATCHED - > DELIVERED
  * PICKUPS which are SCHEDULED FOR PICKUP
@@ -29,23 +30,25 @@ booking.post('/confirm', function*(){
   var Booking = yield db.Booking.findOne({order_id : orderId}).exec();
   Booking.status = 'CONFIRMED';
 
-  var ActualTotalPayable = Booking.rentals.reduce(function(sum, r){
-    return sum + r.item.pricing.rent
-  }, 0);
-
-
   Booking.rentals.forEach(function(rental){
     if(rentals[rental._id.toString()]) {
       //If confirmed, set expected delivered_at
       rental.expected_delivery_at = moment().add(2, 'days').toDate();
+      gcm.notifyOrder(Booking['user_id'], 'CONFIRMED', rental, Booking['_id']);
     }
     else {
       //rental is cancelled
       rental.status = 'CANCELLED';
       //Remove its pricing booking, schedule refund for online payments
-      var fractionOfTotal = rental.item.pricing.rent / ActualTotalPayable;
-      var refund = Math.round(fractionOfTotal * Booking.booking_payment.total_payable);
-      Booking.booking_payment.total_payable -= refund;
+      var total = Booking['booking_payment']['total'] + Booking['booking_payment']['discount'];
+      var fractionOfTotal = rental.item.pricing.rent / total;
+      var refund = Math.round(fractionOfTotal * Booking['booking_payment']['total_payable']);
+      if(refund <= total_payable){
+        Booking['booking_payment']['total_payable'] -= refund;
+      }
+
+      //Notification
+      gcm.notifyOrder(Booking['user_id'], rental['status'], rental, Booking['_id']);
     }
   });
 
@@ -57,7 +60,10 @@ booking.post('/cancel', function*() {
   var orderId = this.request.body['orderId'];
   var Booking = yield db.Booking.findOne({order_id : orderId}).exec();
   Booking.status = 'CANCELLED';
-  Booking.rentals.forEach(function(rental){rental.status = 'CANCELLED'});
+  Booking.rentals.forEach(function(rental){
+    rental.status = 'CANCELLED'}
+    gcm.notifyOrder(Booking['user_id'], rental['status'], rental, Booking['_id']);
+  );
   Booking.save();
   this.body = 'Booking cancelled';
 })
@@ -66,10 +72,11 @@ booking.post('/dispatch', function*() {
   var orderId = this.request.body['orderId'];
   var Booking = yield db.Booking
                 .findOne({order_id : orderId})
-                .select('status')
+                .select('status user_id')
                 .exec();
 
   Booking.status = 'DISPATCHED';
+  gcm.notifyOrder(Booking['user_id'], Booking['status'], {}, Booking['_id']);
   Booking.save();
   this.body = 'Booking dispatched';
 
@@ -78,10 +85,11 @@ booking.post('/dispatch', function*() {
 booking.post('/deliver', function*() {
   var orderId = this.request.body['orderId'];
   var Booking = yield db.Booking.findOne({order_id : orderId})
-                .select('rentals status booking_payment')
+                .select('rentals status booking_payment user_id')
                 .exec();
 
   Booking.status = 'DELIVERED';
+  gcm.notifyOrder(Booking['user_id'], Booking['status'], {}, Booking['_id']);
   Booking.booking_payment.is_paid = true;
   Booking.booking_payment.paid_at = new Date();
 
@@ -106,13 +114,16 @@ booking.post('/deliver', function*() {
 booking.post('/pickup', function*(){
   var orderId = this.request.body['orderId'];
   var Booking = yield db.Booking.findOne({order_id : orderId})
-                .select('rentals status').exec();
+                .select('rentals status user_id').exec();
 
   Booking.rentals.forEach(function(rental){
     if(rental.status === 'SCHEDULED FOR PICKUP') {
       rental.status = 'RETURNED';
       rental.is_picked = true;
       rental.pickup_done_at = new Date();
+
+      //Notification
+      gcm.notifyOrder(Booking['user_id'], rental['status'], rental, Booking['_id']);
     }
   });
 

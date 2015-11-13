@@ -59,6 +59,7 @@ login.post('/', function*(){
       }
       //Temp user exists, refresh OTP
       else {
+        tempUser.set('imei', imei);
         tempUser.set('otp', otp);
         tempUser.set('otp_generated_at', new Date());
         tempUser.set('is_otp_verified', false);
@@ -120,6 +121,7 @@ login.post('/complete', function*(){
   var userId    = this.request.body['token'];
   var email     = this.request.body['email'];
   var accounts  = this.request.body['accounts'];
+  var appToken  = this.request.body['app_token'] || ''
 
   if(!is.email(email) || userId.length < 1) {
     this.throw(400, 'Invalid Email');
@@ -143,7 +145,7 @@ login.post('/complete', function*(){
                     verification_token : verificationToken
                   },
                 social_accounts : null,
-                devices : [{device_id : tuser.get('device_id'), platform : 'Android'}]
+                devices : [{device_id : tuser.get('imei'), app_token : appToken}]
               }
 
               return db.User.create(user).then(function(user){
@@ -178,8 +180,28 @@ login.post('/complete', function*(){
 
             accessToken = jwt.sign(session, config['json-token-secret']);
             user.set('access_token', accessToken);
-            user.save();
+
+            //Update or add devices & appToken;
+            //if account with imei exists update appToken
+            var updated = false;
+            user.devices.forEach(function(device, i){
+              if(device['device_id'] === tuser['imei']) {
+                updated = true;
+                device['updated_at'] = new Date();
+                device['app_token']  = appToken;
+              }
+            });
+
+            if(!updated){
+              user.devices.push({
+                device_id   : tuser.get('imei'),
+                app_token   : appToken,
+                created_at  : new Date(),
+                updated_at  : new Date()
+              })
+            }
             
+            user.save();
             db.User.addAccounts(user.get('_id'), accounts);
             return {access_token : accessToken, user_id : user.get('_id')}
           })
