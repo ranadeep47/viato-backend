@@ -37,11 +37,11 @@ function notifyOrder(userId,status,body,bookingId){
         message.notification.body = 'Sorry, due to unavilability we cancelled your request for '+body.item.title;
         message.notification.click_action = 'in.viato.app.BOOKING';
         break;
-      case 'CONFIRMED' :
-        message.notification.title = 'Order confirmed';
-        message.notification.body = 'Your request for '+body.item.title + ' has been confirmed and will be at your doorstop in less than 2 days';
-        message.notification.click_action = 'in.viato.app.BOOKING';
-        break;
+      // case 'CONFIRMED' :
+      //   message.notification.title = 'Order confirmed';
+      //   message.notification.body = 'Your request for '+body.item.title + ' has been confirmed and will be at your doorstop in less than 2 days';
+      //   message.notification.click_action = 'in.viato.app.BOOKING';
+      //   break;
       case 'DISPATCHED' :
         message.notification.title = 'Order dispatched';
         message.notification.body = 'Your order has been disptached and you will receive it in a few hours';

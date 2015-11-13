@@ -7,6 +7,8 @@ var API_KEY = config['sms-key'];
 exports.sendOTP = sendOTP;
 exports.informOrder = informOrder;
 
+var Constants = require('../constants');
+
 function sendOTP(to, code) {
   var message = 'VIATO OTP Code : '+ code + '. We need this to verify your mobile number';
   var number = parseInt(to);
@@ -38,20 +40,25 @@ function informOrder(userId, status, body) {
 
     switch(status) {
       case 'CONFIRMED' :
-        var message = 'Your order from viato has been confirmed. Please pay Rs.' +
+        var message = 'Thanks for using Viato. Your order no. #' +
+        body['order_id'] + ' for Rs.' +
         body['booking_payment']['total_payable'] +
-        ' to our delivery person.';
+        ' will be delivered soon. Please call ' + Constants['ContactNumber'] + ' for any issues.';
         break;
 
-      case 'DELIVERED' :
-        var message = 'Your order from viato has been successfully delivered. Thank you for choosing us';
+      case 'CANCELLED' :
+        var message = 'Sorry your order '+ Booking['order_id'] + ' has been cancelled '+
+        'due to unavailibity. Please call ' + Constants['ContactNumber'] + ' for any inquires. Thank you for using Viato.';
         break;
-
-      case 'RETURNED' :
-        var message = 'Your rental from viato ' +
-        body['item']['title'] +
-        ' has been successfully picked up.';
-        break;
+      // case 'DELIVERED' :
+      //   var message = 'Your order from viato has been successfully delivered. Thank you for choosing us';
+      //   break;
+      //
+      // case 'RETURNED' :
+      //   var message = 'Your rental from viato ' +
+      //   body['item']['title'] +
+      //   ' has been successfully picked up.';
+      //   break;
 
       default :
         return;

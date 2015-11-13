@@ -5,6 +5,7 @@ var _ = require('lodash');
 var moment = require('moment');
 
 var gcm = require('../../services/gcm');
+var sms = require('../../services/sms');
 /*
  * Get all the active bookings, ie : PLACED, CONFIRMED, DISPATCHED - > DELIVERED
  * PICKUPS which are SCHEDULED FOR PICKUP
@@ -34,7 +35,7 @@ booking.post('/confirm', function*(){
     if(rentals[rental._id.toString()]) {
       //If confirmed, set expected delivered_at
       rental.expected_delivery_at = moment().add(2, 'days').toDate();
-      gcm.notifyOrder(Booking['user_id'], 'CONFIRMED', rental, Booking['_id']);
+      // gcm.notifyOrder(Booking['user_id'], 'CONFIRMED', rental, Booking['_id']);
     }
     else {
       //rental is cancelled
@@ -52,7 +53,10 @@ booking.post('/confirm', function*(){
     }
   });
 
-  Booking.save();
+  Booking.save(function(){
+    //SMS
+    sms.informOrder(userId, Booking['status'], Booking);
+  });
   this.body = 'Booking confirmed';
 });
 
@@ -62,9 +66,13 @@ booking.post('/cancel', function*() {
   Booking.status = 'CANCELLED';
   Booking.rentals.forEach(function(rental){
     rental.status = 'CANCELLED'
-    gcm.notifyOrder(Booking['user_id'], rental['status'], rental, Booking['_id']);
+    // gcm.notifyOrder(Booking['user_id'], rental['status'], rental, Booking['_id']);
   });
-  Booking.save();
+
+  Booking.save(function(){
+      sms.informOrder(Booking['user_id'], Booking['status'], Booking);
+  });
+  
   this.body = 'Booking cancelled';
 })
 
