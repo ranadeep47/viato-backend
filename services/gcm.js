@@ -11,7 +11,7 @@ var defaults = {
       },
 
       notification : {
-        icon  : "ic_launcher",
+        icon  : "ic_notification",
         sound : "default"
       }
 }
