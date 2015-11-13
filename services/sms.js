@@ -40,10 +40,10 @@ function informOrder(userId, status, body) {
 
     switch(status) {
       case 'CONFIRMED' :
-        var message = 'Thanks for using Viato. Your order no. #' +
+        var message = 'Your order no. #' +
         body['order_id'] + ' for Rs.' +
         body['booking_payment']['total_payable'] +
-        ' will be delivered soon. Please call ' + Constants['ContactNumber'] + ' for any issues.';
+        ' from Viato has been confirmed and will be delivered soon. Please call ' + Constants['ContactNumber'] + ' for any issues.';
         break;
 
       case 'CANCELLED' :
