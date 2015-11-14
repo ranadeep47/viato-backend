@@ -29,7 +29,7 @@ function notifyOrder(userId,status,body,bookingId){
     switch(status) {
       case 'PLACED' :
         message.notification.title = 'Order placed';
-        message.notification.body = 'We receieved your order and we are processing it.';
+        message.notification.body = 'We received your order and we are processing it.';
         message.notification.click_action = 'in.viato.app.BOOKING';
 
         break;
