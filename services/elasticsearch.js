@@ -51,6 +51,7 @@ function search(q){
     if(!results.length) {
       return searchOr(q);
     }
+    else return results;
   })
   .catch(function(e){
     console.log(e);
