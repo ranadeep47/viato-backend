@@ -32,7 +32,9 @@ login.post('/', function*(){
     if(tuser.length && tuser.length > 2) {
       //Limit exceeded. Only a maximum of 2 accounts allowed per device
       //TODO
-      return ctx.throw(400, 'Limit exceeded. Only a maximum of 2 accounts allowed per device');
+      if(!_.find(tuser, {mobile : mobile})){
+        return ctx.throw(400, 'Limit exceeded. Only a maximum of 2 accounts allowed per device');
+      }
     }
 
     var otp = utils.newOTP();
