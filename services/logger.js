@@ -24,17 +24,17 @@ var mongoOptions = {
   options     : {}
 }
 
-var mongoInfoOptions = _.extend({
+var mongoErrorOptions = _.extend({
   name        : 'mongo-info-logger',
-  level       : 'info',
-  collection  : 'info'
+  level       : 'error',
+  collection  : 'errors'
 },mongoOptions);
 
 
 var logger = new (winston.Logger)({
   transports: [
     new (winston.transports.Console)(consoleOptions),
-    new (winston.transports.MongoDB)(mongoInfoOptions)
+    new (winston.transports.MongoDB)(mongoErrorOptions)
   ]
 });
 
