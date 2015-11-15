@@ -47,6 +47,33 @@ function search(q){
     }
   })
   .then(function(resp){
+    var results = process(_.pluck(resp.hits.hits, '_source'));
+    if(!results.length) {
+      return searchOr(q);
+    }
+  })
+  .catch(function(e){
+    console.log(e);
+    return [];
+  })
+}
+
+function searchOr(q){
+  return client.search({
+    index : 'viato',
+    type  : 'catalogues',
+    size  : 20,
+    body  : {
+      query : {
+         match : {
+            "_all" : {
+               query : q
+            }
+         }
+      }
+    }
+  })
+  .then(function(resp){
     return process(_.pluck(resp.hits.hits, '_source'));
   })
   .catch(function(e){
