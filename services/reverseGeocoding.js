@@ -24,7 +24,10 @@ function isAddressServed(address){
   var placeId = address.locality.placeId;
   var params = {place_id : placeId, key : apiKey}
   var obj = {is_supported : true, supported_localities : supported_localities};
-  if(!placeId) return obj;
+  if(!placeId) return new Promise(function(resolve, reject) {
+    resolve(obj);
+  });
+
   return get(params).then(function(Address){
     if(!Address) obj.is_supported = false;
     return obj;
@@ -88,9 +91,17 @@ function get(params){
         if(res.data.results.length) {
           return res.data.results[0];
         }
-        else throw new Error('Error getting locality');
+        else {
+          params['result_type'] = 'locality';
+          return axios.get(url, {params : params}).then(function(res){
+            if(res.data.results.length) {
+              return res.data.results[0];
+            }
+            else throw new Error('Error getting locality');
+          })
+        }
       })
     }
-    return data.results[0];    
+    return data.results[0];
   })
 }
