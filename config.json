@@ -4,7 +4,8 @@
       "port" : 8080
     },
     "mongo" : {
-      "dburi" : "mongodb://localhost:27017/viato_dev"
+      "dburi" : "mongodb://localhost:27017/viato_dev",
+      "loguri"  : "mongodb://localhost:27017/viato_logs"
     },
     "json-token-secret"     : "omgsecret",
     "image_dir"             : "/var/www/images/img",
@@ -13,12 +14,12 @@
     "gcm-sender-id"         : "AIzaSyBo8mYCRkA9EBp8kjrqbu43C-GadTtVO64",
     "versioning"            : {
       "DEBUG" : {
-        "name" : "1.0.3",
-        "number" : 103
+        "name" : "1.0.4",
+        "number" : 104
       },
       "RELEASE" : {
-        "name" : "1.0.2",
-        "number" : 103
+        "name" : "1.0.4",
+        "number" : 104
       }
     }
   },
@@ -32,7 +33,8 @@
       "port" : 8080
     },
     "mongo" : {
-      "dburi" : "mongodb://localhost:27017/viato_dev"
+      "dburi"   : "mongodb://localhost:27017/viato_dev",
+      "loguri"  : "mongodb://localhost:27017/viato_logs"
     },
     "json-token-secret"     : "omgsecret",
     "image_dir"             : "/Users/ranadeep/viato/images/img",
@@ -41,12 +43,12 @@
     "gcm-sender-id"         : "AIzaSyBo8mYCRkA9EBp8kjrqbu43C-GadTtVO64",
     "versioning"            : {
       "DEBUG" : {
-        "name" : "1.0.2",
-        "number" : 102
+        "name" : "1.0.4",
+        "number" : 104
       },
       "RELEASE" : {
-        "name" : "1.0.2",
-        "number" : 102
+        "name" : "1.0.4",
+        "number" : 104
       }
     }
   }

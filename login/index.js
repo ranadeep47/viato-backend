@@ -8,7 +8,6 @@ var jwt = require('koa-jwt');
 var moment = require('moment');
 
 var utils = require('../utils');
-var handleError = require('../errorHandler');
 var sendOTP = require('../services/sms').sendOTP;
 
 module.exports = login;
@@ -69,7 +68,6 @@ login.post('/', function*(){
         return true;
       }
     })
-    .catch(handleError);
   })
 
   ok ? this.body = 'OTP Sent to '+mobile : this.throw(500)
@@ -97,7 +95,6 @@ login.post('/otp/verify', function*(){
     var now  = moment();
     var duration = moment.duration(now.diff(generatedAt));
     var diff = duration.asHours();
-    console.log('Difference ', diff);
     if(diff > 1) {
       return false;
     }
@@ -108,7 +105,6 @@ login.post('/otp/verify', function*(){
     tuser.save();
     return tuser['_id'];
   })
-  .catch(handleError)
 
   token ? (this.body = token.toString()) : this.throw(400, 'Invalid OTP Code');
 })
@@ -200,13 +196,12 @@ login.post('/complete', function*(){
                 updated_at  : new Date()
               })
             }
-            
+
             user.save();
             db.User.addAccounts(user.get('_id'), accounts);
             return {access_token : accessToken, user_id : user.get('_id')}
           })
   })
-  .catch(handleError)
 
   token ? this.body = token : this.throw(400, 'Unable to generate access token')
 })
@@ -231,7 +226,6 @@ login.post('/otp/resend', function*(){
     sendOTP(mobile, otp);
     return true;
   })
-  .catch(handleError)
 
   ok ? this.body = 'OTP sent to '+mobile : this.throw(500, 'Problem sending OTP');
 

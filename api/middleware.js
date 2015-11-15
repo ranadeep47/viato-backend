@@ -19,5 +19,4 @@ module.exports = function*(next){
     User.devices.push(device);
     User.save();
   }
-  
 }
