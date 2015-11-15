@@ -73,7 +73,7 @@ mybooks.get('/wishlist/status/:bookId', function*(){
   var userId      = this.state.user['userId'];
   var catalogueId = this.params['bookId'];
 
-  if(!catalogueId || catalogueId.length !== 24) return this.throw(400);
+  if(!catalogueId) return this.throw(400);
   var User = yield db.User
   .findOne({_id : userId, 'wishlist.catalogueId' : catalogueId})
   .select('wishlist')
