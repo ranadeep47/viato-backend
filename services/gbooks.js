@@ -95,6 +95,7 @@ function parseItem(item){
   else isbn13 = "";
 
   return {
+    _id         : id,
     title       : item['title'] + subtitle,
     authors     : item['authors'] || [],
     publisher   : item['publisher'],
