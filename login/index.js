@@ -33,7 +33,7 @@ login.post('/', function*(){
       //Limit exceeded. Only a maximum of 2 accounts allowed per device
       //TODO
       if(!_.find(tuser, {mobile : mobile})){
-        return ctx.throw(400, 'Limit exceeded. Only a maximum of 2 accounts allowed per device');
+        return ctx.throw(400, 'This device has exceeded its maximum allowed number of accounts. Please login with your old mobile number');
       }
     }
 
