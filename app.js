@@ -24,11 +24,12 @@ app.use(function *(next) {
     this.status = err.status || 500;
     this.body = err.message;
 
-    if(this.status === 500) {
+    if(this.status === 500 || this.status === 400) {
       this.app.emit('error', err, this);
       var requestStats = {
         url       : this.url,
-        method    : this.method
+        method    : this.method,
+        status    : this.status
       }
 
       if(this.query) requestStats['query'] = this.query;
@@ -102,4 +103,8 @@ function requestLogger(){
     if(/api/.test(this.path)) requestStats['userId'] = this.state.user['userId'];
     logger.log('info',requestStats);
   }
+}
+
+function logRequest(){
+
 }
