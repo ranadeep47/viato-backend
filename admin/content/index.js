@@ -49,6 +49,20 @@ content.get('/category/:catId', function*(){
   yield this.render('category-detail', {category : category});
 })
 
+content.put('/category/:catId/list', function*(){
+  var catId = this.params['catId'];
+  var oldIndex = parseInt(this.request.body['oldIndex']);
+  var newIndex = parseInt(this.request.body['newIndex']);
+
+  //Get item at old index, put it at new index and remove the old index + 1 element
+  var Category = yield db.Feed.findOne({_id : catId}, {list : {$slice : [oldIndex, 1]}});
+  var Item = Category.list[0];
+  if(!Item) return this.throw(400);
+  yield db.Feed.update({_id : catId}, {$pull : {list : {_id : Item['_id']}}}).exec();
+  var addPosition = newIndex;
+  var res = yield db.Feed.update({_id : catId}, {$push : {list : {$each : [Item], $position : addPosition}}}).exec();  
+  this.body = 'List updated';
+})
 //Update contents details
 content.post('/category/:catId', function*() {
   var catId = this.params['catId'];

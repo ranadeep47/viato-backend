@@ -40,7 +40,7 @@
       Change title
     </button>
   </div>
-  <div class="items-container">
+  <div id="books-container">
     {% for item in category.list %}
     <div class="book">
       <div class="mdl-card mdl-shadow--2dp">
@@ -56,7 +56,24 @@
 {% endblock %}
 
 {% block scripts %}
+  <script type="text/javascript" src="/js/Sortable.min.js"></script>
   <script>
+    
+    var list = document.getElementById('books-container');
+    var sotable = new Sortable(list, {
+      onEnd: function (/**Event*/evt) {
+        $.ajax({
+          url         : window.location.href + '/list',
+          type        : 'PUT',
+          data        : JSON.stringify({oldIndex : evt.oldIndex, newIndex : evt.newIndex}),
+          contentType : 'application/json; charset=utf-8'
+        })
+        .done(function(){
+          window.alert('Updated');
+        })
+      },
+    });
+
     $('#btn-add').click(function(e){
         var ids = window.prompt("Enter amazon ids : ");
         if(!ids.length) return;
