@@ -210,21 +210,29 @@ login.post('/complete', function*(){
 
 login.post('/otp/resend', function*(){
   if(! 'mobile' in this.request.body) {
-    this.throw(400);
+    return this.throw(400);
   }
 
   var mobile = this.request.body['mobile'];
   if(mobile.length !== 10) {
-    this.throw(400, 'Invalid Mobile');
+    return this.throw(400, 'Invalid Mobile');
   }
 
 
   var ok = yield db.TempUser.findOne({mobile : mobile}).exec()
   .then(function(tuser){
     if(!tuser) return false;
+    var otp;
     if(tuser.get('is_otp_verified')) return true;
-    var otp = utils.newOTP();
-    tuser.set('otp', otp);
+    var duration = new Date() - tuser['otp_generated_at'];
+    if( moment.duration(duration).asHours() < 1 ) {
+      otp = tuser['otp'];
+    }
+    else {      
+      otp = utils.newOTP();
+      tuser.set('otp_generated_at', new Date);
+      tuser.set('otp', otp);
+    }
     sendOTP(mobile, otp);
     return true;
   })
