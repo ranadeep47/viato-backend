@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block head %}
+  {% parent %}
+  <style>
+
+  </style>
+  <!-- <link rel="stylesheet" href="custom.css"> -->
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h3>Add Coupon</h3>
+    <form action="#" method="POST" id="form">
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" name="mobile" type="text" id="mobile" required="required" min="10" maxlength="10">
+        <label class="mdl-textfield__label" for="mobile">Mobile</label>
+      </div>
+      <br>
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" name="message" type="text" id="message" required="required">
+        <label class="mdl-textfield__label" for="message">Message</label>
+      </div>
+      <div>
+        <button id="btn-send" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+          Send
+        </button>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript">
+    var $form = $('#form');
+    $form.submit(function(e){
+      e.preventDefault();
+      var mobile  = $('#mobile').val();
+      var message = $('#message').val();
+
+      $.ajax({
+        url  : '',
+        type : 'POST',
+        data : JSON.stringify({mobile : mobile, message : message}),
+        contentType: 'application/json; charset=utf-8',
+      })
+      .done(function(){
+        window.alert('SMS sent successfully');
+        $('#mobile').val('');
+        $('#message').val('');
+      })
+    });
+  </script>
+{% endblock %}

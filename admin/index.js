@@ -25,6 +25,7 @@ app.use(bodyParser());
 
 api.use('/admin/content', require('./content').routes());
 api.use('/admin/booking', require('./booking').routes());
+api.use('/admin/services/', require('./services').routes());
 
 app.use(api.routes());
 

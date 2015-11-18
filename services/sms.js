@@ -6,23 +6,13 @@ var API_KEY = config['sms-key'];
 
 exports.sendOTP = sendOTP;
 exports.informOrder = informOrder;
+exports.sendMessage = sendMessage;
 
 var Constants = require('../constants');
 
 function sendOTP(to, code) {
   var message = 'VIATO OTP Code : '+ code + '. We need this to verify your mobile number';
-  var number = parseInt(to);
-  var params = {
-    authkey   : API_KEY,
-    mobiles   : number,
-    message   : encodeURIComponent(message),
-    sender    : 'VIATOU',
-    route     : 4,
-    country   : 91,
-    response  : 'json'
-  }
-
-  return axios.get(API_URL, {params : params})
+  return sendMessage(to, message);
 }
 
 
@@ -38,16 +28,17 @@ function informOrder(userId, status, body) {
       response  : 'json'
     }
 
+    var message;
     switch(status) {
       case 'CONFIRMED' :
-        var message = 'Your order no. #' +
+        message = 'Your order no. #' +
         body['order_id'].toUpperCase() + ' for Rs.' +
         body['booking_payment']['total_payable'] +
         ' from Viato has been confirmed. Your books will be delivered soon. Please call ' + Constants['ContactNumber'] + ' for any inquiries.';
         break;
 
       case 'CANCELLED' :
-        var message = 'Sorry your order #'+ body['order_id'].toUpperCase() + ' has been cancelled '+
+        message = 'Sorry your order #'+ body['order_id'].toUpperCase() + ' has been cancelled '+
         'due to unavailibity of books. Please call ' + Constants['ContactNumber'] + ' for any inquiries. Thank you for using Viato.';
         break;
       // case 'DELIVERED' :
@@ -64,7 +55,21 @@ function informOrder(userId, status, body) {
         return;
     }
 
-    params.message = encodeURIComponent(message);
-    return axios.get(API_URL, {params : params});
+    return sendMessage(User.mobile, message);
   });
+}
+
+
+function sendMessage(mobile, message){
+  var params = {
+    authkey   : API_KEY,
+    mobiles   : parseInt(mobile),
+    sender    : 'VIATOU',
+    route     : 4,
+    country   : 91,
+    response  : 'json'
+  }
+
+  params.message = encodeURIComponent(message);
+  return axios.get(API_URL, {params : params});
 }

@@ -58,7 +58,7 @@ UserSchema.statics.addCopoun = function(userId, Copoun){
     if(!User) return User;
     User.copouns.push(Copoun);
     User.save();
-    return User.copouns.pop();
+    return _.last(User.copouns);
   });
 }
 
@@ -68,7 +68,7 @@ UserSchema.statics.updateCopounApplied = function(userId, copounId){
     if(!User) return;
     User.copouns[0]['applied_at'] = new Date();
     User.save();
-    return User.copouns[0];
+    return _.first(User.copouns);
   })
 }
 

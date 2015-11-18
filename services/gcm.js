@@ -21,6 +21,7 @@ var defaults = {
 exports.notifyOrder     = notifyOrder;
 exports.notifyExpirey   = notifyExpirey;
 exports.notifyNewBooks  = notifyNewBooks;
+exports.sendNotification = sendNotification;
 
 function notifyOrder(userId,status,body,bookingId){
   return getTokens(userId).then(function(tokens){
@@ -100,6 +101,18 @@ function send(message, tokens){
       if(err) console.error(err);
      //TODO update tokens based on message failure message
   });
+}
+
+function sendNotification(mobile, title, message){
+  return db.User.findOne({mobile : mobile}).select('devices').exec()
+  .then(function(User){
+    var message = _.extend({}, defaults);
+    message.notification.title = title;
+    message.notification.body = message;
+    var tokens = _.pluck(User.devices, 'app_token');
+    send(message, tokens);
+    return true;
+  })
 }
 
 function getTokens(userId){
