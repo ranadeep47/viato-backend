@@ -25,7 +25,8 @@ booking.get('/', function*(){
 });
 
 booking.get('/all', function*(){
-
+  var Bookings = yield db.Booking.find().populate('user_id', 'mobile email').sort({_id : -1}).exec();
+  yield this.render('all-bookings', {Bookings : Bookings});
 })
 
 booking.get('/:orderId', function*(){

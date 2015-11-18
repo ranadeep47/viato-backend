@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block head %}
+  {% parent %}
+  <style>
+    .booking{
+      padding : 1em;
+      display : inline-block;
+    }
+  </style>
+  <!-- <link rel="stylesheet" href="custom.css"> -->
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h3>All Bookings</h3>
+    {% for Booking in Bookings %}
+      <div class="mdl-card mdl-shadow--2dp booking">
+        <p>Mobile     : {{Booking.user_id.mobile}}</p>
+        <p>Email      : {{Booking.user_id.email.email}}</p>
+        <p>Order ID   : <a href="/admin/booking/{{Booking.order_id}}">{{Booking.order_id}}</a></p>
+        <p>Status     : {{Booking.status}}</p>
+        <p>Booked At  : {{Booking.booked_at.toLocaleString('en-US', { timeZone: 'Asia/Calcutta' })}}</p>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript">
+
+  </script>
+{% endblock %}

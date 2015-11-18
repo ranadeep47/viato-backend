@@ -1,0 +1,9 @@
+===MAKING TEXTBOOKS UNAVAILABLE====
+
+CATEGORIES = [
+  "Textbooks",
+
+]
+
+===== PRICES > 1000 Unavailable =====
+===== RENT < 40 , is made 40 =====
