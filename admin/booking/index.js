@@ -24,6 +24,20 @@ booking.get('/', function*(){
   yield this.render('booking-home', obj);
 });
 
+booking.get('/all', function*(){
+
+})
+
+booking.get('/:orderId', function*(){
+  var orderId = this.params['orderId'];
+  var Booking = yield db.Booking
+  .findOne({order_id : orderId})
+  .populate('user_id', 'mobile email')
+  .exec();
+
+  yield this.render('booking-detail', Booking);
+})
+
 booking.post('/confirm', function*(){
   var orderId = this.request.body['orderId'];
   var rentals = this.request.body['rentals'];
@@ -143,11 +157,6 @@ booking.post('/pickup', function*(){
   Booking.save();
   this.body = 'Picked up successfuly';
 });
-
-booking.get('/:orderId', function*() {
-  // var orderId = this.params['orderId'];
-  // db.Booking.findOne({order_id : orderId})
-})
 
 function getBookings(status, offset, limit) {
   var offset = offset || 0;

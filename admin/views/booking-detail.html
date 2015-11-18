@@ -1,0 +1,76 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block head %}
+  {% parent %}
+  <style>
+    .book {
+      padding-right: 0.5em;
+      display: inline-block;
+    }
+    .category-image{
+      height : 300px;
+      width: 196px;
+    }
+    .book p {
+      font-size: 12px;
+    }
+  </style>
+  <!-- <link rel="stylesheet" href="custom.css"> -->
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h3>Booking Detail</h3>
+  </div>
+  <div id="booking">
+    <p>Mobile     : {{user_id.mobile}}</p>
+    <p>Email      : {{user_id.email.email}}</p>
+    <p>Status     : {{status}} </p>
+    <p>Booked At  : {{ booked_at.toLocaleString() }} </p>
+    <p>Address
+      <span>{{delivery_address.label}}</span>  :
+      <span>{{delivery_address.flat}},</span>
+      <span>{{delivery_address.street}},</span>
+      <span>{{delivery_address.locality.name}}</span>
+    </p>
+    <hr/>
+    <p><b>Payments</b></p>
+    <p>Total Payable    : {{booking_payment.total_payable}}</p>
+    <p>Coupoun Applied  : {{booking_payment.copoun_applied}}</p>
+    <p>Coupon Discount  : {{booking_payment.copoun_discount}}</p>
+    {% if booking_payment.paid_at %}
+      <p>Paid at : {{ booking_payment.paid_at.toLocaleString() }}</p>
+    {% else %}
+      <p>Paid at : Not yet paid</p>
+    {% endif %}
+  </div>
+  <div id="rentals">
+    <h4>Rentals</h4>
+    {% for rental in rentals %}
+    <div class="book">
+      <div class="mdl-card mdl-shadow--2dp">
+        <img src="{{rental.item.thumbs[0]}}" class="category-image">
+        <div class="mdl-card__actions">
+          <p>{{rental.item.title}}</p>
+          <p>Rent : {{rental.item.pricing.rent}} / {{rental.item.pricing.period}} days </p>
+          <p>CatalogueId : ObjectId("{{rental.item.catalogueId}}")</p>
+          <p>Expires At : {{ rental.expires_at.toLocaleString() }}</p>
+          <p>Pickup Requested at : {{rental.pickup_requested_at}}</p>
+          <p>Pickup done at : {{rental.pickup_done_at}}</p>
+          <p>Extended : {{rental.is_extended}}</p>
+          <p>Extended at : {{rental.extended_at}}</p>
+          <p>Extended Pricing : {{rental.extension_pricing.rent}}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript">
+    console.log("hello");
+  </script>
+{% endblock %}
