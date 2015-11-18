@@ -28,7 +28,7 @@
     <p>Mobile     : {{user_id.mobile}}</p>
     <p>Email      : {{user_id.email.email}}</p>
     <p>Status     : {{status}} </p>
-    <p>Booked At  : {{ booked_at.toLocaleString() }} </p>
+    <p>Booked At  : {{ booked_at.toLocaleString('en-US', { timeZone: 'Asia/Calcutta' }) }} </p>
     <p>Address
       <span>{{delivery_address.label}}</span>  :
       <span>{{delivery_address.flat}},</span>
@@ -41,7 +41,7 @@
     <p>Coupoun Applied  : {{booking_payment.copoun_applied}}</p>
     <p>Coupon Discount  : {{booking_payment.copoun_discount}}</p>
     {% if booking_payment.paid_at %}
-      <p>Paid at : {{ booking_payment.paid_at.toLocaleString() }}</p>
+      <p>Paid at : {{ booking_payment.paid_at.toLocaleString('en-US', { timeZone: 'Asia/Calcutta' }) }}</p>
     {% else %}
       <p>Paid at : Not yet paid</p>
     {% endif %}
@@ -56,7 +56,7 @@
           <p>{{rental.item.title}}</p>
           <p>Rent : {{rental.item.pricing.rent}} / {{rental.item.pricing.period}} days </p>
           <p>CatalogueId : ObjectId("{{rental.item.catalogueId}}")</p>
-          <p>Expires At : {{ rental.expires_at.toLocaleString() }}</p>
+          <p>Expires At : {{ rental.expires_at.toLocaleString('en-US', { timeZone: 'Asia/Calcutta' }) }}</p>
           <p>Pickup Requested at : {{rental.pickup_requested_at}}</p>
           <p>Pickup done at : {{rental.pickup_done_at}}</p>
           <p>Extended : {{rental.is_extended}}</p>
