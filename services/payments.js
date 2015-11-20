@@ -46,7 +46,7 @@ function validateCopoun(Cart, Copouns, code){
   })
 
   if(!Copouns.length) {
-    Response.reason = "Copoun doesn't exist. Please check & try again";
+    Response.reason = "Coupon doesn't exist. Please check & try again";
     return Response;
   }
   //Copoun exists
@@ -63,18 +63,18 @@ function validateCopoun(Cart, Copouns, code){
   if(!Copoun['applied_at'] || Copoun['use_multiple']){
     var cartTotal = cartValue(Cart);
     if(cartTotal < Copoun['min_amount']){
-      Response.reason = 'Minium order amount for copoun to be applied is ' + Copoun['min_amount'];
+      Response.reason = 'Minium order amount for coupon to be applied is ' + Copoun['min_amount'];
     }
     else {
       Response.isApplicable = true;
-      Response.reason       = 'Copoun applied successfully!';
+      Response.reason       = 'Coupon applied successfully!';
       var totalPayable      = cartTotal + calculateOtherCharges(Cart) + calculateTax(Cart) - calculateDiscount(Cart);
       Response.discount     = calculateCouponDiscount(totalPayable, Copoun);
       Response.copoun = Copoun;
     }
   }
   else {
-    Response.reason = 'Sorry. Copoun already used.'
+    Response.reason = 'Sorry. Coupon already used.'
   }
 
   return Response;
