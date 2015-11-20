@@ -16,3 +16,11 @@ geo.get('/supported/status', function*(){
   var location = this.request.query;
   this.body = yield reverseGeocoding.isSupported(location);
 })
+
+geo.get('/supported', function*(){
+  console.log('Hahhaha');
+  var placeId = this.query['placeId'];
+  var address = {locality : {placeId : placeId}};
+  console.log(address);
+  this.body = yield reverseGeocoding.isAddressServed(address);
+})
