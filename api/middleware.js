@@ -9,6 +9,7 @@ module.exports = function*(next){
 
   var User = yield db.User.findOne({_id : userId}).select('devices').exec();
   if(!User.devices.length) {
+    //For a few users who didnt have a device when using version < 1.0.3
     var device = {
       app_token   : appToken,
       device_id   : deviceId,
@@ -17,6 +18,16 @@ module.exports = function*(next){
     }
 
     User.devices.push(device);
-    User.save();
   }
+  else {
+    //Update device token
+    User.devices.forEach(function(device){
+      if(device.device_id === deviceId){
+        //Update app token
+        device['app_token'] = appToken;
+      }
+    });
+  }
+
+  User.save();
 }

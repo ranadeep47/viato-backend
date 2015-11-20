@@ -6,7 +6,7 @@ var Constants = require('../../constants');
 var CopounSchema = {
   number          : {type : Number, required : true},
   type            : {type : String, enum : Constants.enums.CopounTypes, required : true},
-  min_amount      : {type : Number, required : true},
+  min_amount      : {type : Number, required : true, default : 40},
   code            : {type : String, required : true},
   expires_at      : {type : Date, required : true},
   applied_at      : {type : Date, default : null},

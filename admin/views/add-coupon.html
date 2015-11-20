@@ -1,0 +1,88 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block head %}
+  {% parent %}
+  <style>
+    form > div {
+      padding: 10px 5px;
+    }
+  </style>
+  <!-- <link rel="stylesheet" href="custom.css"> -->
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h3>Add a copoun</h3>
+    <form action="#" method="POST" id="form">
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="mobile" required="required" min="10" maxlength="10">
+        <label class="mdl-textfield__label" for="mobile">Mobile</label>
+      </div>
+      <br>
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="code" required="required">
+        <label class="mdl-textfield__label" for="code">Coupon Code</label>
+      </div>
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="amount" required="required">
+        <label class="mdl-textfield__label" for="amount">Amount</label>
+      </div>
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="validity" required="required">
+        <label class="mdl-textfield__label" for="validity">Valid for (days)</label>
+      </div>
+      <div>
+        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="percent">
+          <input type="radio" name="type" id="percent" class="mdl-radio__button type" value="PERCENT" checked>
+          <span class="mdl-radio__label">Percent</span>
+        </label>
+        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="cash">
+          <input type="radio" name="type" id="cash" class="mdl-radio__button type" value="CASH">
+          <span class="mdl-radio__label">Cash</span>
+        </label>
+      </div>
+      <div>
+        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="multiple">
+          <input type="checkbox" id="multiple" class="mdl-checkbox__input">
+          <span class="mdl-checkbox__label">Use Multiple times</span>
+        </label>
+      </div>
+      <div>
+        <button id="btn-send" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+          Send
+        </button>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript">
+  var $form = $('#form');
+  $form.submit(function(e){
+    e.preventDefault();
+    var obj = {
+       mobile       : $('#mobile').val(),
+       code         : $('#code').val(),
+       number       : parseInt($('#amount').val()),
+       type         : $('.type:checked').val(),
+       use_multiple : $('#multiple').prop('checked'),
+       expires_at   : parseInt($('#validity').val())
+    }
+
+    $.ajax({
+      url  : '',
+      type : 'POST',
+      data : JSON.stringify(obj),
+      contentType: 'application/json; charset=utf-8',
+    })
+    .done(function(){
+      window.alert('Copoun Added successfully');
+      $('#mobile').val('');
+      $('#message').val('');
+    })
+  });
+  </script>
+{% endblock %}

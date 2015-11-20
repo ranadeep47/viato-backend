@@ -4,6 +4,8 @@ var services = new Router();
 var fs = require('fs');
 var _ = require('lodash');
 
+var moment = require('moment');
+
 module.exports = services;
 
 var sms     = require('../../services/sms');
@@ -47,6 +49,19 @@ services.get('addCoupon', function*(){
 
 services.post('addCoupon', function*(){
   var mobile = this.request.body['mobile'];
-  var coupon = this.request.body['coupon'];
+  var Coupon = this.request.body;
+  delete Coupon['mobile'];
+  Coupon['expires_at'] = moment().add(Coupon['expires_at'], 'days')
+  .hours(0)
+  .minutes(0)
+  .seconds(0)
+  .milliseconds(0)
+  .toDate();
+  var ctx = this;
 
+  yield db.User.findOne({mobile : mobile}).select('mobile').exec().then(function(User){
+    return db.User.addCopoun(User['_id'], Coupon).then(function(){
+      ctx.body = 'Added';
+    })
+  })
 })

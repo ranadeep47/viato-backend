@@ -18,10 +18,10 @@ var defaults = {
 }
 
 //
-exports.notifyOrder     = notifyOrder;
-exports.notifyExpirey   = notifyExpirey;
-exports.notifyNewBooks  = notifyNewBooks;
-exports.sendNotification = sendNotification;
+exports.notifyOrder       = notifyOrder;
+exports.notifyExpirey     = notifyExpirey;
+exports.notifyNewBooks    = notifyNewBooks;
+exports.sendNotification  = sendNotification;
 
 function notifyOrder(userId,status,body,bookingId){
   return getTokens(userId).then(function(tokens){
@@ -98,17 +98,17 @@ function notifyCartRemaining(){
 function send(message, tokens){
   message = new gcm.Message(message);
   sender.send(message, { registrationIds : tokens }, function (err, result) {
-      if(err) console.error(err);
+      if(err) return console.error(err);
      //TODO update tokens based on message failure message
   });
 }
 
-function sendNotification(mobile, title, message){
+function sendNotification(mobile, title, msg){
   return db.User.findOne({mobile : mobile}).select('devices').exec()
   .then(function(User){
     var message = _.extend({}, defaults);
     message.notification.title = title;
-    message.notification.body = message;
+    message.notification.body = msg;
     var tokens = _.pluck(User.devices, 'app_token');
     send(message, tokens);
     return true;

@@ -55,9 +55,9 @@ UserSchema
 
 UserSchema.statics.addCopoun = function(userId, Copoun){
   return this.findOne({_id : userId}).select('copouns').exec().then(function(User){
-    if(!User) return User;
+    if(!User) return User;    
     User.copouns.push(Copoun);
-    User.save();
+    User.save().catch(console.log)
     return _.last(User.copouns);
   });
 }
