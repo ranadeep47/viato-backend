@@ -68,7 +68,7 @@ function validateCopoun(Cart, Copouns, code){
     else {
       Response.isApplicable = true;
       Response.reason       = 'Copoun applied successfully!';
-      Response.discount     = calculateCouponDiscount(cartTotal, Coupon);
+      Response.discount     = calculateCouponDiscount(cartTotal, Copoun);
       Response.copoun = Copoun;
     }
   }
