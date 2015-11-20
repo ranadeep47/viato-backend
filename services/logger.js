@@ -45,4 +45,8 @@ var mongoExceptionOptions = _.extend({
 
 winston.handleExceptions(new winston.transports.MongoDB(mongoExceptionOptions));
 
+if(process.env['NODE_ENV'] === 'development'){
+  winston.handleExceptions(new winston.transports.Console());
+}
+
 module.exports = logger;

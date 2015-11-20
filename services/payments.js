@@ -20,6 +20,7 @@ function bookingPayment(Cart, Copouns, copounCode){
     if(Response.isApplicable) {
       var Copoun = Response.copoun;
       copounDiscount = calculateCouponDiscount(total, Copoun);
+    }
   }
 
   var totalPayable = totalPayable - copounDiscount;
