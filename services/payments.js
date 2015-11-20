@@ -88,7 +88,7 @@ function cartValue(Cart){
   return total;
 }
 
-function calculateCouponDiscount(total, Coupon){
+function calculateCouponDiscount(total, Copoun){
   var copounDiscount = 0;
   copounId = Copoun['_id'];
   switch(Copoun.type) {
