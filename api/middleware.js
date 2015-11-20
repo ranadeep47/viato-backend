@@ -25,6 +25,7 @@ module.exports = function*(next){
       if(device.device_id === deviceId){
         //Update app token
         device['app_token'] = appToken;
+        device['updated_at'] = new Date();
       }
     });
   }
