@@ -11,17 +11,21 @@ module.exports = cart;
 cart.get('/', function*(){
   var userId = this.state.user['userId'];
   var fields = ['cart', 'addresses'];
-  var doc = yield db.User.findOne({_id : userId}).select(fields.join(' ')).exec()
-  .then(function(user){
-    return _.pick(user, fields);
+  var ctx = this;
+  yield db.User.findOne({_id : userId}).select(fields.join(' ')).exec().then(function(user){
+    var obj = _.pick(user, fields);
+    obj['shippingCharges'] = 30;
+    ctx.body = obj;
   })
-
-  this.body = doc;
+  .catch(function(e){
+    logger.log('error', e);
+    this.throw(500, 'Error getting cart');
+  })
 })
 
-cart.get('/copoun', function*(){
+cart.get('/coupon', function*(){
   var userId   = this.state.user['userId'];
-  var copoun   = this.query['copoun'];
+  var copoun   = this.query['coupon'];
   this.body    = yield db.User.findOne({_id : userId}).select('cart copouns').exec()
   .then(function(User){
     var Response = paymentService.validateCopoun(User.cart, User.copouns, copoun);

@@ -19,18 +19,7 @@ function bookingPayment(Cart, Copouns, copounCode){
     var Response = validateCopoun(Cart, Copouns, copounCode);
     if(Response.isApplicable) {
       var Copoun = Response.copoun;
-      copounId = Copoun['_id'];
-      switch(Copoun.type) {
-        case 'CASH' :
-          copounDiscount = total - Copoun['number'];
-          break;
-        case 'PERCENT' :
-          var copounDiscount = parseInt(Copoun['number'] / 100 * total);
-          break;
-      }
-
-      if(copounDiscount > totalPayable) copounDiscount = totalPayable;
-    }
+      copounDiscount = calculateCouponDiscount(total, Copoun);
   }
 
   var totalPayable = totalPayable - copounDiscount;
@@ -77,7 +66,8 @@ function validateCopoun(Cart, Copouns, code){
     }
     else {
       Response.isApplicable = true;
-      Response.reason = 'Copoun applied successfully!';
+      Response.reason       = 'Copoun applied successfully!';
+      Response.discount     = calculateCouponDiscount(cartTotal, Coupon);
       Response.copoun = Copoun;
     }
   }
@@ -95,6 +85,22 @@ function cartValue(Cart){
   }, 0)
 
   return total;
+}
+
+function calculateCouponDiscount(total, Coupon){
+  var copounDiscount = 0;
+  copounId = Copoun['_id'];
+  switch(Copoun.type) {
+    case 'CASH' :
+      copounDiscount = total - Copoun['number'];
+      break;
+    case 'PERCENT' :
+      var copounDiscount = parseInt(Copoun['number'] / 100 * total);
+      break;
+  }
+
+  if(copounDiscount > totalPayable) copounDiscount = totalPayable;
+  return Math.floor(copounDiscount);
 }
 
 function calculateDiscount(Cart){

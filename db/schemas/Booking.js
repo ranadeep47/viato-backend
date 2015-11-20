@@ -16,7 +16,8 @@ var BookingSchema = new Schema({
   pickup_address    : AddressSchema,
   rentals           : {type : [RentalSchema], required : true},
   booking_payment   : PaymentSchema,
-  booked_at         : {type : Date, default : new Date}
+  booked_at         : {type : Date, default : new Date},
+  
 }, SchemaUtils.defaultOptions);
 
 module.exports = BookingSchema;
