@@ -7,6 +7,9 @@
       "dburi" : "mongodb://localhost:27017/viato_dev",
       "loguri"  : "mongodb://localhost:27017/viato_logs"
     },
+    "elastic" : {
+      "uri" : "localhost:9200"
+    },
     "json-token-secret"     : "omgsecret",
     "image_dir"             : "/var/www/images/img",
     "sms-key"               : "95261AknFlgdMdT561f6db9",
@@ -35,6 +38,9 @@
     "mongo" : {
       "dburi"   : "mongodb://localhost:27017/viato_dev",
       "loguri"  : "mongodb://localhost:27017/viato_logs"
+    },
+    "elastic" : {
+      "uri" : "localhost:9200"
     },
     "json-token-secret"     : "omgsecret",
     "image_dir"             : "/Users/ranadeep/viato/images/img",

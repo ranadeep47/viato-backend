@@ -6,6 +6,11 @@ var _ = require('lodash');
 
 var storeImage = require('./storeImage');
 var amazonFetch = require('../../services/amazon');
+var ElasticsearchClient = require('elasticsearch').Client;
+
+var elastic = new ElasticsearchClient({
+  host: config.elastic.uri
+});
 
 module.exports = content;
 
@@ -60,7 +65,7 @@ content.put('/category/:catId/list', function*(){
   if(!Item) return this.throw(400);
   yield db.Feed.update({_id : catId}, {$pull : {list : {_id : Item['_id']}}}).exec();
   var addPosition = newIndex;
-  var res = yield db.Feed.update({_id : catId}, {$push : {list : {$each : [Item], $position : addPosition}}}).exec();  
+  var res = yield db.Feed.update({_id : catId}, {$push : {list : {$each : [Item], $position : addPosition}}}).exec();
   this.body = 'List updated';
 })
 //Update contents details
@@ -153,6 +158,8 @@ function addBooks(catId, list) {
           //Fetch
           return amazonFetch(currentItem).then(function(book){
             return db.Catalogue.create(book).then(function(catalogueItem){
+              //Add to elasticsearch
+              addToElasticSearch(catalogueItem);
               return db.Catalogue.getBasicItem(catalogueItem._id).then(function(cItem){
                 return db.Feed.findOne({_id : catId}).exec().then(function(category){
                   var found = _.find(category.list, function(i){ return i.catalogueId === cItem.catalogueId});
@@ -191,4 +198,26 @@ function addBooks(catId, list) {
     console.log(e);
     return false;
   })
+}
+
+function addToElasticSearch(catalogueItem){
+  catalogueItem.id = catalogueItem._id.toString();
+  delete catalogueItem['_id'];
+  catalogueItem.pricing.rental[0]._id = catalogueItem.pricing.rental[0]._id.toString();
+  var weight = parseInt(catalogueItem.popularity.ratingsCount / 100);
+  if(weight > 100 ) weight = parseInt(100 + weight / 100);
+  catalogueItem.tags_search = {
+        input :  [catalogueItem.title].concat(catalogueItem.authors),
+        weight : weight
+  }
+
+  return elastic.create({
+    index : 'viato',
+    type : 'catalogues',
+    body : catalogueItem
+  })
+  .catch(function(e){
+    console.log(e);
+  })
+
 }
