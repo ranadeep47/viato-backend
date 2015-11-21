@@ -201,7 +201,7 @@ function addBooks(catId, list) {
 }
 
 function addToElasticSearch(item){
-  var catalogueItem = _.clone(item);
+  var catalogueItem = _.clone(item._doc);
   catalogueItem.id = catalogueItem._id.toString();
   delete catalogueItem['_id'];
   catalogueItem.pricing.rental[0]._id = catalogueItem.pricing.rental[0]._id.toString();
@@ -211,8 +211,6 @@ function addToElasticSearch(item){
         input :  [catalogueItem.title].concat(catalogueItem.authors),
         weight : weight
   }
-
-  console.log(catalogueItem);
 
   return elastic.create({
     index : 'viato',
