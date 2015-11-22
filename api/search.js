@@ -35,7 +35,7 @@ function handleTextSearch(query){
   .then(function(results){
     var catalogue = results[0] || [];
     var google = results[1] || [];
-    var catalogueISBN = _.pluck(catalogue, 'isbn13');
+    var catalogueISBN = _.flatten(_.pluck(catalogue, 'isbn13'));
     //Return the google results which are not in catalogue
     var googleResults = _.filter(google, function(g) {return catalogueISBN.indexOf(g['isbn13']) === -1});
     //Try to fetch and place them in our catalogue from amazon

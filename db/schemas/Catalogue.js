@@ -26,7 +26,7 @@ var CatalogueSchema = new Schema({
   pages         : {type : Number, default : 0},
   publisher     : {type : String, default : 'Unknown'},
   isbn10        : {type : String, default : 'Unknown'},
-  isbn13        : {type : String, default : 'Unknown'},
+  isbn13        : {type : [String], default : ['Unknown']},
   rating        : {type : Number, default : 0},
   releaseDate   : {type : Date},
   publishDate   : {type : Date},

@@ -103,7 +103,7 @@ function parseItem(item){
     releaseDate : new Date(item['publishedDate']),
     description : item['description'],
     isbn10      : isbn10,
-    isbn13      : isbn13,
+    isbn13      : [isbn13],
     pages       : parseInt(item['pageCount']),
     rating      : parseFloat(item['averageRating']) || 0,
     cover       : cover,

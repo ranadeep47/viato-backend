@@ -28,7 +28,7 @@ function parsePage($) {
   var owning = getPrice($);
   var rent = Math.round(0.20 * owning.mrp);
   if(rent < 40) rent = 40;
-  var rental = [{rent : rent, period : 15}];
+  var rental = [{rent : rent, period : 30}];
 
   var images = getImages($);
   var promises = images.map(store);
@@ -66,7 +66,9 @@ function parsePage($) {
     }
     else book.available = false;
 
-    return getGoodReadsPopularity(book.isbn13).then(function(resp){
+    var isbn13 = book.isbn13[0];
+
+    return getGoodReadsPopularity(isbn13).then(function(resp){
       book.popularity = resp.popularity;
       book.description = resp.description;
       return book;
@@ -185,7 +187,7 @@ function otherDetails($){
             details['isbn10'] = arr[1].trim();
           }
           if(arr[0].trim() == 'ISBN-13') {
-            details['isbn13'] = arr[1].split('-').join('').trim();
+            details['isbn13'] = [arr[1].split('-').join('').trim()]
           }
           if(arr[0].trim() == 'Product Dimensions') {
             details['dimensions'] = arr[1].trim();
