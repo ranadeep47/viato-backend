@@ -203,6 +203,7 @@ function addBooks(catId, list) {
 function addToElasticSearch(item){
   var catalogueItem = _.clone(item._doc);
   catalogueItem.id = catalogueItem._id.toString();
+  catalogueItem['isbn13'] = catalogueItem['isbn13'][0];
   delete catalogueItem['_id'];
   catalogueItem.pricing.rental[0]._id = catalogueItem.pricing.rental[0]._id.toString();
   var weight = parseInt(catalogueItem.popularity.ratingsCount / 100);

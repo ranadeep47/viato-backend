@@ -7,3 +7,9 @@ CATEGORIES = [
 
 ===== PRICES > 1000 Unavailable =====
 ===== RENT < 40 , is made 40 =====
+
+=====ISBN13=======
+isbn13 is now an array in MongoDB, first item is original ISBN13 and rest are
+old versions
+
+In Elasticsearch isbn13 is still a string, being the original isbn13 

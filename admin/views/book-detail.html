@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+
+{% block title %}Book detail - Home{% endblock %}
+
+{% block head %}
+  {% parent %}
+  <!-- <link rel="stylesheet" href="custom.css"> -->
+  <style>
+
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div>
+    <img src="{{thumbs[0]}}"/>
+    <p>{{title}}</p>
+    <p>{{authors.join(',')}}</p>
+    <p>MRP : {{pricing.owning.mrp}}</p>
+    <p>Rent : {{pricing.rental[0].rent}} / {{pricing.rental[0].period}} </p>
+  </div>
+  <div>
+    <a href="#" id="btn-rent">Update rent</a>
+    <a href="#" id="btn-edition"> Add edition </a>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+
+  <script type="text/javascript">
+    var catalogueId = "{{_id.toString()}}";
+
+    $('#btn-rent').click(function(e){
+      e.preventDefault();
+      var url = catalogueId + "/rent";
+      var rent = parseInt(window.prompt('New rent ? '));
+      if(window.confirm('Update the new rent to '+ rent)){
+        $.ajax({
+          url  : url,
+          type : 'POST',
+          data : JSON.stringify({rent : rent}),
+          contentType: 'application/json; charset=utf-8',
+        })
+        .done(function(e){
+          alert('Updated');
+        })
+      }
+    })
+
+    $('#btn-edition').click(function(e){
+      e.preventDefault();
+      var url = catalogueId + "/edition";
+      var isbn = window.prompt('Add ISBN number');
+      if(isbn.length === 13 && window.confirm('Are you sure ?')){
+        $.ajax({
+          url  : url,
+          type : 'POST',
+          data : JSON.stringify({isbn : isbn}),
+          contentType: 'application/json; charset=utf-8',
+        })
+        .done(function(){
+          alert('Added');
+        })
+      }
+
+    })
+
+  </script>
+{% endblock %}
