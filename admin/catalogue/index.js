@@ -15,7 +15,7 @@ catalogue.get(':id', function*(){
   yield this.render('book-detail', Book)
 });
 
-catalogue.post('/:id/rent', function*(){
+catalogue.post(':id/rent', function*(){
   var id = this.params['id'];
   var rent = this.request.body['rent'];
   var Book = yield db.Catalogue
@@ -43,7 +43,7 @@ catalogue.post('/:id/rent', function*(){
 
 })
 
-catalogue.post('/:id/edition', function*(){
+catalogue.post(':id/edition', function*(){
   var id = this.params['id'];
   var isbn = this.request.body['isbn'];
   var Book = yield db.Catalogue
@@ -53,7 +53,7 @@ catalogue.post('/:id/edition', function*(){
 
   Book['isbn13'].push(isbn);
   var ctx = this;
-  
+
   yield Book.save().then(function(){
     ctx.body = 'Edition Added'
   });
