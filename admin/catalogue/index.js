@@ -29,7 +29,7 @@ catalogue.post('/:id/rent', function*(){
   var ctx = this;
   var rentalId = Book['pricing']['rental'][0]._id;
 
-  db.feeds
+  yield db.feeds
   .update(
     {'list.pricing._id' : rentalId },
     {$set : {'list.$.pricing.rent' : 50}} ,
@@ -53,7 +53,8 @@ catalogue.post('/:id/edition', function*(){
 
   Book['isbn13'].push(isbn);
   var ctx = this;
-  Book.save().then(function(){
+  
+  yield Book.save().then(function(){
     ctx.body = 'Edition Added'
   });
 
