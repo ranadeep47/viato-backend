@@ -93,6 +93,7 @@ CatalogueSchema.statics.getBasicItem = function(catalogueId, extras) {
     if(!doc) throw new Error('Invalid catalogueId');
     var item = _.pick(doc, fields);
     item.pricing = doc.pricing.rental[0];
+    item.pricing.mrp = doc['pricing']['owning']['mrp']
     item.catalogueId = doc['_id'].toString();
     item.extraKey = '';
     item.extraId = null;

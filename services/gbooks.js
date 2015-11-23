@@ -68,7 +68,7 @@ function fetch(volumeId){
 function getBasicItem(book) {
     var BASIC_FIELDS = ['title','cover','authors','pricing','thumbs','isbn13'] // Search needs isbn13 too
     var item          = _.pick(book, BASIC_FIELDS);
-    item.pricing      = book.pricing.rental[0];
+    item.pricing      = book.pricing.rental[0];    
     item.catalogueId  = book['sourceId'];
     item.extraKey     = "GOOGLE";
     item.extraId      = book['sourceId'];
