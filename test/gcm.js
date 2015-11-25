@@ -9,16 +9,16 @@ var message = new gcm.Message({
     restrictedPackageName: "in.viato.app",
     //dryRun: true,
     data: {
-      activity : 'in.viato.app.ui.activities.HomeActivity'
-    },
-    notification: {
-        title: "Hello, World",
-        icon: "ic_launcher",
-        body: "This is a notification that will be displayed ASAP."
+      title: "Hello, World",
+      icon: "ic_launcher",
+      message: "This is a notification that will be displayed ASAP.",
+      click_action: "in.viato.app.CATEGORY",
+      categoryId: "56368178a4824eb615732bd4",
+      categoryName: "Politics & History"
     }
 });
 
-var regTokens = ['fil7ezkWvJ0:APA91bED7LxPkml4JzofPnMOhKps5z_vt66yn2RwY5FpNtsLT1HyaX3lEYe6XvP_tqhFCaDnKHVlvGgMCr1c6ggDueWDpcIDx6wPtOw2EKqABvmWONy6cJe_zzoiFHGs3MoKWgmYLPd0'];
+var regTokens = ['f8GkzMLg7j8:APA91bHlD3QaPIW8Bhv6pKxG1OOhoNtnHOEaEWmc9UPqCRDgFkBZnyX09mhiukZSXXsntXlp4MQI_7x8X9fv2TdZ_L217CZEI6pzVnX0ZyTZozN0DmVd65X67xZAVuKpvTeJ6Z4VGGzc'];
 var sender = new gcm.Sender('AIzaSyBo8mYCRkA9EBp8kjrqbu43C-GadTtVO64');
 
 sender.send(message, { registrationIds: regTokens }, function (err, result) {
