@@ -30,6 +30,7 @@ function isAddressServed(address){
 
   return get(params).then(function(Address){
     if(!Address) obj.is_supported = false;
+    else return isSupportedAddress(Address);
     return obj;
   })
   .catch(function(){
