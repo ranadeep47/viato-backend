@@ -108,7 +108,7 @@ function sendNotification(mobile, title, msg){
   .then(function(User){
     var message = _.extend({}, defaults);
     message.data.title = title;
-    message.data.body = msg;
+    message.data.message = msg;
     var tokens = _.pluck(User.devices, 'app_token');
     send(message, tokens);
     return true;
