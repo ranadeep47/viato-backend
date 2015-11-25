@@ -31,43 +31,43 @@ function notifyOrder(userId,status,body,bookingId){
       case 'PLACED' :
         message.data.title = 'Order placed';
         message.data.message = 'We received your order and we are processing it.';
-        message.data.click_action = 'in.viato.app.BOOKING_DETAIL';
+        message.data.click_action = 'in.viato.app.BOOKINGS';
 
         break;
       case 'CANCELLED' :
         message.data.title = 'Order cancellations';
         message.data.message = 'Sorry, due to unavilability we cancelled your request for '+body.item.title;
-        message.data.click_action = 'in.viato.app.BOOKING_DETAIL';
+        message.data.click_action = 'in.viato.app.BOOKINGS';
         break;
       // case 'CONFIRMED' :
       //   message.notification.title = 'Order confirmed';
       //   message.notification.body = 'Your request for '+body.item.title + ' has been confirmed and will be at your doorstop in less than 2 days';
-      //   message.notification.click_action = 'in.viato.app.BOOKING_DETAIL';
+      //   message.notification.click_action = 'in.viato.app.BOOKINGS';
       //   break;
       case 'DISPATCHED' :
         message.data.title = 'Order dispatched';
         message.data.message = 'Your order has been disptached and you will receive it in a few hours';
-        message.data.click_action = 'in.viato.app.BOOKING_DETAIL';
+        message.data.click_action = 'in.viato.app.BOOKINGS';
         break;
       case 'DELIVERED' :
         message.data.title = 'Order delivered';
         message.data.message = 'Your order has been successfully delivered. Click to view order details';
-        message.data.click_action = 'in.viato.app.BOOKING_DETAIL';
+        message.data.click_action = 'in.viato.app.BOOKINGS';
         break;
       case 'READING-EXTENDED' :
         message.data.title = 'Extended rental period';
         message.data.message = 'Hurray! Now you have '+body['extension_pricing']['period'] + ' more days to enjoy'+ body.item.title;
-        message.data.click_action = 'in.viato.app.BOOKING_DETAIL';
+        message.data.click_action = 'in.viato.app.BOOKINGS';
         break;
       case 'SCHEDULED FOR PICKUP' :
         message.notificatio.title = 'Scheduled for pickup';
         message.data.message = body.item.title + ' is scheduled for pickup. We shall call you to confirm your availability';
-        message.data.click_action = 'in.viato.app.BOOKING_DETAIL';
+        message.data.click_action = 'in.viato.app.BOOKINGS';
         break;
       case 'RETURNED' :
         message.data.title = 'Returned successfully';
         message.data.message = 'We have picked up '+ body.item.title;
-        message.data.click_action = 'in.viato.app.BOOKING_DETAIL';
+        message.data.click_action = 'in.viato.app.BOOKINGS';
         break;
       default :
         return;
@@ -80,7 +80,7 @@ function notifyOrder(userId,status,body,bookingId){
 
 function notifyExpirey(){
   var message = _.extend({}, defaults);
-  message.data.click_action = 'in.viato.app.BOOKING_DETAIL';
+  message.data.click_action = 'in.viato.app.BOOKINGS';
   message.data.bookingId = "";
 }
 
