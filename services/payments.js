@@ -21,12 +21,13 @@ function bookingPayment(Cart, Copouns, copounCode){
     if(Response.isApplicable) {
       var Copoun = Response.copoun;
       copounDiscount = calculateCouponDiscount(totalPayable, Copoun);
+      copounId = Copoun['_id'];
     }
   }
 
   var totalPayable = totalPayable - copounDiscount;
   var shippingCharges = calculateShipping(Cart);
-  
+
   totalPayable  += shippingCharges;
 
   var Payment = {
