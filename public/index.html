@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/main.css">
         <script src="js/modernizr-2.7.1.js"></script>
-        
+
         <!-- Facebook Pixel Code -->
         <script>
         !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -101,19 +101,19 @@
                                 <div id="myCarousel" class="carousel slide" data-ride="carousel" style="position: absolute;left: 11px;top: 35px;display: inline-block;height: 349px; width:197px">
                                     <div class="carousel-inner" role="listbox">
                                         <div class="item active">
-                                            <img src="./img/screenshot_1.png">
+                                            <img src="./img/Screenshot_1.png">
                                         </div>
                                         <div class="item">
-                                            <img src="./img/screenshot_2.png">
+                                            <img src="./img/Screenshot_2.png">
                                         </div>
                                         <div class="item">
-                                            <img src="./img/screenshot_3.png">
+                                            <img src="./img/Screenshot_3.png">
                                         </div>
                                         <div class="item">
-                                            <img src="./img/screenshot_4.png">
+                                            <img src="./img/Screenshot_4.png">
                                         </div>
                                         <div class="item">
-                                            <img src="./img/screenshot_5.png">
+                                            <img src="./img/Screenshot_5.png">
                                         </div>
                                     </div>
                                 </div>
@@ -336,7 +336,7 @@
                 var mobile = $mobileInput.val()
                 if (Validate(mobile)) {
                   $mobileInput.parent().removeClass(".has-error");
-            
+
                   $.ajax({
                     url: base_url + "web/sms/",
                     data: {
@@ -360,7 +360,7 @@
                   $mobileInput.focus();
                 };
               });
-            
+
               function Validate(mobile) {
                   var pattern = /^\d{10}$/;
                   if (pattern.test(mobile)) {
