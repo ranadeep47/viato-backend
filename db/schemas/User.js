@@ -55,7 +55,7 @@ UserSchema
 
 UserSchema.statics.addCopoun = function(userId, Copoun){
   return this.findOne({_id : userId}).select('copouns').exec().then(function(User){
-    if(!User) return User;    
+    if(!User) return User;
     User.copouns.push(Copoun);
     User.save().catch(console.log)
     return _.last(User.copouns);
@@ -66,7 +66,11 @@ UserSchema.statics.updateCopounApplied = function(userId, copounId){
   return this.findOne({_id : userId, 'copouns._id' : copounId}).select('copouns').exec()
   .then(function(User){
     if(!User) return;
-    User.copouns[0]['applied_at'] = new Date();
+    User.copouns.forEach(function(c){
+      if(c['_id'].toString() === copounId.toString()){
+        c['applied_at'] = new Date();
+      }
+    });    
     User.save();
     return _.first(User.copouns);
   })
