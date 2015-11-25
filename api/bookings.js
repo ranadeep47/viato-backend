@@ -37,7 +37,7 @@ bookings.post('/', function*(){
   if(!utils.checkBody(['addressId'], this.request.body)) return this.throw(400);
 
   var addressId = this.request.body['addressId'];
-  var copoun    = this.request.body['copoun'];
+  var copoun    = this.request.body['coupon'];
   if(copoun) copoun = copoun.trim();
 
   var fields = ['cart', 'addresses','copouns'];

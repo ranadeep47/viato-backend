@@ -14,7 +14,7 @@ cart.get('/', function*(){
   var ctx = this;
   yield db.User.findOne({_id : userId}).select(fields.join(' ')).exec().then(function(user){
     var obj = _.pick(user, fields);
-    obj['shippingCharges'] = 30;
+    obj['shippingCharges'] = paymentService.calculateShipping(obj.cart);
     ctx.body = obj;
   })
   .catch(function(e){

@@ -15,7 +15,8 @@ var PaymentSchema = {
   other_charges     : {type : Number, default : 0, min : 0},
   discount          : {type : Number, default : 0, min : 0},
   copoun_discount   : {type : Number, default : 0, min : 0},
-  copoun_applied    : {type : Schema.Types.ObjectId, ref : 'Copoun', default : null}
+  copoun_applied    : {type : Schema.Types.ObjectId, ref : 'Copoun', default : null},
+  shipping_charges  : {type : Number, default : 0}
 }
 
 module.exports = PaymentSchema;
