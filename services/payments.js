@@ -3,6 +3,7 @@ var _ = require('lodash');
 
 exports.bookingPayment = bookingPayment;
 exports.validateCopoun = validateCopoun;
+exports.calculateShipping = calculateShipping;
 
 function bookingPayment(Cart, Copouns, copounCode){
   var cartTotal     = cartValue(Cart);
@@ -24,15 +25,20 @@ function bookingPayment(Cart, Copouns, copounCode){
   }
 
   var totalPayable = totalPayable - copounDiscount;
+  var shippingCharges = calculateShipping(Cart);
+  
+  totalPayable  += shippingCharges;
+
   var Payment = {
-    payment_mode    : 'COD',
-    total_payable   : totalPayable,
-    total           : total,
-    tax             : tax,
-    other_charges   : otherCharges,
-    discount        : discount,
-    copoun_discount : copounDiscount,
-    copoun_applied  : copounId
+    payment_mode      : 'COD',
+    total_payable     : totalPayable,
+    total             : total,
+    tax               : tax,
+    other_charges     : otherCharges,
+    discount          : discount,
+    copoun_discount   : copounDiscount,
+    copoun_applied    : copounId,
+    shipping_charges  : shippingCharges
   }
 
   return Payment;
@@ -115,4 +121,9 @@ function calculateTax(Cart){
 
 function calculateOtherCharges(Cart){
   return 0;
+}
+
+function calculateShipping(Cart){
+  //TODO based on cart value
+  return 30;
 }
