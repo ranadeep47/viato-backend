@@ -10,11 +10,11 @@ var defaults = {
 
       },
 
-      notification : {
-        icon  : "ic_notification",
-        sound : "default",
-        color : "#00bcd4"
-      }
+      // notification : {
+      //   icon  : "ic_notification",
+      //   sound : "default",
+      //   color : "#00bcd4"
+      // }
 }
 
 //
