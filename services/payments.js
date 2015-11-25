@@ -81,7 +81,7 @@ function validateCopoun(Cart, Copouns, code){
     }
   }
   else {
-    Response.reason = 'Sorry. Coupon already used.'
+    Response.reason = 'Sorry. You already used the coupon!'
   }
 
   return Response;
