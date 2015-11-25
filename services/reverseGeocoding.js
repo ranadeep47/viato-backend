@@ -55,9 +55,9 @@ function isSupported(location){
 
 function isSupportedAddress(Address){
   var Locality = _.find(Address.address_components,function(o) {
+    if(o.types.indexOf('locality') >= 0) return true;
     if(o.types.indexOf('sublocality_level_1') >= 0) return true;
     if(o.types.indexOf('sublocality') >= 0) return true;
-    if(o.types.indexOf('locality') >= 0) return true;
   });
   var is_supported = supported_localities.indexOf(Locality.long_name) >= 0 ? true : false;
   return {is_supported : is_supported, supported_localities : supported_localities}
