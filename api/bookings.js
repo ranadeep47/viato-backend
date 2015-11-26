@@ -92,7 +92,7 @@ bookings.post('/', function*(){
               extension_pricing : {
                 _id     : new ObjectId(),
                 rent    : rentalItem.pricing.rent / 2,
-                period  : rentalItem.pricing.period / 2
+                period  : rentalItem.pricing.period
               }
             }
           });

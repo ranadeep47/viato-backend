@@ -26,8 +26,8 @@ function fetch(amazonId) {
 
 function parsePage($) {
   var owning = getPrice($);
-  var rent = Math.round(0.20 * owning.mrp);
-  if(rent < 40) rent = 40;
+  var rent = Math.floor(0.175 * owning.mrp);
+  if(rent < 30) rent = 30;
   var rental = [{rent : rent, period : 30}];
 
   var images = getImages($);
