@@ -8,6 +8,7 @@ var API_KEY = config['sms-key'];
 exports.sendOTP = sendOTP;
 exports.informOrder = informOrder;
 exports.sendMessage = sendMessage;
+exports.notifyExpirey = notifyExpirey;
 
 var Constants = require('../constants');
 
