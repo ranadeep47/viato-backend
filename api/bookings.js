@@ -91,7 +91,7 @@ bookings.post('/', function*(){
               status : 'YET TO DELIVER',
               extension_pricing : {
                 _id     : new ObjectId(),
-                rent    : rentalItem.pricing.rent / 2,
+                rent    : Math.floor(rentalItem.pricing.rent / 2),
                 period  : rentalItem.pricing.period
               }
             }
