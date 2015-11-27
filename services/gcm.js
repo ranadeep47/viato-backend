@@ -8,7 +8,7 @@ var defaults = {
       restrictedPackageName: "in.viato.app",
       data : {
 
-      },
+      }
 
       // notification : {
       //   icon  : "ic_notification",
@@ -60,7 +60,7 @@ function notifyOrder(userId,status,body,bookingId){
         message.data.click_action = 'in.viato.app.BOOKINGS';
         break;
       case 'SCHEDULED FOR PICKUP' :
-        message.notificatio.title = 'Scheduled for pickup';
+        message.data.title = 'Scheduled for pickup';
         message.data.message = body.item.title + ' is scheduled for pickup. We shall call you to confirm your availability';
         message.data.click_action = 'in.viato.app.BOOKINGS';
         break;
@@ -78,10 +78,16 @@ function notifyOrder(userId,status,body,bookingId){
   })
 }
 
-function notifyExpirey(){
+function notifyExpirey(userId, bookingId, rental){
   var message = _.extend({}, defaults);
+  message.data.title = 'Have you finished reading ?';
+  message.data.message = "The rental period for some of the books you've rented is expiring tomorrow."
   message.data.click_action = 'in.viato.app.BOOKINGS';
-  message.data.bookingId = "";
+  message.data.bookingId = bookingId;
+
+  return getTokens(userId).then(function(tokens){
+    send(message, tokens);
+  });
 }
 
 function notifyNewBooks() {
