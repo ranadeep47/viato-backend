@@ -54,14 +54,16 @@ function checkExpires(){
     Bookings.forEach(function(booking){
       var bookingId = booking['_id'];
       var userId = booking['user_id'];
-      
-      if(rental.status === 'READING' || rental.status === 'READING-EXTENDED') {
-        if(rental.expires_at.getTime() === tomorrow.getTime()){
-          //Mark expires
-          gcm.notifyExpirey(userId, bookingId, rental);
-          sms.notifyExpirey(userId, rental);
+      var rentals = booking.rentals;
+      rentals.forEach(function(rental){
+        if(rental.status === 'READING' || rental.status === 'READING-EXTENDED') {
+          if(rental.expires_at.getTime() === tomorrow.getTime()){
+            //Mark expires
+            gcm.notifyExpirey(userId, bookingId, rental);
+            sms.notifyExpirey(userId, rental);
+          }
         }
-      }
+      })
     })
   })
 }

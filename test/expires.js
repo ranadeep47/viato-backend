@@ -44,14 +44,16 @@ function check(orderId) {
       var bookingId = booking['_id'];
       var userId = booking['user_id'];
 
-      if(rental.status === 'READING' || rental.status === 'READING-EXTENDED') {
-        if(rental.expires_at.getTime() === tomorrow.getTime()){
-          //Mark expires
-          console.log('Calling gcm and sms ');
-          gcm.notifyExpirey(userId, bookingId, rental);
-          sms.notifyExpirey(userId, rental);
+      booking.rentals.forEach(function(rental){
+        if(rental.status === 'READING' || rental.status === 'READING-EXTENDED') {
+          if(rental.expires_at.getTime() === tomorrow.toDate().getTime()){
+            //Mark expires
+            console.log('Calling gcm and sms ');
+            gcm.notifyExpirey(userId, bookingId, rental);
+            sms.notifyExpirey(userId, rental);
+          }
         }
-      }
+      });
     })
   })
 }
