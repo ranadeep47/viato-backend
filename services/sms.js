@@ -65,7 +65,7 @@ function notifyExpirey(userId, rental){
   var message = 'Greetings from Viato, You rented ' +
   rental.item.title + ' on ' +
   rental['delivered_at'].toLocaleDateString('en-US', 'Asia/Calcutta') +
-  ' and the rental period is expiring tomorrow. You can extend the rental in your app';
+  ' and the rental period is expiring tomorrow. You can extend the rental period in your app';
 
   return db.User.findOne({_id : userId}).select('mobile').exec().then(function(User){
     var mobile = User['mobile'];
