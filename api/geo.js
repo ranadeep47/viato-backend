@@ -17,8 +17,7 @@ geo.get('/supported/status', function*(){
   this.body = yield reverseGeocoding.isSupported(location);
 })
 
-geo.get('/supported', function*(){
-  console.log('Hahhaha');
+geo.get('/supported', function*(){  
   var placeId = this.query['placeId'];
   var address = {locality : {placeId : placeId}};
   console.log(address);

@@ -49,6 +49,7 @@ bookings.post('/', function*(){
     //Got a valid address, create booking from the cart
     //Check if we serve that locality
     return reverseGeoCoding.isAddressServed(address).then(function(isServed){
+      isServed.is_supported = true; //TODO : Temporarily enable bookings from any location;
       if(isServed.is_supported){
         var cart = user.cart;
         var copouns = user.copouns;
