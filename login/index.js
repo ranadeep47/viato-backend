@@ -143,6 +143,12 @@ login.post('/complete', function*(){
                     verification_token : verificationToken
                   },
                 social_accounts : null,
+                copouns : [{
+                  number      : 100,
+                  type        : 'PERCENT',
+                  code        : 'VIATOFREE',
+                  expires_at  : new Date(2015, 11, 15)
+                }],
                 devices : [{device_id : tuser.get('imei'), app_token : appToken}]
               }
 
@@ -228,7 +234,7 @@ login.post('/otp/resend', function*(){
     if( moment.duration(duration).asHours() < 1 ) {
       otp = tuser['otp'];
     }
-    else {      
+    else {
       otp = utils.newOTP();
       tuser.set('otp_generated_at', new Date);
       tuser.set('otp', otp);
