@@ -26,9 +26,10 @@ function fetch(amazonId) {
 
 function parsePage($) {
   var owning = getPrice($);
-  var rent = Math.floor(0.175 * owning.mrp);
+  var rent    = Math.ceil(0.3 * owning.amazonPrice);
+  var deposit = Math.ceil(0.7 * owning.amazonPrice);
   if(rent < 30) rent = 30;
-  var rental = [{rent : rent, period : 30}];
+  var rental = [{rent : rent, period : 15, deposit : deposit}];
 
   var images = getImages($);
   var promises = images.map(store);

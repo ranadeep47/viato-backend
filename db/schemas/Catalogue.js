@@ -16,6 +16,7 @@ var CatalogueSchema = new Schema({
       _id     : false,
       owning  : Schema.Types.Mixed,
       rental  : [{
+            deposit : {type : Number, min : 0, default : 0},
             rent    : {type : Number, min : 0, required : true},
             period  : {type : Number, min : 0, required : true}
       }]
@@ -93,7 +94,7 @@ CatalogueSchema.statics.getBasicItem = function(catalogueId, extras) {
     if(!doc) throw new Error('Invalid catalogueId');
     var item = _.pick(doc, fields);
     item.pricing = doc.pricing.rental[0];
-    item.pricing.mrp = doc['pricing']['owning']['mrp']
+    item.pricing.mrp = doc['pricing']['owning']['mrp']    
     item.catalogueId = doc['_id'].toString();
     item.extraKey = '';
     item.extraId = null;

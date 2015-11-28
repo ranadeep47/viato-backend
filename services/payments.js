@@ -126,5 +126,7 @@ function calculateOtherCharges(Cart){
 
 function calculateShipping(Cart){
   //TODO based on cart value
-  return 30;
+  var total = cartValue(Cart);
+  if(total < 50) return 30;
+  else return 0;
 }

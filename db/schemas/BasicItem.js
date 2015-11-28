@@ -11,7 +11,8 @@ var BasicItemSchema = {
     _id         : {type : Schema.Types.ObjectId},
     rent        : Number,
     period      : Number,
-    mrp         : {type : Number, default : 0}
+    mrp         : {type : Number, default : 0},
+    deposit     : {type : Number, default : 0}
   },
   extraKey      : {type : String, default : ''},
   extraId       : {type : String}

@@ -17,13 +17,13 @@ catalogue.get(':id', function*(){
 
 catalogue.post(':id/rent', function*(){
   var id = this.params['id'];
-  var rent = this.request.body['rent'];
+  var rent = parseInt(his.request.body['rent']);
   var Book = yield db.Catalogue
   .findOne({_id : id})
   .select('pricing')
   .exec();
 
-  Book['pricing']['rental'][0].rent = parseInt(rent);
+  Book['pricing']['rental'][0].rent = rent
   Book.save();
 
   var ctx = this;
@@ -32,7 +32,7 @@ catalogue.post(':id/rent', function*(){
   yield db.feeds
   .update(
     {'list.pricing._id' : rentalId },
-    {$set : {'list.$.pricing.rent' : 50}} ,
+    {$set : {'list.$.pricing.rent' : rent}} ,
     {multi : true}
   )
   .exec()
